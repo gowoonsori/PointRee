@@ -3,8 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button, FormControl, InputLabel, Input, makeStyles } from '@material-ui/core';
 
-import AppLayout from '../components/AppLayout';
-
 const LoginForm = styled.form`
   min-width: 200px;
   width: 80%;
@@ -12,7 +10,7 @@ const LoginForm = styled.form`
   margin: 200px auto 0;
   border: 1px solid;
 `;
-const useStyles = makeStyles(() => ({
+const useStyl = makeStyles(() => ({
   formControl: {
     width: '50%',
     margin: '15px 0',
@@ -26,9 +24,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const SignUp = () => {
-  const classes = useStyles();
+  const classes = useStyl();
   return (
-    <AppLayout>
+    <>
       <LoginForm>
         <div>
           <FormControl className={classes.formControl}>
@@ -60,7 +58,7 @@ const SignUp = () => {
           </Button>
         </div>
       </LoginForm>
-    </AppLayout>
+    </>
   );
 };
 

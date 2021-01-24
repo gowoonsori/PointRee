@@ -1,9 +1,7 @@
 import React from 'react';
 
-import AppLayout from '../components/AppLayout';
-
 const Index = () => {
-  return <AppLayout>Main Page</AppLayout>;
+  return <>Main Page</>;
 };
 
 export default Index;

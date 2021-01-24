@@ -21,7 +21,7 @@
   },
   "scripts": {
     "dev": "next -p 3060",
-    "start": "next start",
+    "start": "run next start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

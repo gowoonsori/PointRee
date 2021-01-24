@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -20,5 +22,9 @@ const GlobalTheme = createMuiTheme({
 });
 
 const GlobalThemeProvider = ({ children }) => <ThemeProvider theme={GlobalTheme}>{children}</ThemeProvider>;
+
+GlobalThemeProvider.propTypes = {
+  children: PropTypes.elementType.isRequired,
+};
 
 export default GlobalThemeProvider;

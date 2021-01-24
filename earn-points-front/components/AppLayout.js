@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
 import { useRecoilState } from 'recoil';
-import { user } from '../state/atom';
 
 import {
   AppBar,
@@ -19,6 +18,7 @@ import {
 } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
+import { user } from '../state/atom';
 
 const drawerWidth = 180;
 
