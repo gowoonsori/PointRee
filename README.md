@@ -10,3 +10,7 @@
 - styled-components / material-ui
 - spring boot 2.4
 - mysql
+
+-----
+
+[프로젝트 기록기](https://gowoonsori.site/home/react-project/)
