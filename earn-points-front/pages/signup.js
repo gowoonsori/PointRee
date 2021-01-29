@@ -1,7 +1,8 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import { Button, FormControl, InputLabel, Input, makeStyles } from '@material-ui/core';
+import { Button, FormControl, InputLabel, Input } from '@material-ui/core';
+import useStyle from '../css/commonStyle';
 
 const LoginForm = styled.form`
   min-width: 200px;
@@ -10,21 +11,9 @@ const LoginForm = styled.form`
   margin: 200px auto 0;
   border: 1px solid;
 `;
-const useStyl = makeStyles(() => ({
-  formControl: {
-    width: '50%',
-    margin: '15px 0',
-  },
-  button: {
-    minWidth: '100px',
-    width: '50%',
-    height: '40px',
-    margin: '20px 0',
-  },
-}));
 
 const SignUp = () => {
-  const classes = useStyl();
+  const classes = useStyle();
   return (
     <>
       <LoginForm>

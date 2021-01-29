@@ -24,7 +24,7 @@ const GlobalTheme = createMuiTheme({
 const GlobalThemeProvider = ({ children }) => <ThemeProvider theme={GlobalTheme}>{children}</ThemeProvider>;
 
 GlobalThemeProvider.propTypes = {
-  children: PropTypes.elementType.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default GlobalThemeProvider;

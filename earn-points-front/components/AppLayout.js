@@ -169,7 +169,7 @@ const AppLayout = ({ children }) => {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{ paper: classes.drawerPaper }}
-            ModalProps={{ keepMounted: true }}
+            /* ModalProps={{ keepMounted: true }} */
             color="secondary"
           >
             {drawer}
