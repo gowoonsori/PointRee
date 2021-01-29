@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { customers } from '../state/atom';
+import { customersTelephone } from '../state/atom';
 
 import { Button, Input, Modal } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
@@ -14,7 +14,7 @@ const Points = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isCustomer, setIsCustomer] = useState(false);
   const [previewNumber, setPreviewNumber] = useState([]);
-  const customer = useRecoilValue(customers);
+  const customer = useRecoilValue(customersTelephone);
 
   /* Input입력창에 숫자가 바뀔때마다 수행
       숫자인지 확인하고 숫자만 저장
@@ -130,7 +130,7 @@ const Points = () => {
         aria-describedby="simple-modal-description"
         Props={{ keepMounted: 'false' }}
       >
-        <ItemDetail classes={classes} />
+        <ItemDetail classes={classes} phoneNumber={phoneNumber} />
       </Modal>
     </>
   );

@@ -1,8 +1,11 @@
 import { Button, FormControl, InputLabel, Input, Select, MenuItem } from '@material-ui/core';
 import { useCallback, useState } from 'react';
 
-const ItemDetail = ({ classes }) => {
+const ItemDetail = (props) => {
+  const { classes, phoneNumber } = props;
   const [payment, setPayment] = useState('');
+
+  /*결제 방법 selectbox 이벤트 */
   const selectPayment = useCallback(
     (e) => {
       setPayment(e.target.value);
@@ -12,6 +15,7 @@ const ItemDetail = ({ classes }) => {
 
   return (
     <form className={classes.modalContainer}>
+      <div>{phoneNumber}</div>
       <div>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="item-input-label">판매 물건</InputLabel>

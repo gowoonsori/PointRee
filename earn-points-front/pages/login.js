@@ -30,7 +30,7 @@ const Login = () => {
           </FormControl>
         </div>
         <div>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.flexButton}>
             로그인
           </Button>
         </div>

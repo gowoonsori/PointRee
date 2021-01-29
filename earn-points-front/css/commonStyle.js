@@ -58,6 +58,11 @@ const useStyle = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+
+  customersTable: {
+    fontSize: '1.4em',
+    width: '100%',
+  },
 }));
 
 export default useStyle;

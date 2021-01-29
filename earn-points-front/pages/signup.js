@@ -42,7 +42,7 @@ const SignUp = () => {
           </FormControl>
         </div>
         <div>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.flexButton}>
             회원가입
           </Button>
         </div>
