@@ -38,9 +38,10 @@ const useStyle = makeStyles((theme) => ({
     marginTop: '15px',
     border: '1px solid',
   },
-  searchPreviewContent: {
+  searchPreviewContentBox: {
     border: '1px solid',
   },
+  searchPreviewContent: {},
   cancelButtonInActive: {
     visibility: 'hidden',
   },

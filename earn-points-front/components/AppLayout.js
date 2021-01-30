@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
 import { useRecoilState } from 'recoil';
+
+import { user, logOutState } from '../reducers/user';
 
 import {
   AppBar,
@@ -18,7 +20,6 @@ import {
 } from '@material-ui/core';
 
 import MenuIcon from '@material-ui/icons/Menu';
-import { user } from '../state/atom';
 
 const drawerWidth = 180;
 
@@ -72,11 +73,24 @@ const useStyles = makeStyles((theme) => ({
 const AppLayout = ({ children }) => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userInfo, setUserInfo] = useRecoilState(user);
+  const [logOutStateInfo, setLogOutStateInfo] = useRecoilState(logOutState);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const [isLogin] = useRecoilState(user);
+  const logOutEvent = useCallback(() => {
+    const doLogOut = confirm('로그아웃 하시겠습니까?');
+    if (doLogOut) {
+      setUserInfo(null);
+      setLogOutStateInfo({
+        logOutError: false,
+        logOutLoading: false,
+        logOutDone: true,
+      });
+    }
+  }, [setUserInfo, setLogOutStateInfo]);
 
   const drawer = (
     <div>
@@ -91,7 +105,7 @@ const AppLayout = ({ children }) => {
         </ListItem>
       </div>
       <Divider />
-      {isLogin === null ? (
+      {!userInfo ? (
         <List>
           {[
             { name: '로그인', link: 'login' },
@@ -101,7 +115,7 @@ const AppLayout = ({ children }) => {
               <ListItemText
                 primary={text.name}
                 onClick={() => {
-                  Router.push(`${text.link}`);
+                  Router.push(`/${text.link}`);
                 }}
               />
             </ListItem>
@@ -109,19 +123,17 @@ const AppLayout = ({ children }) => {
         </List>
       ) : (
         <List>
-          {[
-            { name: '로그아웃', link: 'logout' },
-            { name: '내정보 수정', link: 'info' },
-          ].map((text) => (
-            <ListItem button key={text.name} className={classes.menuText}>
-              <ListItemText
-                primary={text.name}
-                onClick={() => {
-                  Router.push(`${text.link}`);
-                }}
-              />
-            </ListItem>
-          ))}
+          <ListItem button key="로그아웃" className={classes.menuText}>
+            <ListItemText primary="로그아웃" onClick={logOutEvent}></ListItemText>
+          </ListItem>
+          <ListItem button key="내정보 수정" className={classes.menuText}>
+            <ListItemText
+              primary="내정보 수정"
+              onClick={() => {
+                Router.push(`/info`);
+              }}
+            />
+          </ListItem>
         </List>
       )}
       <Divider />

@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { customersTelephone } from '../state/atom';
 
 import { Button, Input, Modal } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { customers } from '../reducers/custmers';
 import useStyles from '../css/commonStyle';
 import SearchPreview from '../components/SearchPreview';
 import ItemDetail from '../components/ItemDetail';
@@ -14,7 +14,7 @@ const Points = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isCustomer, setIsCustomer] = useState(false);
   const [previewNumber, setPreviewNumber] = useState([]);
-  const customer = useRecoilValue(customersTelephone);
+  const customer = useRecoilValue(customers);
 
   /* Input입력창에 숫자가 바뀔때마다 수행
       숫자인지 확인하고 숫자만 저장
@@ -24,33 +24,30 @@ const Points = () => {
   const onChangePhoneNumber = useCallback(
     (e) => {
       const number = e.target.value.replace(/[^0-9]/g, '');
-      if (number.substring(0, 2).indexOf('02') === 0) {
-        if (number.length < 3) {
-          setPhoneNumber(number);
-        } else if (number.length < 6) {
-          setPhoneNumber(number.substr(0, 2) + '-' + number.substr(2));
-        } else if (number.length < 10) {
-          setPhoneNumber(number.substr(0, 2) + '-' + number.substr(2, 3) + '-' + number.substr(5));
-        } else if (number.length < 11) {
-          setPhoneNumber(number.substr(0, 2) + '-' + number.substr(2, 4) + '-' + number.substr(6));
-        }
-      } else if (number.length < 4) {
+      const isSeoul = number.substring(0, 2).indexOf('02') === 0 ? 0 : 1;
+      if (number.length < 3 + isSeoul) {
         setPhoneNumber(number);
-      } else if (number.length < 7) {
-        setPhoneNumber(number.substr(0, 3) + '-' + number.substr(3));
-      } else if (number.length < 11) {
-        setPhoneNumber(number.substr(0, 3) + '-' + number.substr(3, 3) + '-' + number.substr(6));
-      } else if (number.length < 12) {
-        setPhoneNumber(number.substr(0, 3) + '-' + number.substr(3, 4) + '-' + number.substr(7));
+      } else if (number.length < 6 + isSeoul) {
+        setPhoneNumber(number.substr(0, 2 + isSeoul) + '-' + number.substr(2 + isSeoul));
+      } else if (number.length < 10 + isSeoul) {
+        setPhoneNumber(
+          number.substr(0, 2 + isSeoul) + '-' + number.substr(2 + isSeoul, 3) + '-' + number.substr(5 + isSeoul)
+        );
+      } else if (number.length < 11 + isSeoul) {
+        setPhoneNumber(
+          number.substr(0, 2 + isSeoul) + '-' + number.substr(2 + isSeoul, 4) + '-' + number.substr(6 + isSeoul)
+        );
       }
 
-      const results = customer.filter((data) => {
-        data = data.replace(/-/g, '');
-        return true == data.includes(number);
+      const results = [];
+      customer.map((data) => {
+        if (data.telephone.replace(/-/g, '').includes(number)) {
+          results.push(data.telephone);
+        }
       });
-      setPreviewNumber([...results]);
+      setPreviewNumber(results);
     },
-    [setPreviewNumber, setPhoneNumber, phoneNumber]
+    [setPreviewNumber, setPhoneNumber, phoneNumber, customer]
   );
 
   /* 적립 버튼 이벤트 */
@@ -58,8 +55,12 @@ const Points = () => {
     if (phoneNumber === '') {
       return alert('전화번호를 입력해 주세요.');
     }
-    setIsCustomer(customer.includes(phoneNumber));
-  }, [phoneNumber, isCustomer, setIsCustomer]);
+    customer.map((data) => {
+      if (data.telephone === phoneNumber) {
+        setIsCustomer(true);
+      }
+    });
+  }, [customer, phoneNumber, setIsCustomer]);
 
   /* 자동완성 preview 중에 선택 했을 때 이벤트 */
   const updatePhoneNumber = useCallback(
@@ -87,7 +88,7 @@ const Points = () => {
             onChange={onChangePhoneNumber}
             value={phoneNumber}
             placeholder="Search"
-            disableUnderline="true"
+            disableUnderline={true}
             className={classes.phoneInput}
           />
           <CloseIcon
@@ -111,9 +112,9 @@ const Points = () => {
             {previewNumber.map((phoneNumber, index) => {
               return (
                 <SearchPreview
+                  index={index}
                   phoneNumber={phoneNumber}
                   classes={classes}
-                  index={index}
                   updatePhoneNumber={updatePhoneNumber}
                 />
               );
@@ -130,7 +131,9 @@ const Points = () => {
         aria-describedby="simple-modal-description"
         Props={{ keepMounted: 'false' }}
       >
-        <ItemDetail classes={classes} phoneNumber={phoneNumber} />
+        <div>
+          <ItemDetail classes={classes} phoneNumber={phoneNumber} />
+        </div>
       </Modal>
     </>
   );
