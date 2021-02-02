@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { customers } from '../reducers/custmers';
 import useStyles from '../css/commonStyle';
 import SearchPreview from '../components/SearchPreview';
-import ItemDetail from '../components/ItemDetail';
+import ModalContent from '../components/ModalContent';
 
 const Points = () => {
   const classes = useStyles();
@@ -83,13 +83,13 @@ const Points = () => {
   return (
     <>
       <div>
-        <div className={classes.oneLineDiv}>
+        <div className="search-box">
           <Input
             onChange={onChangePhoneNumber}
             value={phoneNumber}
             placeholder="Search"
             disableUnderline={true}
-            className={classes.phoneInput}
+            className={classes.searchInput}
           />
           <CloseIcon
             className={phoneNumber.length > 0 ? classes.cancelButtonActive : classes.cancelButtonInActive}
@@ -99,7 +99,7 @@ const Points = () => {
           <Button
             variant="contained"
             color="secondary"
-            className={classes.earnButton}
+            className={classes.searchButton}
             onClick={onClickEarnPointsButton}
           >
             적립
@@ -108,7 +108,7 @@ const Points = () => {
 
         {/* 자동완성 결과 일치하는 것이 있고, 숫자를 입력한 상태면 자동완성 결과 보여주기 */}
         {previewNumber.length > 0 && phoneNumber.length > 0 ? (
-          <div className={classes.searchPreviewContainer}>
+          <div className="search-preview-container">
             {previewNumber.map((phoneNumber, index) => {
               return (
                 <SearchPreview
@@ -132,7 +132,7 @@ const Points = () => {
         Props={{ keepMounted: 'false' }}
       >
         <div>
-          <ItemDetail classes={classes} phoneNumber={phoneNumber} />
+          <ModalContent classes={classes} phoneNumber={phoneNumber} />
         </div>
       </Modal>
     </>

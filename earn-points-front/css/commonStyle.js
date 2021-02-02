@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyle = makeStyles((theme) => ({
+  /*로그인-회원가입 */
   formControl: {
     width: '50%',
     margin: '15px 0',
@@ -12,7 +13,8 @@ const useStyle = makeStyles((theme) => ({
     margin: '20px 0',
   },
 
-  phoneInput: {
+  /*포인트 적립 */
+  searchInput: {
     width: '50%',
     textAlign: 'center',
     display: 'center',
@@ -20,7 +22,7 @@ const useStyle = makeStyles((theme) => ({
     minWidth: '150px',
     margin: '15px 0',
   },
-  earnButton: {
+  searchButton: {
     margin: '10px 0px 20px 40px',
     width: '10%',
     fontStyle: 'bold',
@@ -31,21 +33,9 @@ const useStyle = makeStyles((theme) => ({
     visibility: 'visible',
     paddingTop: '8px',
   },
-  oneLineDiv: {
-    border: '1px solid',
-  },
-  searchPreviewContainer: {
-    marginTop: '15px',
-    border: '1px solid',
-  },
-  searchPreviewContentBox: {
-    border: '1px solid',
-  },
-  searchPreviewContent: {},
   cancelButtonInActive: {
     visibility: 'hidden',
   },
-
   detailModal: {
     display: 'flex',
     alignItems: 'center',
@@ -59,11 +49,7 @@ const useStyle = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-
-  customersTable: {
-    fontSize: '1.4em',
-    width: '100%',
-  },
+  earnButton: {},
 }));
 
 export default useStyle;

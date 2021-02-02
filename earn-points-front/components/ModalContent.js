@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button, FormControl, InputLabel, Input, Select, MenuItem } from '@material-ui/core';
 
-const ItemDetail = (Props) => {
+const ModalContent = (Props) => {
   const { classes, phoneNumber } = Props;
   const [payment, setPayment] = useState('');
 
@@ -17,7 +17,7 @@ const ItemDetail = (Props) => {
 
   return (
     <div>
-      <form className={classes.modalContainer}>
+      <form className="modal-container">
         <div>{phoneNumber}</div>
         <div>
           <FormControl className={classes.formControl}>
@@ -41,7 +41,7 @@ const ItemDetail = (Props) => {
           </FormControl>
         </div>
         <div>
-          <Button variant="contained" color="secondary" className={classes.button}>
+          <Button variant="contained" color="secondary" className={classes.earnButton}>
             적립
           </Button>
         </div>
@@ -50,9 +50,9 @@ const ItemDetail = (Props) => {
   );
 };
 
-ItemDetail.propTypes = {
+ModalContent.propTypes = {
   classes: PropTypes.object.isRequired,
   phoneNumber: PropTypes.string.isRequired,
 };
 
-export default ItemDetail;
+export default ModalContent;

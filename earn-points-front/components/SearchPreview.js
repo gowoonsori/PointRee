@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 const SearchPreview = ({ index, phoneNumber, classes, updatePhoneNumber }) => {
   return (
-    <div key={index} onClick={() => updatePhoneNumber(phoneNumber)} className={classes.searchPreviewContentBox}>
-      <p className={classes.searchPreviewContent}>{phoneNumber}</p>
+    <div key={index} onClick={() => updatePhoneNumber(phoneNumber)} className="content-box">
+      <p className="content">{phoneNumber}</p>
     </div>
   );
 };
