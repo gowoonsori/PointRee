@@ -57,11 +57,9 @@ public class GeneralExceptionHandler {
             MethodArgumentNotValidException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
-        log.debug("Bad request exception occurred: {}", e.getMessage(), e);
-        if (e instanceof MethodArgumentNotValidException) {
-            return newResponse(
-                    ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors().get(0).getDefaultMessage(),
-                    HttpStatus.BAD_REQUEST);
+        log.info(e.getMessage());
+        if (e instanceof MethodArgumentNotValidException || e instanceof ConstraintViolationException) {
+            return newResponse("잘못된 값입니다.",HttpStatus.BAD_REQUEST);
         }else if(e instanceof HttpMessageNotReadableException){
             return newResponse(e.getMessage().split(", ")[1].split(";")[0], HttpStatus.BAD_REQUEST);
         }
