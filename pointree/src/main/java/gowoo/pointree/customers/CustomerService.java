@@ -1,6 +1,8 @@
 package gowoo.pointree.customers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,5 +23,9 @@ public class CustomerService {
 
     public List<Customer> getCustomers(Long userId){
         return customerRepository.findByUserId(userId);
+    }
+
+    public Page<Customer> getCustomers(Long userId,Pageable pageable){
+        return customerRepository.findAllByUserId(userId, pageable);
     }
 }
