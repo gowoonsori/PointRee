@@ -2,17 +2,20 @@ package gowoo.pointree.users;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import gowoo.pointree.customers.Customer;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(of ="id")
-@Entity @Table(name = "users")
-public class User {
+@Entity
+public class User{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -28,23 +31,28 @@ public class User {
     private int accumulationRate;
 
     @CreationTimestamp
-    @Column(insertable = false)
+    @Column(updatable = false)
     private LocalDateTime createdTime;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Customer> customers = new ArrayList<>();
+
+    /*중요정보를 제외한 데이터를 전달하기 위한 Dto*/
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Getter @Setter @NoArgsConstructor
-    @AllArgsConstructor @Builder
+    @Getter
     public static class Info{
-        private String email;
+        private final String email;
 
-        private String name;
+        private final String name;
 
-        private String phoneNumber;
+        private final String phoneNumber;
 
-        private int accumulationRate;
+        private final int accumulationRate;
+
+        private final LocalDateTime createdTime;
 
         public static User.Info of(User user){
-            return new User.Info(user.email, user.name, user.phoneNumber, user.accumulationRate);
+            return new User.Info(user);
         }
 
         public Info(User user) {
@@ -52,6 +60,7 @@ public class User {
             this.name = user.name;
             this.phoneNumber = user.phoneNumber;
             this.accumulationRate = user.accumulationRate;
+            this.createdTime = user.createdTime;
         }
     }
 }
