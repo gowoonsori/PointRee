@@ -29,7 +29,7 @@ public class UserController {
     public ApiResult<User.Info> signUp(@Valid @RequestBody SignUpRequest signUpRequest){
         Optional<User> optionalUser = userService.findByEmail(signUpRequest.getEmail());
         if(optionalUser.isPresent()) throw new ConflictException("존재하는 Email입니다.");
-        User user = userService.save(modelMapper.map(signUpRequest,User.class));
+        User user = userService.insert(modelMapper.map(signUpRequest, User.class));
         return success(User.Info.of(user));
     }
 
@@ -49,6 +49,6 @@ public class UserController {
                                              @AuthenticationPrincipal JwtAuthentication authentication){
         User user = modelMapper.map(updateInfoRequest, User.class);
         user.setId(authentication.id);
-        return success(User.Info.of(userService.save(user)) );
+        return success(User.Info.of(userService.insert(user)) );
     }
 }

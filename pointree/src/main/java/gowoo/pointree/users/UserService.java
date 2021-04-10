@@ -19,7 +19,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final Jwt jwt;
 
-    public User save(User user){
+    public User insert(User user){
         System.out.println(user);
         return userRepository.save(user);
     }
@@ -41,7 +41,7 @@ public class UserService {
         String token = jwt.create(new Jwt.Claims(user.getId(), user.getName(),
                             Stream.of(Role.USER.name()).toArray(String[]::new)));
 
-        return new LoginResult(token,User.Info.of(user));
+        return new LoginResult(token, User.Info.of(user));
     }
 
 
