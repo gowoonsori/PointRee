@@ -20,7 +20,6 @@ public class UserService {
     private final Jwt jwt;
 
     public User insert(User user){
-        System.out.println(user);
         return userRepository.save(user);
     }
 

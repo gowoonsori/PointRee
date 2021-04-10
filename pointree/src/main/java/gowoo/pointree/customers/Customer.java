@@ -2,18 +2,18 @@ package gowoo.pointree.customers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import gowoo.pointree.users.User;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
-@Entity @Getter @Setter
+@DynamicUpdate
+@Entity @Getter @Builder
+@NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Customer{
     @Id

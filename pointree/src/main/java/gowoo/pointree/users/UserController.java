@@ -4,6 +4,7 @@ import gowoo.pointree.errors.ConflictException;
 import gowoo.pointree.errors.NotFoundException;
 import gowoo.pointree.errors.UnauthorizedException;
 import gowoo.pointree.security.JwtAuthentication;
+import gowoo.pointree.security.JwtAuthenticationToken;
 import gowoo.pointree.users.login.LoginRequest;
 import gowoo.pointree.users.login.LoginResult;
 import gowoo.pointree.users.signup.SignUpRequest;
@@ -46,9 +47,17 @@ public class UserController {
 
     @PatchMapping("/me")
     public ApiResult<User.Info> updateMyInfo(@Valid @RequestBody UpdateInfoRequest updateInfoRequest,
-                                             @AuthenticationPrincipal JwtAuthentication authentication){
-        User user = modelMapper.map(updateInfoRequest, User.class);
-        user.setId(authentication.id);
-        return success(User.Info.of(userService.insert(user)) );
+                                             JwtAuthenticationToken authentication){
+        User user = (User)authentication.getDetails();
+        User updateUser = User.builder()
+                .id(user.getId())
+                .customers(user.getCustomers())
+                .accumulationRate(updateInfoRequest.getAccumulationRate())
+                .email(updateInfoRequest.getEmail())
+                .name(updateInfoRequest.getName())
+                .password(updateInfoRequest.getPassword())
+                .phoneNumber(updateInfoRequest.getPhoneNumber())
+                .build();
+        return success(User.Info.of(userService.insert(updateUser)) );
     }
 }

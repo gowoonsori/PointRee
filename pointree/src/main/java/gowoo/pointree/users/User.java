@@ -5,16 +5,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import gowoo.pointree.customers.Customer;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(of ="id")
-@Entity
+@Entity @DynamicUpdate
 public class User{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
