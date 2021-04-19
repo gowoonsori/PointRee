@@ -29,7 +29,7 @@ public class User{
 
     private String phoneNumber;
 
-    private int accumulationRate;
+    private Integer accumulationRate;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -39,7 +39,7 @@ public class User{
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Customer> customers = new ArrayList<>();
 
-    public void updateInfo(UpdateInfoRequest info){
+    public void updateInfo(User info){
         if(info.getEmail() != null) this.email = info.getEmail();
         if(info.getName() != null ) this.name =info.getName();
         if(info.getPassword() != null) this.password =  info.getPassword();

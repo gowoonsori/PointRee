@@ -41,6 +41,11 @@ public class Customer{
     @Column(updatable = false)
     private LocalDateTime createdTime;
 
+    public void updateTotalPoint(int point){
+        this.totalPoint += point;
+    }
+
+
     /*중요정보를 제외한 데이터를 전달하기 위한 Dto*/
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Getter @AllArgsConstructor

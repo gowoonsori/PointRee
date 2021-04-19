@@ -7,12 +7,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity(name = "ORDERS")
 @Getter @EqualsAndHashCode(of = "id")
-@AllArgsConstructor @NoArgsConstructor
-@Builder @DynamicUpdate
+@NoArgsConstructor @DynamicUpdate
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +35,16 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime createdTime;
 
+    @Builder
+    public Order(Long id, int price, int accumulationRate, PaymentType paymentType, Customer customer, LocalDateTime createdTime) {
+        this.id = id;
+        this.price = price;
+        this.accumulationRate = accumulationRate;
+        this.paymentType = paymentType;
+        this.customer = customer;
+        this.createdTime = createdTime;
+        this.savePoint = this.price / 100 * accumulationRate;
+    }
 
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -68,9 +79,8 @@ public class Order {
     public static class Request {
         private int price;
 
+        @Min(0) @Max(100)
         private int accumulationRate;
-
-        private int savePoint;
 
         private PaymentType paymentType;
 
@@ -78,7 +88,6 @@ public class Order {
             this.price = price;
             this.accumulationRate = accumulationRate;
             this.paymentType = paymentType;
-            savePoint = price / 100 * accumulationRate;
         }
     }
 }

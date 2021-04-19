@@ -35,9 +35,38 @@ public class OrderController {
     }
 
     @PostMapping
-    public ApiResult<Order.Info> insertOrder(@Valid @RequestBody Order.Request orderRequest,
+    public ApiResult<Order.Info> insertOrder(@Valid @RequestBody Order.Request request,
                                              @PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
         Customer customer = customerService.getCustomer(customerId, authentication.id);
-        return success(Order.Info.createFromOrder(orderService.insert(customer, orderRequest)));
+        Order order = Order.builder()
+                .price(request.getPrice())
+                .accumulationRate(request.getAccumulationRate())
+                .paymentType(request.getPaymentType())
+                .customer(customer)
+                .build();
+        return success(Order.Info.createFromOrder(orderService.insert(customer, order)));
+    }
+
+    @PatchMapping(value = "/{orderId}")
+    public ApiResult<Order.Info> updateOrder(@Valid @RequestBody Order.Request request,
+                                             @PathVariable Long orderId,
+                                             @PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
+        Customer customer = customerService.getCustomer(customerId, authentication.id);
+        Order order = Order.builder()
+                        .id(orderId)
+                        .accumulationRate(request.getAccumulationRate())
+                        .customer(customer)
+                        .price(request.getPrice())
+                        .paymentType(request.getPaymentType())
+                        .build();
+        return success(Order.Info.createFromOrder(orderService.update(customer,order)));
+    }
+
+    @DeleteMapping(value = "/{orderId}")
+    public ApiResult<Boolean> deleteOrder(@PathVariable Long orderId,
+                                             @PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
+        Customer customer = customerService.getCustomer(customerId, authentication.id);
+        orderService.delete(customer,orderId);
+        return success(true);
     }
 }
