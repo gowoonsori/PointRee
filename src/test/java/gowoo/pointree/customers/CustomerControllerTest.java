@@ -1,12 +1,12 @@
 package gowoo.pointree.customers;
 
 import gowoo.pointree.commons.BaseTest;
-import gowoo.pointree.orders.OrderController;
 import gowoo.pointree.users.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.IntStream;
 

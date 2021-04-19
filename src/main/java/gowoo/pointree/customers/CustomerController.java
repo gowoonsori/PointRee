@@ -46,6 +46,13 @@ public class CustomerController {
     public ApiResult<Customer.Info> insertCustomer(@Valid @RequestBody Customer.Info customerInfo,
                                                 JwtAuthenticationToken authentication){
         User user = (User)authentication.getDetails();
-        return success(Customer.Info.of(customerService.insert(user,customerInfo)));
+        Customer customer = Customer.builder()
+                .purchaseCnt(customerInfo.getPurchaseCnt())
+                .phoneNumber(customerInfo.getPhoneNumber())
+                .totalPoint(customerInfo.getTotalPoint())
+                .user(user)
+                .build();
+
+        return success(Customer.Info.of(customerService.insert(customer)));
     }
 }

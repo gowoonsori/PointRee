@@ -13,4 +13,4 @@
 
 -----
 
-[프로젝트 기록기](https://gowoonsori.site/home/react-project/)
+[프로젝트 기록기](https://gowoonsori.site)

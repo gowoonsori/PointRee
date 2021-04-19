@@ -17,15 +17,8 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public Customer insert(User user,Customer.Info customerInfo){
-        Customer customer = Customer.builder()
-                .purchaseCnt(customerInfo.getPurchaseCnt())
-                .phoneNumber(customerInfo.getPhoneNumber())
-                .totalPoint(customerInfo.getTotalPoint())
-                .user(user)
-                .build();
-
-        return customerRepository.save(customer);
+    public Customer insert(Customer request){
+        return customerRepository.save(request);
     }
 
     public Customer getCustomer(Long customerId,Long userId){

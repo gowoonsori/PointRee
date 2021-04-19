@@ -5,7 +5,6 @@ import gowoo.pointree.errors.UnauthorizedException;
 import gowoo.pointree.security.Jwt;
 import gowoo.pointree.security.Role;
 import gowoo.pointree.users.login.LoginResult;
-import gowoo.pointree.users.signup.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,10 +25,10 @@ public class UserService {
     private final Jwt jwt;
 
     @Transactional
-    public User signUp(SignUpRequest signUpRequest){
-        Optional<User> optionalUser = userRepository.findByEmail(signUpRequest.getEmail());
+    public User signUp(User user){
+        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if(optionalUser.isPresent()) throw new ConflictException("존재하는 Email입니다.");
-        return userRepository.save(modelMapper.map(signUpRequest, User.class));
+        return userRepository.save(user);
     }
 
     public LoginResult login(String email, String password) {
@@ -45,11 +44,15 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new AccessDeniedException("유효하지 않은 토큰입니다.")); //무슨 에러처리로 할지?
     }
 
-    //paswword수정은 별도 분리
+    //paswword수정은 나중에 별도 분리
     @Transactional
-    public User update(User user, UpdateInfoRequest info){
-        user.updateInfo(info);
+    public User update(User user){
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public void delete(User user){
+        userRepository.delete(user);
     }
 
 }

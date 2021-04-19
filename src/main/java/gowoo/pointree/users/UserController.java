@@ -22,8 +22,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ApiResult<User.Info> signUp(@Valid @RequestBody SignUpRequest signUpRequest){
-        return success(User.Info.createFromUser(userService.signUp(signUpRequest)));
+    public ApiResult<User.Info> signUp(@Valid @RequestBody SignUpRequest request){
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .name(request.getName())
+                .phoneNumber(request.getPhoneNumber())
+                .accumulationRate(request.getAccumulationRate())
+                .build();
+        return success(User.Info.createFromUser(userService.signUp(user)));
     }
 
     @PostMapping("/login")
@@ -37,9 +44,24 @@ public class UserController {
     }
 
     @PatchMapping("/me")
-    public ApiResult<User.Info> updateMyInfo(@Valid @RequestBody UpdateInfoRequest updateInfoRequest,
+    public ApiResult<User.Info> updateMyInfo(@Valid @RequestBody UpdateInfoRequest request,
                                              JwtAuthenticationToken authentication){
         User user = (User)authentication.getDetails();
-        return success(User.Info.createFromUser(userService.update(user,updateInfoRequest)) );
+        User userDto = User.builder()
+                .email(request.getEmail())
+                .accumulationRate(request.getAccumulationRate())
+                .name(request.getName())
+                .password(request.getPassword())
+                .phoneNumber(request.getPhoneNumber())
+                .build();
+        user.updateInfo(userDto);
+        return success(User.Info.createFromUser(userService.update(user)));
+    }
+
+    @DeleteMapping("/me")
+    public ApiResult<Boolean> deleteMyInfo(JwtAuthenticationToken authentication){
+        User user = (User)authentication.getDetails();
+        userService.delete(user);
+        return success(true);
     }
 }

@@ -5,6 +5,7 @@ import gowoo.pointree.commons.BaseTest;
 import org.junit.jupiter.api.*;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 import static org.hamcrest.Matchers.is;
@@ -12,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 public class UserControllerTest extends BaseTest {
     @Test
     @DisplayName("로그인 성공 테스트 (아이디, 비밀번호가 올바른 경우)")
@@ -280,5 +281,37 @@ public class UserControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.error").exists())
                 .andExpect(jsonPath("$.error.message", is("problem: 유효하지 않은 password 형식입니다.")))
                 .andExpect(jsonPath("$.error.status", is(400)));
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 성공 테스트")
+    void deleteUserSuccessTest() throws Exception{
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/api/users/me")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.response",is(true)));
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 실패 테스트(잘못된 토큰)")
+    void deleteUserFailTest() throws Exception{
+        //when
+        ResultActions result = mockMvc.perform(
+                delete("/api/users/me")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken() + 1));
+        //then
+        result.andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.success", is(false)))
+                .andExpect(jsonPath("$.error").exists())
+                .andExpect(jsonPath("$.error.status", is(401)));
     }
 }
