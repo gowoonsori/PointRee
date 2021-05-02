@@ -3,9 +3,19 @@ import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Checkbox, Container, FormHelperText, Link, TextField, Typography } from '@material-ui/core';
+import axios from 'axios';
 
 const Register = () => {
   const navigate = useNavigate();
+  const regist = async (values) => {
+    const res = await axios.post('http://localhost:8999/api/users/signup', {
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      phoneNumber: values.phoneNumber
+    });
+    return res.data;
+  };
 
   return (
     <>
@@ -37,11 +47,15 @@ const Register = () => {
               phoneNumber: Yup.string().max(255).required('phoneNumber is required'),
               policy: Yup.boolean().oneOf([true], 'This field must be checked')
             })}
-            onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+            onSubmit={async (values) => {
+              const res = await regist(values);
+              console.log(res);
+              if (res.success) {
+                navigate('/login', { replace: true });
+              }
             }}
           >
-            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+            {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
               <form onSubmit={handleSubmit}>
                 <Box sx={{ mb: 3 }}>
                   <Typography color="textPrimary" variant="h2">
@@ -118,14 +132,7 @@ const Register = () => {
                 </Box>
                 {Boolean(touched.policy && errors.policy) && <FormHelperText error>{errors.policy}</FormHelperText>}
                 <Box sx={{ py: 2 }}>
-                  <Button
-                    color="primary"
-                    disabled={isSubmitting}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                  >
+                  <Button color="primary" fullWidth size="large" type="submit" variant="contained">
                     Sign up now
                   </Button>
                 </Box>

@@ -33,6 +33,8 @@
     "react/require-default-props": "off",
     "linebreak-style": 0,
     "object-curly-newline": 0,
-    "react/jsx-one-expression-per-line": 0
+    "react/jsx-one-expression-per-line": 0,
+    "no-unused-vars": 0,
+    "dot-notation": 0
   }
 }

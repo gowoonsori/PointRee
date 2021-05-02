@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Avatar,
+  Button,
   Box,
   Card,
   Checkbox,
@@ -14,7 +14,6 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import getInitials from 'src/utils/getInitials';
 
 const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -76,13 +75,14 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Name</TableCell>
                 <TableCell>Phone</TableCell>
+                <TableCell>구매 횟수</TableCell>
                 <TableCell>Total Point</TableCell>
+                <TableCell sx={{ width: '120px', padding: '0' }} />
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {customers.slice(page * limit, limit).map((customer) => (
                 <TableRow hover key={customer.id} selected={selectedCustomerIds.indexOf(customer.id) !== -1}>
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -98,16 +98,16 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
-                        {getInitials(customer.name)}
-                      </Avatar>
                       <Typography color="textPrimary" variant="body1">
-                        {customer.name}
+                        {customer.phoneNumber}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{customer.telephone}</TableCell>
+                  <TableCell>{customer.purchaseCnt}</TableCell>
                   <TableCell>{customer.totalPoint} 원</TableCell>
+                  <TableCell>
+                    <Button>수정</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

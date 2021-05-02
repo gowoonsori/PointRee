@@ -31,7 +31,7 @@ const loginItems = [
     title: 'Customers'
   },
   {
-    href: '/logout',
+    href: '/pointree/logout',
     icon: LockIcon,
     title: 'LogOut'
   },
@@ -65,7 +65,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     }
   }, [location.pathname]);
 
-  const content = userDetail ? (
+  const content = userDetail.name ? (
     <SidebarContetnt userDetail={userDetail} items={loginItems} />
   ) : (
     <SidebarContetnt userDetail={userDetail} items={logoutItems} />

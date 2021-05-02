@@ -4,53 +4,50 @@ import { Avatar, Box, Divider, List, Typography } from '@material-ui/core';
 import { Lock as LockIcon, UserPlus as UserPlusIcon } from 'react-feather';
 import NavItem from './NavItem';
 
-const SidebarContetnt = ({ userDetail, items }) => {
-  console.log(userDetail);
-  return (
+const SidebarContetnt = ({ userDetail, items }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
+    }}
+  >
     <Box
       sx={{
+        alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        p: 2
       }}
     >
-      <Box
+      <Avatar
+        component={RouterLink}
+        src={userDetail.avatar}
         sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          p: 2
+          cursor: 'pointer',
+          width: 64,
+          height: 64
         }}
-      >
-        <Avatar
-          component={RouterLink}
-          src={userDetail.avatar}
-          sx={{
-            cursor: 'pointer',
-            width: 64,
-            height: 64
-          }}
-          to="/pointree/account"
-        />
-        <Typography color="textPrimary" variant="h5">
-          {userDetail.name}
-        </Typography>
-        <Typography color="textSecondary" variant="body2">
-          {userDetail.telephone}
-        </Typography>
-      </Box>
-      <Divider />
-      <Box sx={{ p: 2 }}>
-        <List>
-          {items.map((item) => (
-            <NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />
-          ))}
-        </List>
-      </Box>
-      <Divider />
+        to="/pointree/account"
+      />
+      <Typography color="textPrimary" variant="h5">
+        {userDetail.name}
+      </Typography>
+      <Typography color="textSecondary" variant="body2">
+        {userDetail.telephone}
+      </Typography>
     </Box>
-  );
-};
+    <Divider />
+    <Box sx={{ p: 2 }}>
+      <List>
+        {items.map((item) => (
+          <NavItem href={item.href} key={item.title} title={item.title} icon={item.icon} />
+        ))}
+      </List>
+    </Box>
+    <Divider />
+  </Box>
+);
 
 SidebarContetnt.propTypes = {
   items: PropTypes.array,

@@ -29,7 +29,7 @@ const AccountProfile = (props) => {
             {userData.telephone}
           </Typography>
           <Typography color="textSecondary" variant="body1">
-            기본 적립율 : {userData.accumerlate}%
+            기본 적립율 : {userData.accumulate}%
           </Typography>
         </Box>
       </CardContent>

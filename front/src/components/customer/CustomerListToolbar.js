@@ -3,17 +3,6 @@ import { Search as SearchIcon } from 'react-feather';
 
 const CustomerListToolbar = (props) => (
   <Box {...props}>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end'
-      }}
-    >
-      <Button sx={{ mx: 1 }}>삭제하기</Button>
-      <Button color="primary" variant="contained">
-        Add customer
-      </Button>
-    </Box>
     <Box sx={{ mt: 3 }}>
       <Card>
         <CardContent>
