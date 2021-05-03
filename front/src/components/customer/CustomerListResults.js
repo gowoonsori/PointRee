@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRecoilState } from 'recoil';
+import { selectedCustomer } from 'src/reducers/customers';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Button,
@@ -15,8 +17,8 @@ import {
   Typography
 } from '@material-ui/core';
 
-const CustomerListResults = ({ customers, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
+const CustomerListResults = ({ customers }) => {
+  const [selectedCustomerIds, setSelectedCustomerIds] = useRecoilState(selectedCustomer);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
@@ -58,10 +60,11 @@ const CustomerListResults = ({ customers, ...rest }) => {
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
+    console.log(page);
   };
 
   return (
-    <Card {...rest}>
+    <Card>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>
@@ -82,7 +85,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(page * limit, limit).map((customer) => (
+              {customers.slice(page * limit, page * limit + limit).map((customer) => (
                 <TableRow hover key={customer.id} selected={selectedCustomerIds.indexOf(customer.id) !== -1}>
                   <TableCell padding="checkbox">
                     <Checkbox
