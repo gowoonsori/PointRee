@@ -1,20 +1,25 @@
-import { atom, selector } from 'recoil';
-import axios from 'axios';
+import { atom, useRecoilValue } from 'recoil';
 
 export const customers = atom({
   key: 'customers',
-  default: []
-});
-
-export const customersInfoPagination = atom({
-  key: 'customersInfoPagination',
-  default: []
-});
-
-export const getCustomers = selector({
-  key: 'getCustomers',
-  get: async () => {
-    const res = await axios.get('http://localhost:8999/api/customers/all');
-    return res.data;
+  default: [],
+  set: ({ get, set }, newCustomer) => {
+    if (newCustomer.length > 1) {
+      set(customers, newCustomer);
+    } else {
+      const currentCustomer = get(customers);
+      const appendCustomer = [...currentCustomer, newCustomer];
+      set(customers, appendCustomer);
+    }
   }
+});
+
+export const searchCustomer = atom({
+  key: 'searchCustomer',
+  default: customers
+});
+
+export const selectedCustomer = atom({
+  key: 'selectedCustomer',
+  default: []
 });

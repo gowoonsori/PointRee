@@ -21,7 +21,7 @@ const Login = () => {
   return (
     <>
       <Helmet>
-        <title>Login | Material Kit</title>
+        <title>Login | Point Ree</title>
       </Helmet>
       <Box
         sx={{
