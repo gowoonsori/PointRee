@@ -1,7 +1,8 @@
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { ThemeProvider } from '@material-ui/core';
+import { ThemeProvider, CircularProgress } from '@material-ui/core';
 import GlobalStyles from 'src/components/GlobalStyles';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
@@ -14,7 +15,7 @@ const App = () => {
     <RecoilRoot>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        {routing}
+        <Suspense fallback={<CircularProgress />}>{routing}</Suspense>
       </ThemeProvider>
     </RecoilRoot>
   );
