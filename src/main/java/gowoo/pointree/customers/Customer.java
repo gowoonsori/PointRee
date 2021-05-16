@@ -43,6 +43,7 @@ public class Customer{
 
     public void updateTotalPoint(int point){
         this.totalPoint += point;
+        this.purchaseCnt += 1;
     }
 
 

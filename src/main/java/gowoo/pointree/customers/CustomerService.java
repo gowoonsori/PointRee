@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,6 +27,10 @@ public class CustomerService {
         User user = customer.getUser();
         if(!user.getId().equals(userId)) throw new BadRequestException("해당 고객이 존재하지않습니다."); //다른 user의 고객일때
         return customer;
+    }
+
+    public Optional<Customer> getCustomerToPhoneNumber(String phoneNumber,Long userId){
+        return customerRepository.findByPhoneNumberAndUserId(phoneNumber,userId);
     }
 
     public List<Customer> getCustomers(Long userId){

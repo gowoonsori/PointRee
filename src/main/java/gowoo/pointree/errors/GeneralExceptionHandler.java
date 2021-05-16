@@ -1,5 +1,6 @@
 package gowoo.pointree.errors;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import gowoo.pointree.utils.ApiUtils.ApiResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +50,7 @@ public class GeneralExceptionHandler {
 
 
     @ExceptionHandler({
+            JsonParseException.class,
             HttpMessageNotReadableException.class,
             BadRequestException.class,
             IllegalArgumentException.class,
