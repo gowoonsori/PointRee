@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil';
-import { user } from 'src/reducers/user';
-import { Avatar, Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@material-ui/core';
+import { userInfo } from 'src/reducers/user';
+import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@material-ui/core';
 
 const AccountProfile = (props) => {
-  const userData = useRecoilValue(user);
+  const info = useRecoilValue(userInfo);
 
   return (
     <Card {...props}>
@@ -15,30 +15,18 @@ const AccountProfile = (props) => {
             flexDirection: 'column'
           }}
         >
-          <Avatar
-            src={userData.avatar}
-            sx={{
-              height: 100,
-              width: 100
-            }}
-          />
-          <Typography color="textPrimary" gutterBottom variant="h3">
-            {userData.name}
+          <Typography color="textPrimary" gutterBottom variant="h1">
+            {info.name}
           </Typography>
           <Typography color="textSecondary" variant="body1">
-            {userData.telephone}
+            {info.phoneNumber}
           </Typography>
           <Typography color="textSecondary" variant="body1">
-            기본 적립율 : {userData.accumulate}%
+            기본 적립율 : {info.accumulationRate}%
           </Typography>
         </Box>
       </CardContent>
       <Divider />
-      <CardActions>
-        <Button color="primary" fullWidth variant="text">
-          Upload picture
-        </Button>
-      </CardActions>
     </Card>
   );
 };

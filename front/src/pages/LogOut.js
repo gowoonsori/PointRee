@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { user } from 'src/reducers/user';
+import { userInfo, userToken } from 'src/reducers/user';
 
 const LogOut = () => {
-  const [users, setUser] = useRecoilState(user);
+  const [info, setInfo] = useRecoilState(userInfo);
+  const [token, setToken] = useRecoilState(userToken);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUser({});
+    setInfo({});
+    setToken('');
     navigate('/login', { replace: true });
   });
   return <></>;

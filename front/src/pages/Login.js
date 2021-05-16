@@ -1,7 +1,7 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useRecoilState } from 'recoil';
-import { user } from 'src/reducers/user';
+import { userInfo, userToken } from 'src/reducers/user';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
@@ -9,7 +9,8 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useRecoilState(user);
+  const [info, setInfo] = useRecoilState(userInfo);
+  const [token, setToken] = useRecoilState(userToken);
   const login = async (values) => {
     const res = await axios.post('http://localhost:8999/api/users/login', {
       email: values.email,
@@ -45,13 +46,13 @@ const Login = () => {
             onSubmit={async (values) => {
               const response = await login(values);
               if (response.success) {
-                setUserInfo({
-                  avatar: '/static/images/avatars/avatar_6.png',
+                setInfo({
                   email: response.response.user.email,
                   name: response.response.user.name,
-                  telephone: response.response.user.phoneNumber,
-                  accumulate: response.response.user.accumulationRate
+                  phoneNumber: response.response.user.phoneNumber,
+                  accumulationRate: response.response.user.accumulationRate
                 });
+                setToken(`Bearer ${response.response.token}`);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.response.token}`;
                 navigate('/pointree/dashboard', { replace: true });
               }

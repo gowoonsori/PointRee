@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
-import { Avatar, Box, Divider, List, Typography } from '@material-ui/core';
+import { Box, Divider, List, Typography } from '@material-ui/core';
 import { Lock as LockIcon, UserPlus as UserPlusIcon } from 'react-feather';
 import NavItem from './NavItem';
 
-const SidebarContetnt = ({ userDetail, items }) => (
+const SidebarContetnt = ({ userInfo, items }) => (
   <Box
     sx={{
       display: 'flex',
@@ -17,24 +16,16 @@ const SidebarContetnt = ({ userDetail, items }) => (
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
-        p: 2
+        p: 2,
+        mt: 3,
+        height: 135
       }}
     >
-      <Avatar
-        component={RouterLink}
-        src={userDetail.avatar}
-        sx={{
-          cursor: 'pointer',
-          width: 64,
-          height: 64
-        }}
-        to="/pointree/account"
-      />
-      <Typography color="textPrimary" variant="h5">
-        {userDetail.name}
+      <Typography color="textPrimary" variant="h2">
+        {userInfo.name}
       </Typography>
       <Typography color="textSecondary" variant="body2">
-        {userDetail.telephone}
+        {userInfo.phoneNumber}
       </Typography>
     </Box>
     <Divider />
@@ -51,7 +42,7 @@ const SidebarContetnt = ({ userDetail, items }) => (
 
 SidebarContetnt.propTypes = {
   items: PropTypes.array,
-  userDetail: PropTypes.object
+  userInfo: PropTypes.object
 };
 
 SidebarContetnt.defaultProps = {

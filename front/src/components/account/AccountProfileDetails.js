@@ -1,13 +1,13 @@
 import { Box, Button, Card, CardContent, CardHeader, Divider, Grid, TextField } from '@material-ui/core';
 import { useRecoilState } from 'recoil';
-import { user } from 'src/reducers/user';
+import { userInfo } from 'src/reducers/user';
 
 const AccountProfileDetails = (props) => {
-  const [userDetail, setUserDetail] = useRecoilState(user);
+  const [info, setInfo] = useRecoilState(userInfo);
 
   const handleChange = (event) => {
-    setUserDetail({
-      ...userDetail,
+    setInfo({
+      ...info,
       [event.target.name]: event.target.value
     });
   };
@@ -15,19 +15,18 @@ const AccountProfileDetails = (props) => {
   return (
     <form autoComplete="off" noValidate {...props}>
       <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="내정보 수정" title="Profile" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="name"
+                label="상호 이름"
                 name="name"
                 onChange={handleChange}
                 required
-                value={userDetail.name}
+                value={info.name}
                 variant="outlined"
               />
             </Grid>
@@ -39,17 +38,18 @@ const AccountProfileDetails = (props) => {
                 name="email"
                 onChange={handleChange}
                 required
-                value={userDetail.email}
+                value={info.email}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
+                label="전화번호"
+                name="phoneNumber"
+                required
                 onChange={handleChange}
-                value={userDetail.telephone}
+                value={info.phoneNumber}
                 variant="outlined"
               />
             </Grid>
@@ -57,10 +57,10 @@ const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="적립율"
-                name="accumulate"
+                name="accumulationRate"
                 onChange={handleChange}
                 required
-                value={userDetail.accumulate}
+                value={info.accumulationRate}
                 variant="outlined"
               />
             </Grid>

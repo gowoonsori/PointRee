@@ -1,4 +1,4 @@
-import { atom, useRecoilValue } from 'recoil';
+import { atom } from 'recoil';
 
 export const customers = atom({
   key: 'customers',

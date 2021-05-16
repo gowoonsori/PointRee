@@ -12,7 +12,7 @@ const AddCustomerModal = (props) => {
   const [customerList, setCustomerList] = useRecoilState(customers);
   const onchangePhoneNumber = useCallback(
     (e) => {
-      setPhoneNumber(addHyphen(e));
+      setPhoneNumber(addHyphen(e.target.value));
     },
     [setPhoneNumber]
   );
@@ -26,7 +26,7 @@ const AddCustomerModal = (props) => {
   }, [phoneNumber]);
 
   return (
-    <div>
+    <form onSubmit={addCustomerHandler}>
       <Box
         sx={{
           width: '500px',
@@ -44,12 +44,12 @@ const AddCustomerModal = (props) => {
           </FormControl>
         </div>
         <div>
-          <Button sx={{ width: '70%' }} variant="contained" color="primary" onClick={addCustomerHandler}>
+          <Button sx={{ width: '70%' }} variant="contained" color="primary" type="submit">
             고객 추가
           </Button>
         </div>
       </Box>
-    </div>
+    </form>
   );
 };
 

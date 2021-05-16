@@ -1,69 +1,53 @@
-import { useState, useCallback } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useCallback } from 'react';
 import { Box, Button, Card, CardContent, TextField, InputAdornment, SvgIcon } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import addHyphen from 'src/hooks/chagePhoneNumber';
-import { customers, searchCustomer } from 'src/reducers/customers';
+import PropTypes from 'prop-types';
 
-const CustomerListToolbar = (props) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const customerList = useRecoilValue(customers);
-  const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomer);
-
+const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent }) => {
   const onchangePhoneNumber = useCallback(
     (e) => {
-      setPhoneNumber(addHyphen(e));
+      setPhoneNumber(addHyphen(e.target.value));
     },
     [setPhoneNumber]
   );
 
-  const searchHandler = useCallback(() => {
-    const results = [];
-    if (phoneNumber === '') {
-      setSearchCustomerList(customerList);
-    } else {
-      customerList.forEach((customer) => {
-        if (customer.phoneNumber.includes(phoneNumber)) {
-          results.push(customer);
-        }
-      });
-      setSearchCustomerList(results);
-      console.log(results);
-    }
-  }, [phoneNumber]);
-
   return (
-    <Box {...props}>
-      <Box sx={{ mt: 3 }}>
-        <Card>
-          <CardContent>
-            <Box sx={{ maxWidth: 1280 }} display="flex">
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon fontSize="small" color="action">
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  )
-                }}
-                placeholder="Search customer"
-                variant="outlined"
-                sx={{ mx: 2 }}
-                value={phoneNumber}
-                onChange={onchangePhoneNumber}
-              />
-              <Button color="primary" variant="contained" onClick={searchHandler}>
-                검색
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
+    <Box>
+      <Card>
+        <CardContent>
+          <Box sx={{ maxWidth: 1280 }} display="flex">
+            <TextField
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SvgIcon sx={{ mr: 2 }} fontSize="large" color="action">
+                      <SearchIcon />
+                    </SvgIcon>
+                  </InputAdornment>
+                ),
+                sx: { height: 120, fontSize: '1.8em' }
+              }}
+              placeholder="고객 전화번호 입력"
+              variant="outlined"
+              sx={{ mx: 2 }}
+              value={phoneNumber}
+              onChange={onchangePhoneNumber}
+            />
+            <Button color="primary" variant="contained" sx={{ width: 150, fontSize: '1.3em' }} onClick={onClickEvent}>
+              검색
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
     </Box>
   );
 };
 
+CustomerListToolbar.propTypes = {
+  phoneNumber: PropTypes.string.isRequired,
+  setPhoneNumber: PropTypes.func.isRequired,
+  onClickEvent: PropTypes.func.isRequired
+};
 export default CustomerListToolbar;

@@ -1,63 +1,66 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useRecoilValue } from 'recoil';
-import { user } from 'src/reducers/user';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { userInfo, userInfoSelector } from 'src/reducers/user';
 import SidebarContetnt from 'src/components/layout/SidebarContent';
 import { Drawer, Hidden } from '@material-ui/core';
-import {
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon
-} from 'react-feather';
+import { PieChart, LogIn, LogOut, Settings, User, UserPlus, Users, DollarSign } from 'react-feather';
 
 const loginItems = [
   {
     href: '/pointree/account',
-    icon: UserIcon,
-    title: 'Account'
+    icon: User,
+    title: '내 정보'
+  },
+  {
+    href: '/pointree/points',
+    icon: DollarSign,
+    title: '적립하기'
   },
   {
     href: '/pointree/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
+    icon: PieChart,
+    title: '통계'
   },
   {
     href: '/pointree/customers',
-    icon: UsersIcon,
-    title: 'Customers'
+    icon: Users,
+    title: '고객정보'
   },
   {
     href: '/pointree/logout',
-    icon: LockIcon,
-    title: 'LogOut'
+    icon: LogOut,
+    title: '로그아웃'
   },
   {
     href: '/pointree/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
+    icon: Settings,
+    title: '비밀번호 수정'
   }
 ];
 
 const logoutItems = [
   {
     href: '/login',
-    icon: LockIcon,
-    title: 'Login'
+    icon: LogIn,
+    title: '로그인'
   },
   {
     href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
+    icon: UserPlus,
+    title: '회원가입'
   }
 ];
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
-  const userDetail = useRecoilValue(user);
+  const [info, setInfo] = useRecoilState(userInfo);
+  const infoSelector = useRecoilValue(userInfoSelector);
+
+  useEffect(() => {
+    setInfo(infoSelector);
+  }, []);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -65,10 +68,10 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     }
   }, [location.pathname]);
 
-  const content = userDetail.name ? (
-    <SidebarContetnt userDetail={userDetail} items={loginItems} />
+  const content = info.name ? (
+    <SidebarContetnt userInfo={info} items={loginItems} />
   ) : (
-    <SidebarContetnt userDetail={userDetail} items={logoutItems} />
+    <SidebarContetnt userInfo={info} items={logoutItems} />
   );
 
   return (
