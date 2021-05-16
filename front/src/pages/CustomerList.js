@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Box, Container, Button, Modal } from '@material-ui/core';
 import CustomerListResults from 'src/components/customer/CustomerListResults';
 import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
@@ -10,8 +10,25 @@ import axios from 'axios';
 
 const CustomerList = () => {
   const [customerList, setCustomerList] = useRecoilState(customers);
-  const searchCustomerList = useRecoilValue(searchCustomer);
   const [isModal, setIsModal] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomer);
+
+  const searchHandler = useCallback(() => {
+    const results = [];
+    if (phoneNumber === '') {
+      setSearchCustomerList(customerList);
+    } else {
+      customerList.forEach((customer) => {
+        if (customer.phoneNumber.includes(phoneNumber)) {
+          results.push(customer);
+        }
+      });
+      setSearchCustomerList(results);
+      console.log(results);
+    }
+  }, [phoneNumber]);
+
   const openModal = useCallback(() => {
     setIsModal(true);
   }, [setIsModal]);
@@ -41,7 +58,7 @@ const CustomerList = () => {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar />
+          <CustomerListToolbar phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} onClickEvent={searchHandler} />
           <Box sx={{ pt: 3 }}>
             <Box
               sx={{
