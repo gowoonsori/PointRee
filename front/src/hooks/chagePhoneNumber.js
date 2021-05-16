@@ -1,5 +1,5 @@
 const addHyphen = (e) => {
-  const number = e.target.value.replace(/[^0-9]/g, '');
+  const number = e.replace(/[^0-9]/g, '');
   let result;
   const isSeoul = number.substring(0, 2).indexOf('02') === 0 ? 0 : 1;
   if (number.length < 3 + isSeoul) {
