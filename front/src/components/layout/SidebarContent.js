@@ -21,12 +21,20 @@ const SidebarContetnt = ({ userInfo, items }) => (
         height: 135
       }}
     >
-      <Typography color="textPrimary" variant="h2">
-        {userInfo.name}
-      </Typography>
-      <Typography color="textSecondary" variant="body2">
-        {userInfo.phoneNumber}
-      </Typography>
+      {userInfo.name ? (
+        <Box>
+          <Typography color="textPrimary" variant="h2">
+            {userInfo.name}
+          </Typography>
+          <Typography color="textSecondary" variant="body2">
+            {userInfo.phoneNumber}
+          </Typography>
+        </Box>
+      ) : (
+        <Typography color="textPrimary" variant="h1">
+          PointRee
+        </Typography>
+      )}
     </Box>
     <Divider />
     <Box sx={{ p: 2 }}>
