@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useRecoilState } from 'recoil';
@@ -6,18 +7,35 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
+import AlertCard from 'src/components/alert/AlertCard';
 
 const Login = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useRecoilState(userInfo);
   const [token, setToken] = useRecoilState(userToken);
-  const login = async (values) => {
-    const res = await axios.post('http://localhost:8999/api/users/login', {
-      email: values.email,
-      password: values.password
-    });
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const handleClose = useCallback(
+    (e) => {
+      setOpen(false);
+    },
+    [setOpen]
+  );
+
+  const login = useCallback(async (values) => {
+    const res = await axios
+      .post('http://localhost:8999/api/users/login', {
+        email: values.email,
+        password: values.password
+      })
+      .catch((error) => {
+        if (error.response) {
+          setMessage(error.response.data.error.message);
+          setOpen(true);
+        }
+      });
     return res.data;
-  };
+  });
 
   return (
     <>
@@ -115,6 +133,7 @@ const Login = () => {
           </Formik>
         </Container>
       </Box>
+      <AlertCard open={open} handleClose={handleClose} message={message} />
     </>
   );
 };

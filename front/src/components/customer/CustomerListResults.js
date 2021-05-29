@@ -81,7 +81,6 @@ const CustomerListResults = ({ customers }) => {
                 <TableCell>Phone</TableCell>
                 <TableCell>구매 횟수</TableCell>
                 <TableCell>Total Point</TableCell>
-                <TableCell sx={{ width: '120px', padding: '0' }} />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,9 +107,6 @@ const CustomerListResults = ({ customers }) => {
                   </TableCell>
                   <TableCell>{customer.purchaseCnt}</TableCell>
                   <TableCell>{customer.totalPoint} 원</TableCell>
-                  <TableCell>
-                    <Button>수정</Button>
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

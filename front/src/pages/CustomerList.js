@@ -7,12 +7,21 @@ import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
 import { customers, searchCustomer } from 'src/reducers/customers';
 import AddCustomerModal from 'src/components/modal/AddCustomerModal';
 import axios from 'axios';
+import AlertCard from 'src/components/alert/AlertCard';
 
 const CustomerList = () => {
   const [customerList, setCustomerList] = useRecoilState(customers);
   const [isModal, setIsModal] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomer);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = useCallback(
+    (e) => {
+      setOpen(false);
+    },
+    [setOpen]
+  );
 
   const searchHandler = useCallback(() => {
     const results = [];
@@ -88,9 +97,10 @@ const CustomerList = () => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}
       >
         <div>
-          <AddCustomerModal closeModal={closeModal} />
+          <AddCustomerModal closeModal={closeModal} setOpen={setOpen} />
         </div>
       </Modal>
+      <AlertCard open={open} handleClose={handleClose} message="전화번호를 잘못입력하셨습니다." />
     </>
   );
 };

@@ -1,19 +1,37 @@
+import { useState, useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Checkbox, Container, FormHelperText, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
+import AlertCard from 'src/components/alert/AlertCard';
 
 const Register = () => {
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const handleClose = useCallback(
+    (e) => {
+      setOpen(false);
+    },
+    [setOpen]
+  );
+
   const navigate = useNavigate();
   const regist = async (values) => {
-    const res = await axios.post('http://localhost:8999/api/users/signup', {
-      name: values.name,
-      email: values.email,
-      password: values.password,
-      phoneNumber: values.phoneNumber
-    });
+    const res = await axios
+      .post('http://localhost:8999/api/users/signup', {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        phoneNumber: values.phoneNumber
+      })
+      .catch((error) => {
+        if (error.response) {
+          setMessage(error.response.data.error.message);
+          setOpen(true);
+        }
+      });
     return res.data;
   };
 
@@ -111,6 +129,7 @@ const Register = () => {
                   margin="normal"
                   name="phoneNumber"
                   onBlur={handleBlur}
+                  placeholder="010-0000-0000"
                   onChange={handleChange}
                   value={values.phoneNumber}
                   variant="outlined"
@@ -147,6 +166,7 @@ const Register = () => {
           </Formik>
         </Container>
       </Box>
+      <AlertCard open={open} handleClose={handleClose} message={message} />
     </>
   );
 };

@@ -7,7 +7,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 
 const AddCustomerModal = (props) => {
-  const { closeModal } = props;
+  const { closeModal, setOpen } = props;
   const [phoneNumber, setPhoneNumber] = useState('');
   const [customerList, setCustomerList] = useRecoilState(customers);
   const onchangePhoneNumber = useCallback(
@@ -25,8 +25,13 @@ const AddCustomerModal = (props) => {
     closeModal();
   }, [phoneNumber]);
 
+  const onSubmitEvent = useCallback(() => {
+    if (phoneNumber.length < 11 || phoneNumber.length > 14) setOpen(true);
+    else addCustomerHandler();
+  }, [setOpen, addCustomerHandler]);
+
   return (
-    <form onSubmit={addCustomerHandler}>
+    <form>
       <Box
         sx={{
           width: '500px',
@@ -44,7 +49,7 @@ const AddCustomerModal = (props) => {
           </FormControl>
         </div>
         <div>
-          <Button sx={{ width: '70%' }} variant="contained" color="primary" type="submit">
+          <Button sx={{ width: '70%' }} variant="contained" color="primary" onClick={onSubmitEvent}>
             고객 추가
           </Button>
         </div>
@@ -54,7 +59,8 @@ const AddCustomerModal = (props) => {
 };
 
 AddCustomerModal.propTypes = {
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired
 };
 
 export default AddCustomerModal;
