@@ -45,7 +45,8 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent }) => {
                     </SvgIcon>
                   </InputAdornment>
                 ),
-                sx: { height: 120, fontSize: '1.8em' }
+                sx: { height: 120, fontSize: '1.8em' },
+                autoFocus: true
               }}
               placeholder="고객 전화번호 입력"
               variant="outlined"

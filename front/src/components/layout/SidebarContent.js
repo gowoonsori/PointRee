@@ -44,7 +44,6 @@ const SidebarContetnt = ({ userInfo, items }) => (
         ))}
       </List>
     </Box>
-    <Divider />
   </Box>
 );
 

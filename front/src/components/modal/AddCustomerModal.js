@@ -1,34 +1,33 @@
 import { useState, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-import { customers } from 'src/reducers/customers';
+import { updateCustomer } from 'src/reducers/customers';
 import { Box, Button, FormControl, InputLabel, Input } from '@material-ui/core';
 import addHyphen from 'src/hooks/chagePhoneNumber';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-const AddCustomerModal = (props) => {
-  const { closeModal, setOpen } = props;
+const AddCustomerModal = ({ closeModal, setOpen }) => {
+  const [updateCustomerInfo, setUpdateCustomerInfo] = useRecoilState(updateCustomer);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [customerList, setCustomerList] = useRecoilState(customers);
   const onchangePhoneNumber = useCallback(
     (e) => {
       setPhoneNumber(addHyphen(e.target.value));
     },
-    [setPhoneNumber]
+    [setPhoneNumber, addHyphen]
   );
 
   const addCustomerHandler = useCallback(async () => {
     const res = await axios.post('http://localhost:8999/api/customers', { phoneNumber: phoneNumber });
     if (res.data.response) {
-      setCustomerList(customerList, res.data.response);
+      setUpdateCustomerInfo(true);
     }
     closeModal();
-  }, [phoneNumber]);
+  }, [setUpdateCustomerInfo, phoneNumber, closeModal]);
 
   const onSubmitEvent = useCallback(() => {
     if (phoneNumber.length < 11 || phoneNumber.length > 14) setOpen(true);
     else addCustomerHandler();
-  }, [setOpen, addCustomerHandler]);
+  }, [setOpen, addCustomerHandler, phoneNumber]);
 
   return (
     <form>
@@ -45,7 +44,14 @@ const AddCustomerModal = (props) => {
         <div>
           <FormControl sx={{ width: '70%', my: 6 }}>
             <InputLabel htmlFor="item-input-label">전화 번호</InputLabel>
-            <Input id="item-input-label" type="text" value={phoneNumber} onChange={onchangePhoneNumber} required />
+            <Input
+              autoFocus
+              id="item-input-label"
+              type="text"
+              value={phoneNumber}
+              onChange={onchangePhoneNumber}
+              required
+            />
           </FormControl>
         </div>
         <div>
