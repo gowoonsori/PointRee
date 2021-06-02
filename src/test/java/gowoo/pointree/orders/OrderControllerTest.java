@@ -70,7 +70,7 @@ public class OrderControllerTest extends BaseTest {
 
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/customers/" + customerId + "/orders")
+                get("/api/customers/" + customerId + "/orders/all")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header(jwtTokenConfig.getHeader(), token));
@@ -103,7 +103,7 @@ public class OrderControllerTest extends BaseTest {
 
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/customers/" + customerId + "/orders")
+                get("/api/customers/" + customerId + "/orders/all")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header(jwtTokenConfig.getHeader(), token));

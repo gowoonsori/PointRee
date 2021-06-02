@@ -1,6 +1,7 @@
 package gowoo.pointree.customers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import gowoo.pointree.errors.BadRequestException;
 import gowoo.pointree.orders.Order;
 import gowoo.pointree.users.User;
 import lombok.*;
@@ -13,6 +14,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.regex.Pattern.matches;
 
 @DynamicUpdate
 @Entity @Getter @Builder
@@ -72,6 +75,11 @@ public class Customer{
             this.totalPoint = customer.totalPoint;
             this.purchaseCnt = customer.purchaseCnt;
             this.createdTime = customer.createdTime;
+            validate();
+        }
+
+        private void validate() {
+            if (phoneNumber != null && !matches("^(01\\d{1}|02|0505|0502|0506|0\\d{1,2})-?(\\d{3,4})-?(\\d{4})",phoneNumber)) throw new BadRequestException("유효하지 않은 전화번호 형식입니다.");
         }
     }
 }
