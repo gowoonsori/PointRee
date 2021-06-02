@@ -33,6 +33,7 @@ public class Order {
     private Customer customer;
 
     @CreationTimestamp
+    @Column(name = "created_time", updatable = false)
     private LocalDateTime createdTime;
 
     @Builder
@@ -59,8 +60,6 @@ public class Order {
 
         private PaymentType paymentType;
 
-        @CreationTimestamp
-        @Column(name = "created_time", updatable = false)
         private LocalDateTime createdTime;
 
         public static Order.Info createFromOrder(Order order) { return new Info(order);}

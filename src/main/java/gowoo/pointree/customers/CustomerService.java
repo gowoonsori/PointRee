@@ -1,6 +1,7 @@
 package gowoo.pointree.customers;
 
 import gowoo.pointree.errors.BadRequestException;
+import gowoo.pointree.orders.OrderRepository;
 import gowoo.pointree.users.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional
     public Customer insert(Customer request){
@@ -29,7 +31,7 @@ public class CustomerService {
         return customer;
     }
 
-    public Optional<Customer> getCustomerToPhoneNumber(String phoneNumber,Long userId){
+    public Optional<Customer> getCustomerAtPhoneNumber(String phoneNumber,Long userId){
         return customerRepository.findByPhoneNumberAndUserId(phoneNumber,userId);
     }
 
@@ -39,5 +41,11 @@ public class CustomerService {
 
     public Page<Customer> getCustomers(Long userId,Pageable pageable){
         return customerRepository.findAllByUserId(userId, pageable);
+    }
+
+    @Transactional
+    public void delete(List<Long> customerIds){
+        orderRepository.deleteAllByCustomerIdInQuery(customerIds);
+        customerRepository.deleteAllByIdInQuery(customerIds);
     }
 }

@@ -27,7 +27,7 @@ public class OrderController {
         return success(Order.Info.createFromOrder(orderService.getOrder(orderId,authentication.id)));
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ApiResult<List<Order.Info>> getOrders(@PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
         Customer customer = customerService.getCustomer(customerId, authentication.id);
         List<Order> orders = orderService.getOrders(customer);

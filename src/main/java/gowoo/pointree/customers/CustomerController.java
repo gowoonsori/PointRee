@@ -33,9 +33,9 @@ public class CustomerController {
     }
 
     @GetMapping("/phoneNumber/{phoneNumber}")
-    public ApiResult<Customer.Info> getCustomerToPhoneNumber(@PathVariable String phoneNumber, JwtAuthenticationToken authentication){
+    public ApiResult<Customer.Info> getCustomerAtPhoneNumber(@PathVariable String phoneNumber, JwtAuthenticationToken authentication){
         User user = (User)authentication.getDetails();
-        Optional<Customer> customer = customerService.getCustomerToPhoneNumber(phoneNumber, user.getId());
+        Optional<Customer> customer = customerService.getCustomerAtPhoneNumber(phoneNumber, user.getId());
         if(customer.isPresent()) return success(Customer.Info.of(customer.get()));
 
         Customer newCustomer = customerService.insert(
@@ -64,7 +64,7 @@ public class CustomerController {
     public ApiResult<Customer.Info> insertCustomer(@Valid @RequestBody Customer.Info customerInfo,
                                                 JwtAuthenticationToken authentication){
         User user = (User)authentication.getDetails();
-        Optional<Customer> customer = customerService.getCustomerToPhoneNumber(customerInfo.getPhoneNumber(), user.getId());
+        Optional<Customer> customer = customerService.getCustomerAtPhoneNumber(customerInfo.getPhoneNumber(), user.getId());
         if(customer.isPresent()) throw new BadRequestException("이미 존재하는 고객입니다.");
         Customer newCustomer = Customer.builder()
                 .purchaseCnt(customerInfo.getPurchaseCnt())
@@ -74,5 +74,11 @@ public class CustomerController {
                 .build();
 
         return success(Customer.Info.of(customerService.insert(newCustomer)));
+    }
+
+    @DeleteMapping
+    public ApiResult<String> deleteCustomer(@RequestBody List<Long> customerIds){
+        customerService.delete(customerIds);
+        return success("정상적으로 삭제되었습니다.");
     }
 }

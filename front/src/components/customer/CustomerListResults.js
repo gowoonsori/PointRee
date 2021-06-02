@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
-import { selectedCustomer } from 'src/reducers/customers';
+import { selectedCustomer, currentDetailCustomer } from 'src/reducers/customers';
+import { orders } from 'src/reducers/orders';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Button,
+  Tooltip,
   Box,
   Card,
   Checkbox,
@@ -17,51 +19,85 @@ import {
   Typography
 } from '@material-ui/core';
 
-const CustomerListResults = ({ customers }) => {
+const CustomerListResults = ({ customers, openModal }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useRecoilState(selectedCustomer);
+  const [currentCustomerId, setCurrentCustomerId] = useRecoilState(currentDetailCustomer);
+  const [orderList, setOrderList] = useRecoilState(orders);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  const handleSelectAll = useCallback(
+    (event) => {
+      let newSelectedCustomerIds;
+      if (event.target.checked) newSelectedCustomerIds = customers.map((customer) => customer.id);
+      else newSelectedCustomerIds = [];
+      setSelectedCustomerIds(newSelectedCustomerIds);
+    },
+    [setSelectedCustomerIds]
+  );
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
+  const handleSelectOne = useCallback(
+    (event, id) => {
+      const selectedIndex = selectedCustomerIds.indexOf(id);
+      let newSelectedCustomerIds = [];
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+      if (selectedIndex === -1) {
+        newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      } else if (selectedIndex === 0) {
+        newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+      } else if (selectedIndex === selectedCustomerIds.length - 1) {
+        newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelectedCustomerIds = newSelectedCustomerIds.concat(
+          selectedCustomerIds.slice(0, selectedIndex),
+          selectedCustomerIds.slice(selectedIndex + 1)
+        );
+      }
 
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+      setSelectedCustomerIds(newSelectedCustomerIds);
+    },
+    [selectedCustomerIds, setSelectedCustomerIds]
+  );
 
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
+  const handleLimitChange = useCallback(
+    (event) => {
+      setLimit(event.target.value);
+    },
+    [setLimit]
+  );
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  const handlePageChange = useCallback(
+    (event, newPage) => {
+      setPage(newPage);
+      console.log(page);
+    },
+    [setPage]
+  );
 
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
+  const getOrders = useCallback(
+    async (customerId) => {
+      const res = await axios.get(`http://localhost:8999/api/customers/${customerId}/orders/all`);
+      if (res.data.response) {
+        setOrderList(res.data.response);
+        setCurrentCustomerId(customerId);
+        return true;
+      }
+      return false;
+    },
+    [setOrderList, setCurrentCustomerId]
+  );
 
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-    console.log(page);
-  };
+  const showOrders = useCallback(
+    (e) => {
+      if (e.target.id === '') return;
+      if (e.target.id === currentCustomerId) {
+        openModal();
+      } else if (getOrders(e.target.id)) {
+        openModal();
+      }
+    },
+    [openModal, currentCustomerId]
+  );
 
   return (
     <Card>
@@ -97,12 +133,19 @@ const CustomerListResults = ({ customers }) => {
                     <Box
                       sx={{
                         alignItems: 'center',
-                        display: 'flex'
+                        display: 'flex',
+                        '&:hover': {
+                          cursor: 'pointer'
+                        }
                       }}
+                      id={customer.id}
+                      onClick={showOrders}
                     >
-                      <Typography color="textPrimary" variant="body1">
-                        {customer.phoneNumber}
-                      </Typography>
+                      <Tooltip title="세부 내역보기" placement="right" id={String(customer.id)} arrow>
+                        <Typography color="textPrimary" variant="body1" id={customer.id}>
+                          {customer.phoneNumber}
+                        </Typography>
+                      </Tooltip>
                     </Box>
                   </TableCell>
                   <TableCell>{customer.purchaseCnt}</TableCell>
@@ -127,7 +170,8 @@ const CustomerListResults = ({ customers }) => {
 };
 
 CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  customers: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired
 };
 
 export default CustomerListResults;

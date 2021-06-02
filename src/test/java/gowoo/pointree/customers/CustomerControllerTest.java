@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.IntStream;
 
@@ -105,10 +104,10 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("한명 고객정보조회 성공")
     void getCustomerSuccessTest() throws Exception{
         //given
-        int customeId = 1;
+        int customerId = 1;
         // when
         ResultActions result = mockMvc.perform(
-                get("/api/customers/"+customeId)
+                get("/api/customers/"+customerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header(jwtTokenConfig.getHeader(),genreatedToken()));
@@ -118,7 +117,7 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(handler().handlerType(CustomerController.class))
                 .andExpect(handler().methodName("getCustomer"))
                 .andExpect(jsonPath("$.success", is(true)))
-                .andExpect(jsonPath("$.response.id",is(customeId)))
+                .andExpect(jsonPath("$.response.id",is(customerId)))
                 .andExpect(jsonPath("$.response.phoneNumber",is("010-1111-1111")))
                 .andExpect(jsonPath("$.response.purchaseCnt").exists())
                 .andExpect(jsonPath("$.response.totalPoint").exists())
@@ -126,13 +125,13 @@ public class CustomerControllerTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("한명 고객정보조회 실패(db에 아예 없는 고객id)")
+    @DisplayName("한명 고객정보조회 실패(db에 없는 고객id)")
     void getCustomerFailTest1() throws Exception{
         //given
-        int customeId = 5;
+        int customerId = 5;
         // when
         ResultActions result = mockMvc.perform(
-                get("/api/customers/"+customeId)
+                get("/api/customers/"+customerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header(jwtTokenConfig.getHeader(),genreatedToken()));
@@ -150,10 +149,10 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("한명 고객정보조회 실패(다른User의 고객id)")
     void getCustomerFailTest2() throws Exception{
         //given
-        int customeId = 3;
+        int customerId = 3;
         // when
         ResultActions result = mockMvc.perform(
-                get("/api/customers/"+customeId)
+                get("/api/customers/"+customerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .header(jwtTokenConfig.getHeader(),genreatedToken()));
@@ -165,6 +164,75 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.error.message", is("해당 고객이 존재하지않습니다.")))
                 .andExpect(jsonPath("$.error.status", is(400)));
     }
+
+    @Test
+    @DisplayName("전화번호로 한명 고객정보조회 성공")
+    void getCustomerAtPhoneNumberSuccessTest1() throws Exception{
+        //given
+        String phoneNumber = "010-1111-1111";
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/customers/phoneNumber/"+phoneNumber)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(CustomerController.class))
+                .andExpect(handler().methodName("getCustomerAtPhoneNumber"))
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.response.id").exists())
+                .andExpect(jsonPath("$.response.phoneNumber",is(phoneNumber)))
+                .andExpect(jsonPath("$.response.purchaseCnt").exists())
+                .andExpect(jsonPath("$.response.totalPoint").exists())
+                .andExpect(jsonPath("$.response.createdTime").exists());
+    }
+
+    @Test
+    @DisplayName("전화번호로 한명 고객정보조회 성공(없으면 자동 생성)")
+    void getCustomerAtPhoneNumberSuccessTest2() throws Exception{
+        //given
+        String phoneNumber = "010-1111-1234";
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/customers/phoneNumber/"+phoneNumber)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(CustomerController.class))
+                .andExpect(handler().methodName("getCustomerAtPhoneNumber"))
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.response.id").exists())
+                .andExpect(jsonPath("$.response.phoneNumber",is(phoneNumber)))
+                .andExpect(jsonPath("$.response.purchaseCnt").exists())
+                .andExpect(jsonPath("$.response.totalPoint").exists())
+                .andExpect(jsonPath("$.response.createdTime").exists());
+    }
+
+    @Test
+    @DisplayName("전화번호로 한명 고객정보조회 실패(잘못된 형식)")
+    void getCustomerAtPhoneNumberFailTest() throws Exception{
+        //given
+        String phoneNumber = "010-1111-12";
+        // when
+        ResultActions result = mockMvc.perform(
+                get("/api/customers/phoneNumber/"+phoneNumber)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.success", is(false)))
+                .andExpect(jsonPath("$.error").exists())
+                .andExpect(jsonPath("$.error.message", is("유효하지 않은 전화번호 형식입니다.")))
+                .andExpect(jsonPath("$.error.status", is(400)));
+    }
+
 
     @Test
     @DisplayName("30개의 고객정보 10개씩 첫번째 페이지 조회성공")
