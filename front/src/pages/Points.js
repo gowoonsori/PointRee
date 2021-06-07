@@ -5,12 +5,24 @@ import AddOrderModal from 'src/components/modal/AddOrderModal';
 import axios from 'axios';
 import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
 import PhoneNumberButton from 'src/components/buttons/phoneNumberButton';
+import Auth from 'src/hoc/auth';
+import alert from 'src/atoms/alert';
+import { useRecoilState } from 'recoil';
 
 const Points = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isModal, setIsModal] = useState(false);
   const [customer, setCustomer] = useState({});
-
+  const [alertInfo, setAlertInfo] = useRecoilState(alert);
+  const openAlert = useCallback(
+    (message) => {
+      setAlertInfo({
+        state: true,
+        message: `${message}`
+      });
+    },
+    [setAlertInfo]
+  );
   const openModal = useCallback(() => {
     setIsModal(true);
   }, [setIsModal]);
@@ -19,8 +31,13 @@ const Points = () => {
   }, [setIsModal]);
 
   const onClickButtonEvent = useCallback(async (e) => {
-    const res = await axios.get(`http://localhost:8999/api/customers/phoneNumber/${phoneNumber}`);
-    if (res.data.response) {
+    const res = await axios.get(`http://localhost:8999/api/customers/phoneNumber/${phoneNumber}`).catch((error) => {
+      openAlert(error.response.data.error.message);
+      return error.response;
+    });
+    if (!res) {
+      openAlert('서버로부터 응답이 없습니다.');
+    } else if (res.data.response) {
       openModal();
       setCustomer(res.data.response);
     }
@@ -35,6 +52,7 @@ const Points = () => {
         phoneNumber={phoneNumber}
         setPhoneNumber={setPhoneNumber}
         onClickEvent={onClickButtonEvent}
+        minPhoneNumberLength={11}
       />
 
       <Modal
@@ -86,4 +104,4 @@ const Points = () => {
   );
 };
 
-export default Points;
+export default Auth(Points, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);

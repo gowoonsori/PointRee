@@ -1,25 +1,28 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useRecoilState } from 'recoil';
-import { userInfo, userToken } from 'src/reducers/user';
+import { userInfo, userToken } from 'src/atoms/user';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
-import AlertCard from 'src/components/alert/AlertCard';
+import Auth from 'src/hoc/auth';
+import alert from 'src/atoms/alert';
 
 const Login = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useRecoilState(userInfo);
   const [token, setToken] = useRecoilState(userToken);
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const handleClose = useCallback(
-    (e) => {
-      setOpen(false);
+  const [alertInfo, setAlertInfo] = useRecoilState(alert);
+  const openAlert = useCallback(
+    (message) => {
+      setAlertInfo({
+        state: true,
+        message: `${message}`
+      });
     },
-    [setOpen]
+    [setAlertInfo]
   );
 
   const login = useCallback(async (values) => {
@@ -29,12 +32,13 @@ const Login = () => {
         password: values.password
       })
       .catch((error) => {
-        if (error.response) {
-          setMessage(error.response.data.error.message);
-          setOpen(true);
-        }
+        openAlert(error.response.data.error.message);
+        return error.response;
       });
-    return res.data;
+    if (!res) {
+      openAlert('서버로부터 응답이 없습니다.');
+    }
+    return res?.data;
   });
 
   return (
@@ -72,7 +76,7 @@ const Login = () => {
                 });
                 setToken(`Bearer ${response.response.token}`);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.response.token}`;
-                navigate('/pointree/dashboard', { replace: true });
+                navigate('/pointree/', { replace: true });
               }
             }}
           >
@@ -80,7 +84,7 @@ const Login = () => {
               <form onSubmit={handleSubmit}>
                 <Box sx={{ mb: 3 }}>
                   <Typography color="textPrimary" variant="h2">
-                    Sign in
+                    로그인
                   </Typography>
                 </Box>
                 <Box sx={{ pb: 1, pt: 3 }} />
@@ -123,9 +127,9 @@ const Login = () => {
                   </Button>
                 </Box>
                 <Typography color="textSecondary" variant="body1">
-                  Don&apos;t have an account?{' '}
+                  {'계정을 잊어버리셨습니까?  '}
                   <Link component={RouterLink} to="/register" variant="h6">
-                    Sign up
+                    회원가입
                   </Link>
                 </Typography>
               </form>
@@ -133,9 +137,8 @@ const Login = () => {
           </Formik>
         </Container>
       </Box>
-      <AlertCard open={open} handleClose={handleClose} message={message} />
     </>
   );
 };
 
-export default Login;
+export default Auth(Login);

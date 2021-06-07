@@ -1,23 +1,27 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Checkbox, Container, FormHelperText, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
-import AlertCard from 'src/components/alert/AlertCard';
+import Auth from 'src/hoc/auth';
+import { useRecoilState } from 'recoil';
+import alert from 'src/atoms/alert';
 
 const Register = () => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const handleClose = useCallback(
-    (e) => {
-      setOpen(false);
-    },
-    [setOpen]
-  );
-
   const navigate = useNavigate();
+  const [alertInfo, setAlertInfo] = useRecoilState(alert);
+
+  const openAlert = useCallback(
+    (message) => {
+      setAlertInfo({
+        state: true,
+        message: `${message}`
+      });
+    },
+    [setAlertInfo]
+  );
   const regist = async (values) => {
     const res = await axios
       .post('http://localhost:8999/api/users/signup', {
@@ -27,12 +31,13 @@ const Register = () => {
         phoneNumber: values.phoneNumber
       })
       .catch((error) => {
-        if (error.response) {
-          setMessage(error.response.data.error.message);
-          setOpen(true);
-        }
+        openAlert(error.response.data.error.message);
+        return error.response;
       });
-    return res.data;
+
+    if (!res) {
+      openAlert('서버로부터 응답이 없습니다.');
+    }
   };
 
   return (
@@ -69,7 +74,7 @@ const Register = () => {
               const res = await regist(values);
               console.log(res);
               if (res.success) {
-                navigate('/login', { replace: true });
+                navigate('/pointree/login', { replace: true });
               }
             }}
           >
@@ -157,7 +162,7 @@ const Register = () => {
                 </Box>
                 <Typography color="textSecondary" variant="body1">
                   Have an account?{' '}
-                  <Link component={RouterLink} to="/login" variant="h6">
+                  <Link component={RouterLink} to="/pointree/login" variant="h6">
                     Sign in
                   </Link>
                 </Typography>
@@ -166,9 +171,8 @@ const Register = () => {
           </Formik>
         </Container>
       </Box>
-      <AlertCard open={open} handleClose={handleClose} message={message} />
     </>
   );
 };
 
-export default Register;
+export default Auth(Register, ['ROLE_ADMIN']);
