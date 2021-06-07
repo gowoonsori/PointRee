@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
-import { selectedCustomer, currentDetailCustomer } from 'src/reducers/customers';
-import { orders } from 'src/reducers/orders';
+import { selectedCustomer, currentDetailCustomer } from 'src/atoms/customers';
+import { orders } from 'src/atoms/orders';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Tooltip,
@@ -114,7 +114,7 @@ const CustomerListResults = ({ customers, openModal }) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>Phone</TableCell>
+                <TableCell>전화번호</TableCell>
                 <TableCell>구매 횟수</TableCell>
                 <TableCell>Total Point</TableCell>
               </TableRow>

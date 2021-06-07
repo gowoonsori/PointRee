@@ -55,12 +55,12 @@ SidebarContetnt.propTypes = {
 SidebarContetnt.defaultProps = {
   items: [
     {
-      href: '/login',
+      href: '/pointree/login',
       icon: LockIcon,
       title: 'Login'
     },
     {
-      href: '/register',
+      href: '/pointree/register',
       icon: UserPlusIcon,
       title: 'Register'
     }

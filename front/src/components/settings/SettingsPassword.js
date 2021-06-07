@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField
-} from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardHeader, Divider, TextField } from '@material-ui/core';
 
 const SettingsPassword = (props) => {
   const [values, setValues] = useState({
@@ -25,10 +17,7 @@ const SettingsPassword = (props) => {
   return (
     <form {...props}>
       <Card>
-        <CardHeader
-          subheader="Update password"
-          title="Password"
-        />
+        <CardHeader subheader="비밀번호 수정" title="Password" />
         <Divider />
         <CardContent>
           <TextField
@@ -60,11 +49,8 @@ const SettingsPassword = (props) => {
             p: 2
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Update
+          <Button color="primary" variant="contained">
+            수정하기
           </Button>
         </Box>
       </Card>

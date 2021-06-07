@@ -27,11 +27,9 @@ export const userInfoSelector = selector({
 
 export const userToken = selector({
   key: 'userToken',
-  get: () => {
-    const token = window.sessionStorage.getItem('userToken');
-    return token;
-  },
+  get: () => window.sessionStorage.getItem('userToken'),
   set: ({ set }, newToken) => {
-    window.sessionStorage.setItem('userToken', newToken);
+    if (!newToken) window.sessionStorage.removeItem('userToken');
+    else window.sessionStorage.setItem('userToken', newToken);
   }
 });

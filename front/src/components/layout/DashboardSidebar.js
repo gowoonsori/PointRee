@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { userInfo, userInfoSelector } from 'src/reducers/user';
+import { userInfo, userInfoSelector } from 'src/atoms/user';
 import SidebarContetnt from 'src/components/layout/SidebarContent';
 import { Drawer, Hidden } from '@material-ui/core';
 import { PieChart, LogIn, LogOut, Settings, User, UserPlus, Users, DollarSign } from 'react-feather';
@@ -14,14 +14,14 @@ const loginItems = [
     title: '내 정보'
   },
   {
+    href: '/pointree/settings',
+    icon: Settings,
+    title: '비밀번호 수정'
+  },
+  {
     href: '/pointree/points',
     icon: DollarSign,
     title: '적립하기'
-  },
-  {
-    href: '/pointree/dashboard',
-    icon: PieChart,
-    title: '통계'
   },
   {
     href: '/pointree/customers',
@@ -29,25 +29,26 @@ const loginItems = [
     title: '고객정보'
   },
   {
+    href: '/pointree/dashboard',
+    icon: PieChart,
+    title: '통계'
+  },
+
+  {
     href: '/pointree/logout',
     icon: LogOut,
     title: '로그아웃'
-  },
-  {
-    href: '/pointree/settings',
-    icon: Settings,
-    title: '비밀번호 수정'
   }
 ];
 
 const logoutItems = [
   {
-    href: '/login',
+    href: '/pointree/login',
     icon: LogIn,
     title: '로그인'
   },
   {
-    href: '/register',
+    href: '/pointree/register',
     icon: UserPlus,
     title: '회원가입'
   }

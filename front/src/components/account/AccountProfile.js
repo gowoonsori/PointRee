@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
-import { userInfo } from 'src/reducers/user';
-import { Box, Button, Card, CardActions, CardContent, Divider, Typography } from '@material-ui/core';
+import { userInfo } from 'src/atoms/user';
+import { Box, Card, CardContent, Divider, Typography } from '@material-ui/core';
 
 const AccountProfile = (props) => {
   const info = useRecoilValue(userInfo);
