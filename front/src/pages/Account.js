@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet';
 import { Box, Container, Grid } from '@material-ui/core';
 import AccountProfile from 'src/components/account/AccountProfile';
 import AccountProfileDetails from 'src/components/account/AccountProfileDetails';
+import Auth from 'src/hoc/auth';
 
 const Account = () => (
   <>
@@ -29,4 +30,4 @@ const Account = () => (
   </>
 );
 
-export default Account;
+export default Auth(Account, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);

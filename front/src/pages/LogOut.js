@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { userInfo, userToken } from 'src/reducers/user';
+import { userInfo, userToken } from 'src/atoms/user';
+import axios from 'axios';
 
 const LogOut = () => {
   const [info, setInfo] = useRecoilState(userInfo);
@@ -10,9 +11,10 @@ const LogOut = () => {
 
   useEffect(() => {
     setInfo({});
-    setToken('');
-    navigate('/login', { replace: true });
-  });
+    setToken(undefined);
+    axios.defaults.headers.common['Authorization'] = undefined;
+    navigate('/', { replace: true });
+  }, []);
   return <></>;
 };
 

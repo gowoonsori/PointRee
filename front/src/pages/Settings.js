@@ -1,11 +1,12 @@
 import { Helmet } from 'react-helmet';
 import { Box, Container } from '@material-ui/core';
 import SettingsPassword from 'src/components/settings/SettingsPassword';
+import Auth from 'src/hoc/auth';
 
 const SettingsView = () => (
   <>
     <Helmet>
-      <title>Settings | Point Ree</title>
+      <title>비밀번호 수정 | Point Ree</title>
     </Helmet>
     <Box
       sx={{
@@ -23,4 +24,4 @@ const SettingsView = () => (
   </>
 );
 
-export default SettingsView;
+export default Auth(SettingsView, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
