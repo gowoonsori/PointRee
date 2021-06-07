@@ -38,13 +38,13 @@ public class CustomerController {
         Optional<Customer> customer = customerService.getCustomerAtPhoneNumber(phoneNumber, user.getId());
         if(customer.isPresent()) return success(Customer.Info.of(customer.get()));
 
-        Customer newCustomer = customerService.insert(
-                Customer.builder()
-                    .purchaseCnt(0)
-                    .phoneNumber(phoneNumber)
-                    .totalPoint(0)
-                    .user(user)
-                    .build());
+        Customer newCustomer = Customer.builder()
+                .purchaseCnt(0)
+                .phoneNumber(phoneNumber)
+                .totalPoint(0)
+                .user(user)
+                .build();
+        newCustomer = customerService.insert(newCustomer);
         return success(Customer.Info.of(newCustomer));
     }
 
