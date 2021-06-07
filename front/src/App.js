@@ -7,6 +7,7 @@ import GlobalStyles from 'src/components/GlobalStyles';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import routes from 'src/routes';
+import AlertCard from 'src/components/alert/AlertCard';
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -15,7 +16,10 @@ const App = () => {
     <RecoilRoot>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Suspense fallback={<CircularProgress />}>{routing}</Suspense>
+        <Suspense fallback={<CircularProgress />}>
+          {routing}
+          <AlertCard />
+        </Suspense>
       </ThemeProvider>
     </RecoilRoot>
   );

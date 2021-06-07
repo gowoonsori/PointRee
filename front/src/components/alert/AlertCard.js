@@ -1,32 +1,39 @@
+import { useCallback } from 'react';
 import { Alert, Snackbar } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import alert from 'src/atoms/alert';
+import { useRecoilState } from 'recoil';
 
-const AlertCard = ({ open, handleClose, message }) => (
-  <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-    <Alert
-      sx={{
-        position: 'fixed',
-        bottom: 0,
-        left: '28%',
-        minWidth: '450px',
-        width: '50%',
-        marginBottom: '15px',
-        padding: '30px',
-        fontSize: '1.2em',
-        height: '100px'
-      }}
-      onClose={handleClose}
-      severity="error"
-    >
-      {message}
-    </Alert>
-  </Snackbar>
-);
+const AlertCard = () => {
+  const [alertInfo, setAlert] = useRecoilState(alert);
 
-AlertCard.propTypes = {
-  open: PropTypes.bool,
-  handleClose: PropTypes.func,
-  message: PropTypes.string
+  const closeAlert = useCallback(() => {
+    setAlert({
+      state: false,
+      message: ''
+    });
+  }, [setAlert]);
+
+  return (
+    <Snackbar open={alertInfo.state} autoHideDuration={2000} onClose={closeAlert}>
+      <Alert
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: '28%',
+          minWidth: '450px',
+          width: '50%',
+          marginBottom: '15px',
+          padding: '30px',
+          fontSize: '1.2em',
+          height: '100px'
+        }}
+        onClose={closeAlert}
+        severity="error"
+      >
+        {alertInfo.message}
+      </Alert>
+    </Snackbar>
+  );
 };
 
 export default AlertCard;

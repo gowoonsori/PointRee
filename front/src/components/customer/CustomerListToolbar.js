@@ -1,19 +1,13 @@
-import { useState, useCallback } from 'react';
-import { Box, Button, Card, CardContent, TextField, InputAdornment, SvgIcon, Alert, Snackbar } from '@material-ui/core';
+import { useCallback } from 'react';
+import { Box, Button, Card, CardContent, TextField, InputAdornment, SvgIcon } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
 import addHyphen from 'src/hooks/chagePhoneNumber';
 import PropTypes from 'prop-types';
-import AlertCard from '../alert/AlertCard';
+import { useRecoilState } from 'recoil';
+import alert from 'src/atoms/alert';
 
-const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent }) => {
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(
-    (e) => {
-      setOpen(false);
-    },
-    [setOpen]
-  );
-
+const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPhoneNumberLength = 0 }) => {
+  const [alertInfo, setAlertInfo] = useRecoilState(alert);
   const onchangePhoneNumber = useCallback(
     (e) => {
       setPhoneNumber(addHyphen(e.target.value));
@@ -21,17 +15,25 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent }) => {
     [setPhoneNumber]
   );
 
-  const searchPhoneNumberEvent = useCallback(
-    (e) => {
-      if (phoneNumber.length < 11 || phoneNumber.length > 14) setOpen(true);
-      else onClickEvent();
+  const openAlert = useCallback(
+    (message) => {
+      setAlertInfo({
+        state: true,
+        message: `${message}`
+      });
     },
-    [onClickEvent, setOpen]
+    [setAlertInfo]
   );
+
+  const searchPhoneNumberEvent = useCallback(() => {
+    if (minPhoneNumberLength === 0) onClickEvent();
+    else if (phoneNumber.match('^(01\\d{1}|02|0505|0502|0506|0\\d{1,2})-?(\\d{3,4})-?(\\d{4})')) {
+      onClickEvent();
+    } else openAlert('11~14 자리의 전화번호만 입력가능합니다.');
+  }, [onClickEvent, openAlert, phoneNumber, minPhoneNumberLength]);
 
   return (
     <Box>
-      <AlertCard open={open} handleClose={handleClose} message="전화번호를 잘못입력하셨습니다." />
       <Card>
         <CardContent>
           <Box sx={{ maxWidth: 1280 }} display="flex">
@@ -72,6 +74,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent }) => {
 CustomerListToolbar.propTypes = {
   phoneNumber: PropTypes.string.isRequired,
   setPhoneNumber: PropTypes.func.isRequired,
-  onClickEvent: PropTypes.func.isRequired
+  onClickEvent: PropTypes.func.isRequired,
+  minPhoneNumberLength: PropTypes.number
 };
 export default CustomerListToolbar;
