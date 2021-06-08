@@ -12,10 +12,10 @@ const theme = createMuiTheme({
       contrastText: '#eeeeee',
       main: '#07689f'
     },
-    second: {
+    secondary: {
       main: '#a2d5f2'
     },
-    point: {
+    pointColor: {
       main: '#ff7e67'
     },
     secondBase: {
@@ -23,7 +23,8 @@ const theme = createMuiTheme({
     },
     text: {
       primary: '#172b4d',
-      secondary: '#6b778c'
+      secondary: '#6b778c',
+      ternary: '#fafafa'
     }
   },
   shadows,

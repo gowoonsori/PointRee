@@ -21,8 +21,8 @@ const AddCustomerModal = ({ closeModal }) => {
 
   const addCustomerHandler = useCallback(async () => {
     const res = await axios.post('http://localhost:8999/api/customers', { phoneNumber: phoneNumber }).catch((error) => {
-      if (error?.response) setOpenAlert(error.response.data.error.message);
-      else setOpenAlert('서버로부터 응답이 없습니다.');
+      if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
+      else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
 
       return null;
     });
@@ -35,7 +35,7 @@ const AddCustomerModal = ({ closeModal }) => {
   const onSubmitEvent = useCallback(() => {
     if (phoneNumber.match('^(01\\d{1}|02|0505|0502|0506|0\\d{1,2})-?(\\d{3,4})-?(\\d{4})')) {
       addCustomerHandler();
-    } else setOpenAlert('11~14 자리의 전화번호만 입력가능합니다.');
+    } else setOpenAlert({ message: '11~14 자리의 전화번호만 입력가능합니다.', severity: 'error' });
   }, [addCustomerHandler, phoneNumber, setOpenAlert]);
 
   return (

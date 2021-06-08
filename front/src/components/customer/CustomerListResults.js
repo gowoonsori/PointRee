@@ -79,8 +79,8 @@ const CustomerListResults = ({ customers, openModal }) => {
   const getOrders = useCallback(
     async (customerId) => {
       const res = await axios.get(`http://localhost:8999/api/customers/${customerId}/orders/all`).catch((error) => {
-        if (error?.response) setOpenAlert(error.response.data.error.message);
-        else setOpenAlert('서버로부터 응답이 없습니다.');
+        if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
+        else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
 
         return null;
       });

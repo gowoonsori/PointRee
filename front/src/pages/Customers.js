@@ -56,15 +56,15 @@ const Customers = () => {
 
   const deleteCustomers = useCallback(async () => {
     if (selectedCustomerIds.length === 0) {
-      setOpenAlert('삭제하실 고객을 선택하세요.');
+      setOpenAlert({ message: '삭제하실 고객을 선택하세요.', severity: 'error' });
       return null;
     }
     console.log(selectedCustomerIds);
     const res = await axios
       .delete('http://localhost:8999/api/customers', { data: selectedCustomerIds })
       .catch((error) => {
-        if (error?.response) setOpenAlert(error.response.data.error.message);
-        else setOpenAlert('서버로부터 응답이 없습니다.');
+        if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
+        else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
         return null;
       });
     if (res?.data?.response) {
@@ -75,8 +75,8 @@ const Customers = () => {
 
   const getCustomerList = useCallback(async () => {
     const res = await axios.get('http://localhost:8999/api/customers/all').catch((error) => {
-      if (error?.response) setOpenAlert(error.response.data.error.message);
-      else setOpenAlert('서버로부터 응답이 없습니다.');
+      if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
+      else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
       return null;
     });
     if (res?.data?.response) {

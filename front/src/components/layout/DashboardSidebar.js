@@ -72,37 +72,19 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
 
   return (
     <>
-      <Hidden lgUp>
-        <Drawer
-          anchor="left"
-          onClose={onMobileClose}
-          open={openMobile}
-          variant="temporary"
-          PaperProps={{
-            sx: {
-              width: 256
-            }
-          }}
-        >
-          {content}
-        </Drawer>
-      </Hidden>
-      <Hidden lgDown>
-        <Drawer
-          anchor="left"
-          open
-          variant="persistent"
-          PaperProps={{
-            sx: {
-              width: 256,
-              top: 64,
-              height: 'calc(100% - 64px)'
-            }
-          }}
-        >
-          {content}
-        </Drawer>
-      </Hidden>
+      <Drawer
+        anchor="left"
+        onClose={onMobileClose}
+        open={openMobile}
+        variant="temporary"
+        PaperProps={{
+          sx: {
+            width: 256
+          }
+        }}
+      >
+        {content}
+      </Drawer>
     </>
   );
 };

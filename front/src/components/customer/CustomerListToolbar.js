@@ -20,7 +20,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
     if (minPhoneNumberLength === 0) onClickEvent();
     else if (phoneNumber.match('^(01\\d{1}|02|0505|0502|0506|0\\d{1,2})-?(\\d{3,4})-?(\\d{4})')) {
       onClickEvent();
-    } else setOpenAlert('11~14 자리의 전화번호만 입력가능합니다.');
+    } else setOpenAlert({ message: '11~14 자리의 전화번호만 입력가능합니다.', severity: 'error' });
   }, [onClickEvent, setOpenAlert, phoneNumber, minPhoneNumberLength]);
 
   return (

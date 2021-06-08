@@ -4,17 +4,19 @@ export const alert = atom({
   key: 'alert',
   default: {
     state: false,
-    message: ''
+    message: '',
+    severity: 'error'
   }
 });
 
 export const openAlert = selector({
   key: 'openAlert',
   get: ({ get }) => get(alert),
-  set: ({ set }, message) => {
+  set: ({ set }, info) => {
     set(alert, {
       state: true,
-      message: message
+      message: info.message,
+      severity: info.severity
     });
   }
 });

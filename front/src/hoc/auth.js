@@ -25,16 +25,16 @@ const Auth =
           role: info.role
         });
       } else if (info === '' || info === undefined || info === null) {
-        setOpenAlert('로그인이 필요합니다.');
+        setOpenAlert({ message: '로그인이 필요합니다.', severity: 'error' });
         navigate('/pointree/login', { replace: true });
       }
 
       if (role.indexOf('ANONYMOUS') === -1) {
         if (role.indexOf(`${info?.role}`) === -1) {
-          setOpenAlert('접근할 수 없는 요청입니다.');
+          setOpenAlert({ message: '접근할 수 없는 요청입니다.', severity: 'error' });
           navigate('/', { replace: true });
         } else if (typeof info === 'string') {
-          setOpenAlert(info);
+          setOpenAlert({ message: info, severity: 'error' });
           navigate('/pointree/', { replace: true });
         }
       }

@@ -9,7 +9,8 @@ const AlertCard = () => {
   const closeAlert = useCallback(() => {
     setAlert({
       state: false,
-      message: ''
+      message: '',
+      severity: ''
     });
   }, [setAlert]);
 
@@ -28,7 +29,7 @@ const AlertCard = () => {
           height: '100px'
         }}
         onClose={closeAlert}
-        severity="error"
+        severity={alertInfo.severity}
       >
         {alertInfo.message}
       </Alert>
