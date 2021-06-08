@@ -107,7 +107,7 @@ const CustomerListResults = ({ customers, openModal }) => {
   );
 
   return (
-    <Card>
+    <Card sx={{ background: '#f3f5f72e' }}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
           <Table>

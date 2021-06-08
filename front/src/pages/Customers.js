@@ -98,7 +98,7 @@ const Customers = () => {
   return (
     <>
       <Helmet>
-        <title>Customers | Point Ree</title>
+        <title>고객정보 | Point Ree</title>
       </Helmet>
       <Box
         sx={{

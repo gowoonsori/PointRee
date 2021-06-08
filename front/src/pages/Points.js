@@ -40,7 +40,7 @@ const Points = () => {
   return (
     <>
       <Helmet>
-        <title>Points | Point Ree</title>
+        <title>포인트 적립 | Point Ree</title>
       </Helmet>
       <CustomerListToolbar
         phoneNumber={phoneNumber}

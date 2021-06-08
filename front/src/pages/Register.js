@@ -31,7 +31,7 @@ const Register = () => {
   return (
     <>
       <Helmet>
-        <title>Register | Point Ree</title>
+        <title>회원가입 | Point Ree</title>
       </Helmet>
       <Box
         sx={{
@@ -70,7 +70,7 @@ const Register = () => {
               <form onSubmit={handleSubmit}>
                 <Box sx={{ mb: 3 }}>
                   <Typography color="textPrimary" variant="h2">
-                    Create new account
+                    회원 가입
                   </Typography>
                   <Typography color="textSecondary" gutterBottom variant="body2">
                     Use your email to create new account
@@ -80,7 +80,7 @@ const Register = () => {
                   error={Boolean(touched.firstName && errors.firstName)}
                   fullWidth
                   helperText={touched.firstName && errors.firstName}
-                  label="name"
+                  label="상호 명"
                   margin="normal"
                   name="name"
                   onBlur={handleBlur}
@@ -105,7 +105,7 @@ const Register = () => {
                   error={Boolean(touched.password && errors.password)}
                   fullWidth
                   helperText={touched.password && errors.password}
-                  label="Password"
+                  label="비밀번호"
                   margin="normal"
                   name="password"
                   onBlur={handleBlur}
@@ -118,7 +118,7 @@ const Register = () => {
                   error={Boolean(touched.phoneNumber && errors.phoneNumber)}
                   fullWidth
                   helperText={touched.phoneNumber && errors.phoneNumber}
-                  label="phoneNumber"
+                  label="전화번호"
                   margin="normal"
                   name="phoneNumber"
                   onBlur={handleBlur}
@@ -131,15 +131,17 @@ const Register = () => {
                   sx={{
                     alignItems: 'center',
                     display: 'flex',
-                    ml: -1
+                    ml: -1,
+                    mb: 3
                   }}
                 >
                   <Checkbox checked={values.policy} name="policy" onChange={handleChange} />
                   <Typography color="textSecondary" variant="body1">
-                    I have read the{' '}
+                    {'개인정보 '}
                     <Link color="primary" component={RouterLink} to="#" underline="always" variant="h6">
-                      Terms and Conditions
+                      이용약관
                     </Link>
+                    {' 에 동의 합니다.'}
                   </Typography>
                 </Box>
                 {Boolean(touched.policy && errors.policy) && <FormHelperText error>{errors.policy}</FormHelperText>}
@@ -149,9 +151,9 @@ const Register = () => {
                   </Button>
                 </Box>
                 <Typography color="textSecondary" variant="body1">
-                  Have an account?{' '}
+                  {'계정이 있습니까? '}
                   <Link component={RouterLink} to="/pointree/login" variant="h6">
-                    Sign in
+                    로그인 페이지
                   </Link>
                 </Typography>
               </form>

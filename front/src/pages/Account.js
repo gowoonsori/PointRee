@@ -7,7 +7,7 @@ import Auth from 'src/hoc/auth';
 const Account = () => (
   <>
     <Helmet>
-      <title>Account | Point Ree</title>
+      <title>내 정보 | Point Ree</title>
     </Helmet>
     <Box
       sx={{

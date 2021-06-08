@@ -25,7 +25,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
 
   return (
     <Box>
-      <Card>
+      <Card sx={{ background: '#f3f5f72e' }}>
         <CardContent>
           <Box sx={{ maxWidth: 1280 }} display="flex">
             <TextField
@@ -50,7 +50,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
             <Button
               color="primary"
               variant="contained"
-              sx={{ width: 150, fontSize: '1.3em', minWidth: '100px' }}
+              sx={{ width: 150, fontSize: '1.3em', minWidth: '100px', fontWeight: 600 }}
               onClick={searchPhoneNumberEvent}
             >
               검색

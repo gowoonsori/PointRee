@@ -14,7 +14,7 @@ const AccountProfileDetails = (props) => {
 
   return (
     <form autoComplete="off" noValidate {...props}>
-      <Card>
+      <Card sx={{ background: '#f3f5f72e' }}>
         <CardHeader subheader="내정보 수정" title="Profile" />
         <Divider />
         <CardContent>

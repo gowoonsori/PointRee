@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { AppBar, Box, Hidden, IconButton, Toolbar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import InputIcon from '@material-ui/icons/Input';
 
 const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => (
   <AppBar elevation={0} {...rest}>
@@ -11,7 +11,18 @@ const DashboardNavbar = ({ onMobileNavOpen, ...rest }) => (
           <MenuIcon />
         </IconButton>
       </Hidden>
-      <Box sx={{ flexGrow: 1 }} />
+
+      <Box sx={{ textAlign: 'center', flexGrow: 1 }}>
+        <Link to="/pointree">
+          <img
+            alt="PointRee"
+            src="/static/images/bigLogo.png"
+            style={{
+              width: 140
+            }}
+          />
+        </Link>
+      </Box>
     </Toolbar>
   </AppBar>
 );

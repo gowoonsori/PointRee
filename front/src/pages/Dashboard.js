@@ -12,7 +12,7 @@ import Auth from 'src/hoc/auth';
 const Dashboard = () => (
   <>
     <Helmet>
-      <title>Dashboard | PointRee</title>
+      <title>통계 | PointRee</title>
     </Helmet>
     <Box
       sx={{

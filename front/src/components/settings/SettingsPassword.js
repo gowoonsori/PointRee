@@ -16,7 +16,7 @@ const SettingsPassword = (props) => {
 
   return (
     <form {...props}>
-      <Card>
+      <Card sx={{ background: '#f3f5f72e' }}>
         <CardHeader subheader="비밀번호 수정" title="Password" />
         <Divider />
         <CardContent>

@@ -6,7 +6,7 @@ const AccountProfile = (props) => {
   const info = useRecoilValue(userInfo);
 
   return (
-    <Card {...props}>
+    <Card sx={{ background: '#f3f5f72e' }} {...props}>
       <CardContent>
         <Box
           sx={{
