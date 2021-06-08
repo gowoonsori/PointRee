@@ -11,7 +11,7 @@ import java.io.IOException;
 @Component
 public class EntryPointUnauthorizedHandler implements AuthenticationEntryPoint {
 
-    static String _401 = "{\"success\":false,\"response\":null,\"error\":{\"message\":\"Unauthorized\",\"status\":401}}";
+    static String _401 = "{\"success\":false,\"response\":null,\"error\":{\"message\":\"인증되지 않은 사용자입니다.\",\"status\":401}}";
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {

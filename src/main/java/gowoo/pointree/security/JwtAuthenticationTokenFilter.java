@@ -36,14 +36,18 @@ public class JwtAuthenticationTokenFilter implements Filter {
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             String authorizationToken = getTokenFromHeader(request);
+            //Jwt 헤더값이 있다면
             if (authorizationToken != null) {
                 try {
+                    //JWT Token에서 정보 get
                     Jwt.Claims claims = getClaims(authorizationToken);
                     Long userKey = claims.userKey;
                     String name = claims.name;
                     List<GrantedAuthority> authorities = getAuthorities(claims);
 
+                    //적절한 정보라면
                     if (nonNull(userKey) && isNotEmpty(name) && authorities.size() > 0) {
+                        //인증되지 않은 인증객체 생성 => provider에서 인증 수행
                         JwtAuthenticationToken authentication =
                                 new JwtAuthenticationToken(new JwtAuthentication(userKey, name), null);
                         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,6 +60,7 @@ public class JwtAuthenticationTokenFilter implements Filter {
         }
     }
 
+    /* 요청 헤더에서 JwtToken 헤더값 반환*/
     private String getTokenFromHeader(HttpServletRequest request) {
         String token = request.getHeader(headerName);
         if (token != null) {
@@ -69,6 +74,7 @@ public class JwtAuthenticationTokenFilter implements Filter {
         return null;
     }
 
+    /* JWT token의 claim중 role 부분 꺼내 List로 반환*/
     private List<GrantedAuthority> getAuthorities(Jwt.Claims claims) {
         String[] roles = claims.roles;
         return roles == null || roles.length == 0 ?
@@ -76,6 +82,7 @@ public class JwtAuthenticationTokenFilter implements Filter {
                 Arrays.stream(roles).map(SimpleGrantedAuthority::new).collect(toList());
     }
 
+    /* header에 token이 JWT token인지 확인후 반환*/
     private Jwt.Claims getClaims(String token) {
         return jwt.verify(token);
     }

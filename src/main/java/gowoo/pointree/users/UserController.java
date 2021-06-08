@@ -33,6 +33,7 @@ public class UserController {
         return success(User.Info.createFromUser(userService.signUp(user)));
     }
 
+    /*token을 생성하기에 post로 맵핑*/
     @PostMapping("/login")
     public ApiResult<LoginResult> login(@Valid @RequestBody LoginRequest request) throws UnauthorizedException {
         return success(userService.login(request.getEmail(),request.getPassword()));

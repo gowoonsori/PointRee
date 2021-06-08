@@ -22,11 +22,13 @@ public class OrderController {
     private final OrderService orderService;
     private final CustomerService customerService;
 
+    /* 구매내역 단일 조회 */
     @GetMapping(value = "/{orderId}")
     public ApiResult<Order.Info> getOrder(@PathVariable Long orderId, @AuthenticationPrincipal JwtAuthentication authentication){
         return success(Order.Info.createFromOrder(orderService.getOrder(orderId,authentication.id)));
     }
 
+    /* 모든 구매내역 조회 */
     @GetMapping("/all")
     public ApiResult<List<Order.Info>> getOrders(@PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
         Customer customer = customerService.getCustomer(customerId, authentication.id);

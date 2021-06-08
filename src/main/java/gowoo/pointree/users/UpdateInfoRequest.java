@@ -6,6 +6,8 @@ import lombok.Getter;
 
 import static java.util.regex.Pattern.matches;
 
+/* User 정보 수정위한 Request Dto*/
+
 @Getter @Builder
 public class UpdateInfoRequest {
     private String email;

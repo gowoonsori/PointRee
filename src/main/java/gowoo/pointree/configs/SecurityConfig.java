@@ -39,21 +39,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // Disable the default HTTP Basic-Auth
                 .httpBasic().disable()
-                // Disable the /logout filter
+                // Disable the logout filter
                 .logout().disable()
                 .headers().disable()
+                //add JWT Token Filter
                 .addFilterBefore(new JwtAuthenticationTokenFilter(jwtTokenConfig.getHeader(), jwt),
                         UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                // All endpoints require authentication
+                // Not require authentication login
                 .antMatchers("/api/users/login").permitAll()
-                .antMatchers("/api/users/signup").permitAll()
+                .antMatchers("/api/users/signup").hasRole("ADMIN")
+                // All endpoints require authentication
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)
                 .authenticationEntryPoint(unauthorizedHandler);
     }
+
+    //CSRF 오류때문에 임시 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

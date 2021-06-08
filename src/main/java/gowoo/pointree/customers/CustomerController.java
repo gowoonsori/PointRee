@@ -27,11 +27,13 @@ import static gowoo.pointree.utils.ApiUtils.success;
 public class CustomerController {
     private final CustomerService customerService;
 
+    /*단일 고객 정보를 조회하는 기본 메서드로 id를 이용해 접근*/
     @GetMapping("/{customerId}")
     public ApiResult<Customer.Info> getCustomer(@PathVariable Long customerId, @AuthenticationPrincipal JwtAuthentication authentication){
         return success(Customer.Info.of(customerService.getCustomer(customerId, authentication.id)));
     }
 
+    /*단일 고객 정보를 조회하는 메서드중 하나로 id를 모를때 전화번호로 접근*/
     @GetMapping("/phoneNumber/{phoneNumber}")
     public ApiResult<Customer.Info> getCustomerAtPhoneNumber(@PathVariable String phoneNumber, JwtAuthenticationToken authentication){
         User user = (User)authentication.getDetails();
@@ -48,12 +50,14 @@ public class CustomerController {
         return success(Customer.Info.of(newCustomer));
     }
 
+    /*고객 정보 paging 조회 */
     @GetMapping
     public ApiResult<Page<Customer.Info>> queryCustomers(Pageable pageable, @AuthenticationPrincipal JwtAuthentication authentication){
         Page<Customer> page = customerService.getCustomers(authentication.id, pageable);
         return success(page.map(Customer.Info::new));
     }
 
+    /*모든 고객정보 조회*/
     @GetMapping("/all")
     public ApiResult<List<Customer.Info>> getCustomers(@AuthenticationPrincipal JwtAuthentication authentication){
         List<Customer> customers = customerService.getCustomers(authentication.id);

@@ -3,6 +3,7 @@ package gowoo.pointree.users;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import gowoo.pointree.customers.Customer;
+import gowoo.pointree.security.Role;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
@@ -30,6 +31,9 @@ public class User{
     private String phoneNumber;
 
     private Integer accumulationRate;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -59,6 +63,8 @@ public class User{
 
         private final int accumulationRate;
 
+        private Role role;
+
         private final LocalDateTime createdTime;
 
         public static User.Info createFromUser(User user){
@@ -69,6 +75,7 @@ public class User{
             this.email = user.email;
             this.name = user.name;
             this.phoneNumber = user.phoneNumber;
+            this.role = user.role;
             this.accumulationRate = user.accumulationRate;
             this.createdTime = user.createdTime;
         }

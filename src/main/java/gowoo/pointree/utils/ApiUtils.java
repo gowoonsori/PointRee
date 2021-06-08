@@ -4,6 +4,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.http.HttpStatus;
 
+/*
+* Response 형식을 통일하기 위한 객체 (Json)
+*   응답 필드
+*       - succes : (true | false) 로 성공 여부
+*       - response : 응답 객체정보 | error라면 null
+*       - error : 에러 객체정보(message,status) | success라면 null
+* */
+
 public class ApiUtils {
     public static <T> ApiResult<T> success(T response) {
         return new ApiResult<>(true, response, null);
