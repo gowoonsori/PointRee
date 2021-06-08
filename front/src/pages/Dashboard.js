@@ -50,4 +50,4 @@ const Dashboard = () => (
   </>
 );
 
-export default Auth(Dashboard, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
+export default Auth(Dashboard, ['USER', 'ADMIN']);

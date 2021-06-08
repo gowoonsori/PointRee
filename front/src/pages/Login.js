@@ -7,44 +7,36 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
-import Auth from 'src/hoc/auth';
-import alert from 'src/atoms/alert';
+import { openAlert } from 'src/atoms/alert';
 
 const Login = () => {
   const navigate = useNavigate();
   const [info, setInfo] = useRecoilState(userInfo);
   const [token, setToken] = useRecoilState(userToken);
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
 
-  const login = useCallback(async (values) => {
-    const res = await axios
-      .post('http://localhost:8999/api/users/login', {
-        email: values.email,
-        password: values.password
-      })
-      .catch((error) => {
-        openAlert(error.response.data.error.message);
-        return error.response;
-      });
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    }
-    return res?.data;
-  });
+  const login = useCallback(
+    async (values) => {
+      const res = await axios
+        .post('http://localhost:8999/api/users/login', {
+          email: values.email,
+          password: values.password
+        })
+        .catch((error) => {
+          if (error.response) setOpenAlert(error.response.data.error.message);
+          else setOpenAlert('서버로부터 응답이 없습니다.');
+
+          return null;
+        });
+      return res?.data;
+    },
+    [setOpenAlert]
+  );
 
   return (
     <>
       <Helmet>
-        <title>Login | Point Ree</title>
+        <title>로그인 | Point Ree</title>
       </Helmet>
       <Box
         sx={{
@@ -72,7 +64,8 @@ const Login = () => {
                   email: response.response.user.email,
                   name: response.response.user.name,
                   phoneNumber: response.response.user.phoneNumber,
-                  accumulationRate: response.response.user.accumulationRate
+                  accumulationRate: response.response.user.accumulationRate,
+                  role: response.response.user.role
                 });
                 setToken(`Bearer ${response.response.token}`);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.response.token}`;
@@ -127,10 +120,11 @@ const Login = () => {
                   </Button>
                 </Box>
                 <Typography color="textSecondary" variant="body1">
-                  {'계정을 잊어버리셨습니까?  '}
+                  {'회원이 아니면, '}
                   <Link component={RouterLink} to="/register" variant="h6">
                     회원가입
                   </Link>
+                  {' 을 해주세요.'}
                 </Typography>
               </form>
             )}
@@ -141,4 +135,4 @@ const Login = () => {
   );
 };
 
-export default Auth(Login);
+export default Login;

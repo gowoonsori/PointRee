@@ -5,41 +5,33 @@ import axios from 'axios';
 import useInput from 'src/hooks/useInput';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { userInfo } from 'src/atoms/user';
-import alert from 'src/atoms/alert';
+import { openAlert } from 'src/atoms/alert';
 
 const AddOrderModal = ({ closeModal, customer }) => {
   const info = useRecoilValue(userInfo);
   const [price, onChangePrice] = useInput('');
   const [accumulationRate, onChangeAccumulationRate] = useInput(info.accumulationRate);
   const [payment, selectPayment] = useInput('');
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
 
-  const savePointButtonEvent = useCallback(async (e) => {
-    const res = await axios
-      .post(`http://localhost:8999/api/customers/${customer.id}/orders`, {
-        price: price,
-        accumulationRate: accumulationRate,
-        paymentType: payment
-      })
-      .catch((error) => {
-        openAlert(error.response.data.error.message);
-        return error.response;
-      });
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    } else if (res.data.response) {
-      closeModal();
-    }
-  });
+  const savePointButtonEvent = useCallback(
+    async (e) => {
+      const res = await axios
+        .post(`http://localhost:8999/api/customers/${customer.id}/orders`, {
+          price: price,
+          accumulationRate: accumulationRate,
+          paymentType: payment
+        })
+        .catch((error) => {
+          if (error?.response) setOpenAlert(error.response.data.error.message);
+          else setOpenAlert('서버로부터 응답이 없습니다.');
+
+          return null;
+        });
+      if (res?.data?.response) closeModal();
+    },
+    [setOpenAlert, closeModal]
+  );
 
   return (
     <Box

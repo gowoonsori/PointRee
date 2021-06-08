@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { userInfo, userInfoSelector } from 'src/atoms/user';
+import { useRecoilState } from 'recoil';
+import { userInfo } from 'src/atoms/user';
 import SidebarContetnt from 'src/components/layout/SidebarContent';
 import { Drawer, Hidden } from '@material-ui/core';
 import { PieChart, LogIn, LogOut, Settings, User, UserPlus, Users, DollarSign } from 'react-feather';
@@ -57,11 +57,6 @@ const logoutItems = [
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
   const [info, setInfo] = useRecoilState(userInfo);
-  const infoSelector = useRecoilValue(userInfoSelector);
-
-  useEffect(() => {
-    setInfo(infoSelector);
-  }, []);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -69,7 +64,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
     }
   }, [location.pathname]);
 
-  const content = info.name ? (
+  const content = info?.name ? (
     <SidebarContetnt userInfo={info} items={loginItems} />
   ) : (
     <SidebarContetnt userInfo={info} items={logoutItems} />

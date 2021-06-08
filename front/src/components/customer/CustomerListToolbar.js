@@ -4,10 +4,11 @@ import { Search as SearchIcon } from 'react-feather';
 import addHyphen from 'src/hooks/chagePhoneNumber';
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
-import alert from 'src/atoms/alert';
+import { openAlert } from 'src/atoms/alert';
 
 const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPhoneNumberLength = 0 }) => {
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
+
   const onchangePhoneNumber = useCallback(
     (e) => {
       setPhoneNumber(addHyphen(e.target.value));
@@ -15,22 +16,12 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
     [setPhoneNumber]
   );
 
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
-
   const searchPhoneNumberEvent = useCallback(() => {
     if (minPhoneNumberLength === 0) onClickEvent();
     else if (phoneNumber.match('^(01\\d{1}|02|0505|0502|0506|0\\d{1,2})-?(\\d{3,4})-?(\\d{4})')) {
       onClickEvent();
-    } else openAlert('11~14 자리의 전화번호만 입력가능합니다.');
-  }, [onClickEvent, openAlert, phoneNumber, minPhoneNumberLength]);
+    } else setOpenAlert('11~14 자리의 전화번호만 입력가능합니다.');
+  }, [onClickEvent, setOpenAlert, phoneNumber, minPhoneNumberLength]);
 
   return (
     <Box>

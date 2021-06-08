@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
-const alert = atom({
+export const alert = atom({
   key: 'alert',
   default: {
     state: false,
@@ -8,4 +8,13 @@ const alert = atom({
   }
 });
 
-export default alert;
+export const openAlert = selector({
+  key: 'openAlert',
+  get: ({ get }) => get(alert),
+  set: ({ set }, message) => {
+    set(alert, {
+      state: true,
+      message: message
+    });
+  }
+});

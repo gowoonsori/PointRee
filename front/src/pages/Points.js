@@ -6,23 +6,15 @@ import axios from 'axios';
 import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
 import PhoneNumberButton from 'src/components/buttons/phoneNumberButton';
 import Auth from 'src/hoc/auth';
-import alert from 'src/atoms/alert';
+import { openAlert } from 'src/atoms/alert';
 import { useRecoilState } from 'recoil';
 
 const Points = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isModal, setIsModal] = useState(false);
   const [customer, setCustomer] = useState({});
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
+
   const openModal = useCallback(() => {
     setIsModal(true);
   }, [setIsModal]);
@@ -30,18 +22,20 @@ const Points = () => {
     setIsModal(false);
   }, [setIsModal]);
 
-  const onClickButtonEvent = useCallback(async (e) => {
-    const res = await axios.get(`http://localhost:8999/api/customers/phoneNumber/${phoneNumber}`).catch((error) => {
-      openAlert(error.response.data.error.message);
-      return error.response;
-    });
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    } else if (res.data.response) {
-      openModal();
-      setCustomer(res.data.response);
-    }
-  });
+  const onClickButtonEvent = useCallback(
+    async (e) => {
+      const res = await axios.get(`http://localhost:8999/api/customers/phoneNumber/${phoneNumber}`).catch((error) => {
+        if (error.response) setOpenAlert(error.response.data.error.message);
+        else setOpenAlert('서버로부터 응답이 없습니다.');
+        return null;
+      });
+      if (res?.data?.response) {
+        openModal();
+        setCustomer(res.data.response);
+      }
+    },
+    [setOpenAlert, openModal, setCustomer]
+  );
 
   return (
     <>
@@ -104,4 +98,4 @@ const Points = () => {
   );
 };
 
-export default Auth(Points, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
+export default Auth(Points, ['USER', 'ADMIN']);

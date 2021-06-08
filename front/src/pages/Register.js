@@ -7,21 +7,12 @@ import { Box, Button, Checkbox, Container, FormHelperText, Link, TextField, Typo
 import axios from 'axios';
 import Auth from 'src/hoc/auth';
 import { useRecoilState } from 'recoil';
-import alert from 'src/atoms/alert';
+import { alert, openAlert } from 'src/atoms/alert';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
 
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
   const regist = async (values) => {
     const res = await axios
       .post('http://localhost:8999/api/users/signup', {
@@ -31,13 +22,10 @@ const Register = () => {
         phoneNumber: values.phoneNumber
       })
       .catch((error) => {
-        openAlert(error.response.data.error.message);
-        return error.response;
+        if (error.response) setOpenAlert(error.response.data.error.message);
+        else setOpenAlert('서버로부터 응답이 없습니다.');
+        return null;
       });
-
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    }
   };
 
   return (
@@ -175,4 +163,4 @@ const Register = () => {
   );
 };
 
-export default Auth(Register, ['ROLE_ADMIN']);
+export default Auth(Register, ['ADMIN']);

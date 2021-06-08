@@ -18,6 +18,7 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
+import { openAlert } from 'src/atoms/alert';
 
 const CustomerListResults = ({ customers, openModal }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useRecoilState(selectedCustomer);
@@ -25,6 +26,7 @@ const CustomerListResults = ({ customers, openModal }) => {
   const [orderList, setOrderList] = useRecoilState(orders);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
 
   const handleSelectAll = useCallback(
     (event) => {
@@ -76,8 +78,13 @@ const CustomerListResults = ({ customers, openModal }) => {
 
   const getOrders = useCallback(
     async (customerId) => {
-      const res = await axios.get(`http://localhost:8999/api/customers/${customerId}/orders/all`);
-      if (res.data.response) {
+      const res = await axios.get(`http://localhost:8999/api/customers/${customerId}/orders/all`).catch((error) => {
+        if (error?.response) setOpenAlert(error.response.data.error.message);
+        else setOpenAlert('서버로부터 응답이 없습니다.');
+
+        return null;
+      });
+      if (res?.data?.response) {
         setOrderList(res.data.response);
         setCurrentCustomerId(customerId);
         return true;

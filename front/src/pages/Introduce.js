@@ -40,4 +40,4 @@ const Introduce = () => (
   </>
 );
 
-export default Auth(Introduce);
+export default Introduce;

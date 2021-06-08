@@ -9,16 +9,19 @@ export const userInfo = atom({
 export const userInfoSelector = selector({
   key: 'userInfoSelector',
   get: async ({ get }) => {
-    const token = window.sessionStorage.getItem('userToken');
     if (get(userInfo).name) return get(userInfo);
+    const token = window.sessionStorage.getItem('userToken');
     if (token === '' || token === null || token === undefined) {
-      return {};
+      return null;
     }
+
     axios.defaults.headers.common['Authorization'] = window.sessionStorage.getItem('userToken');
-    const res = await axios.get('http://localhost:8999/api/users/me');
-    if (res.data.response) {
-      return res.data.response;
-    }
+    const res = await axios.get('http://localhost:8999/api/users/me').catch((error) => {
+      if (error.response) return error.response.data.error.message;
+      return '서버로부터 응답이 없습니다.';
+    });
+    if (res?.data?.response) return res.data.response;
+    return res;
   },
   set: ({ set }, newInfo) => {
     set(userInfo, newInfo);

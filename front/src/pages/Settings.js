@@ -24,4 +24,4 @@ const SettingsView = () => (
   </>
 );
 
-export default Auth(SettingsView, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
+export default Auth(SettingsView, ['USER', 'ADMIN']);

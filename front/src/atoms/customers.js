@@ -34,7 +34,7 @@ export const selectedCustomer = atom({
 // Customer페이지에서 추가/삭제등 정보 바뀌었는지 상태값
 export const updateCustomer = atom({
   key: 'updateCustomer',
-  default: true
+  default: false
 });
 
 // 최근에 상세내역 살펴본 고객id

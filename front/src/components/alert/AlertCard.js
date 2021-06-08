@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { Alert, Snackbar } from '@material-ui/core';
-import alert from 'src/atoms/alert';
+import { alert } from 'src/atoms/alert';
 import { useRecoilState } from 'recoil';
 
 const AlertCard = () => {

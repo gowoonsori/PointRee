@@ -30,4 +30,4 @@ const Account = () => (
   </>
 );
 
-export default Auth(Account, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
+export default Auth(Account, ['USER', 'ADMIN']);

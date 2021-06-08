@@ -146,7 +146,7 @@ public class UserControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.error").exists())
                 .andExpect(jsonPath("$.error.status", is(401)))
-                .andExpect(jsonPath("$.error.message", is("Unauthorized")));
+                .andExpect(jsonPath("$.error.message", is("인증되지 않은 사용자입니다.")));
     }
 
     @Test

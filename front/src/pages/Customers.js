@@ -10,7 +10,7 @@ import AddCustomerModal from 'src/components/modal/AddCustomerModal';
 import ShowOrdersModal from 'src/components/modal/ShowOrdersModal';
 import axios from 'axios';
 import Auth from 'src/hoc/auth';
-import alert from 'src/atoms/alert';
+import { openAlert } from 'src/atoms/alert';
 
 const Customers = () => {
   const [customerList, setCustomerList] = useRecoilState(customers);
@@ -21,16 +21,7 @@ const Customers = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [addCustomerModal, setAddCustomerModal] = useState(false);
   const [ordersModal, setOrdersModal] = useState(false);
-  const [alertInfo, setAlertInfo] = useRecoilState(alert);
-  const openAlert = useCallback(
-    (message) => {
-      setAlertInfo({
-        state: true,
-        message: `${message}`
-      });
-    },
-    [setAlertInfo]
-  );
+  const [setAlert, setOpenAlert] = useRecoilState(openAlert);
 
   const searchHandler = useCallback(() => {
     const results = [];
@@ -65,37 +56,37 @@ const Customers = () => {
 
   const deleteCustomers = useCallback(async () => {
     if (selectedCustomerIds.length === 0) {
-      openAlert('삭제하실 고객을 선택하세요.');
+      setOpenAlert('삭제하실 고객을 선택하세요.');
       return null;
     }
     console.log(selectedCustomerIds);
     const res = await axios
       .delete('http://localhost:8999/api/customers', { data: selectedCustomerIds })
       .catch((error) => {
-        openAlert(error.response.data.error.message);
-        return error.response;
+        if (error?.response) setOpenAlert(error.response.data.error.message);
+        else setOpenAlert('서버로부터 응답이 없습니다.');
+        return null;
       });
-
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    } else if (res.data.response) {
+    if (res?.data?.response) {
       setSelectedCustomerIds([]);
       setUpdateCustomerInfo(true);
     }
-  }, [selectedCustomerIds, openAlert, setSelectedCustomerIds, setUpdateCustomerInfo]);
+  }, [selectedCustomerIds, setOpenAlert, setSelectedCustomerIds, setUpdateCustomerInfo]);
 
   const getCustomerList = useCallback(async () => {
     const res = await axios.get('http://localhost:8999/api/customers/all').catch((error) => {
-      openAlert(error.response.data.error.message);
-      return error.response;
+      if (error?.response) setOpenAlert(error.response.data.error.message);
+      else setOpenAlert('서버로부터 응답이 없습니다.');
+      return null;
     });
-
-    if (!res) {
-      openAlert('서버로부터 응답이 없습니다.');
-    } else if (res.data.response) {
+    if (res?.data?.response) {
       setCustomerList(res.data.response);
     }
-  }, [openAlert, setCustomerList]);
+  }, [setOpenAlert, setCustomerList]);
+
+  useEffect(() => {
+    getCustomerList();
+  }, []);
 
   useEffect(() => {
     if (updateCustomerInfo) {
@@ -172,4 +163,4 @@ const Customers = () => {
   );
 };
 
-export default Auth(Customers, ['ROLE_ANONYMOUS', 'ROLE_USER', 'ROLE_ADMIN']);
+export default Auth(Customers, ['USER', 'ADMIN']);
