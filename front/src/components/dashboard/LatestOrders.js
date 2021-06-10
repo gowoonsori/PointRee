@@ -1,5 +1,4 @@
-import moment from 'moment';
-import { v4 as uuid } from 'uuid';
+import { useCallback } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Box,
@@ -12,153 +11,81 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  TableSortLabel,
-  Tooltip
+  TableRow
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useNavigate } from 'react-router-dom';
 
 const orders = [
   {
-    id: uuid(),
-    ref: 'CDD1049',
-    amount: 30.5,
-    customer: {
-      name: 'Ekaterina Tankova'
-    },
-    createdAt: 1555016400000,
-    status: 'pending'
+    id: 1,
+    phoneNumber: '010-1111-1111',
+    date: '2021-05-21',
+    price: 24000,
+    paymentType: 'CASH',
+    savePoint: 600
   },
   {
-    id: uuid(),
-    ref: 'CDD1048',
-    amount: 25.1,
-    customer: {
-      name: 'Cao Yu'
-    },
-    createdAt: 1555016400000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1047',
-    amount: 10.99,
-    customer: {
-      name: 'Alexa Richardson'
-    },
-    createdAt: 1554930000000,
-    status: 'refunded'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1046',
-    amount: 96.43,
-    customer: {
-      name: 'Anje Keizer'
-    },
-    createdAt: 1554757200000,
-    status: 'pending'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1045',
-    amount: 32.54,
-    customer: {
-      name: 'Clarke Gillebert'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
-  },
-  {
-    id: uuid(),
-    ref: 'CDD1044',
-    amount: 16.76,
-    customer: {
-      name: 'Adam Denisov'
-    },
-    createdAt: 1554670800000,
-    status: 'delivered'
+    id: 3,
+    phoneNumber: '010-2222-2222',
+    date: '2021-05-21',
+    price: 32000,
+    paymentType: 'CARD',
+    savePoint: 1200
   }
 ];
 
-const LatestOrders = (props) => (
-  <Card {...props}>
-    <CardHeader title="Latest Orders" />
-    <Divider />
-    <PerfectScrollbar>
-      <Box sx={{ minWidth: 800 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Order Ref
-              </TableCell>
-              <TableCell>
-                Customer
-              </TableCell>
-              <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell>
-              <TableCell>
-                Status
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orders.map((order) => (
-              <TableRow
-                hover
-                key={order.id}
-              >
-                <TableCell>
-                  {order.ref}
-                </TableCell>
-                <TableCell>
-                  {order.customer.name}
-                </TableCell>
-                <TableCell>
-                  {moment(order.createdAt).format('DD/MM/YYYY')}
-                </TableCell>
-                <TableCell>
-                  <Chip
-                    color="primary"
-                    label={order.status}
-                    size="small"
-                  />
-                </TableCell>
+const LatestOrders = () => {
+  const navigate = useNavigate();
+  const navigateCustomers = useCallback(() => {
+    navigate('/pointree/customers', { replace: false });
+  }, [navigate]);
+
+  return (
+    <Card>
+      <CardHeader title="최근 적립 내역" />
+      <Divider />
+      <PerfectScrollbar>
+        <Box sx={{ minWidth: 800 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>고객 전화번호</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>결제 금액</TableCell>
+                <TableCell>결제 방법</TableCell>
+                <TableCell>적립 금액</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Box>
-    </PerfectScrollbar>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-      <Button
-        color="primary"
-        endIcon={<ArrowRightIcon />}
-        size="small"
-        variant="text"
+            </TableHead>
+            <TableBody>
+              {orders.map((order) => (
+                <TableRow hover key={order.id}>
+                  <TableCell>{order.phoneNumber}</TableCell>
+                  <TableCell>{order.date}</TableCell>
+                  <TableCell>{order.price}</TableCell>
+                  <TableCell>
+                    <Chip color="primary" label={order.paymentType} size="small" />
+                  </TableCell>
+                  <TableCell>{order.savePoint}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </PerfectScrollbar>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          p: 2
+        }}
       >
-        View all
-      </Button>
-    </Box>
-  </Card>
-);
+        <Button color="primary" endIcon={<ArrowRightIcon />} size="small" variant="text" onClick={navigateCustomers}>
+          View all
+        </Button>
+      </Box>
+    </Card>
+  );
+};
 
 export default LatestOrders;

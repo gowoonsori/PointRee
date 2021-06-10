@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { Box, Card, Typography, experimentalStyled, SvgIcon } from '@material-ui/core';
 import IntroButton from 'src/components/buttons/IntroButton';
 import { GitHub as GitHubIcon } from 'react-feather';
+import Auth from 'src/hoc/auth';
 
 const IntroCatainer = experimentalStyled('div')(({ theme }) => ({
   background: theme.palette.primary.main,
@@ -92,4 +92,4 @@ const Introduce = () => (
   </>
 );
 
-export default Introduce;
+export default Auth(Introduce);

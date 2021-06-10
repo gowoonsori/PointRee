@@ -10,7 +10,7 @@ const AlertCard = () => {
     setAlert({
       state: false,
       message: '',
-      severity: ''
+      severity: 'error'
     });
   }, [setAlert]);
 

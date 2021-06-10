@@ -1,41 +1,29 @@
 import { Bar } from 'react-chartjs-2';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  useTheme,
-  colors
-} from '@material-ui/core';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { Box, Card, CardContent, CardHeader, Divider, useTheme, colors } from '@material-ui/core';
 
-const Sales = (props) => {
+const data = {
+  datasets: [
+    {
+      backgroundColor: colors.blue[700],
+      data: [18, 5, 19],
+      label: '카드'
+    },
+    {
+      backgroundColor: colors.deepOrange[300],
+      data: [11, 20, 12],
+      label: '현금'
+    }
+  ],
+  labels: ['1 Aug', '2 Aug', '3 Aug']
+};
+const PaymentRatioBar = () => {
   const theme = useTheme();
-
-  const data = {
-    datasets: [
-      {
-        backgroundColor: colors.indigo[500],
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year'
-      },
-      {
-        backgroundColor: colors.grey[200],
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year'
-      }
-    ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug']
-  };
 
   const options = {
     animation: false,
     cornerRadius: 20,
     layout: { padding: 0 },
-    legend: { display: false },
+    legend: { display: true },
     maintainAspectRatio: false,
     responsive: true,
     scales: {
@@ -87,52 +75,22 @@ const Sales = (props) => {
   };
 
   return (
-    <Card {...props}>
-      <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
-            Last 7 days
-          </Button>
-        )}
-        title="Latest Sales"
-      />
+    <Card>
+      <CardHeader title="결제 비율" />
       <Divider />
       <CardContent>
         <Box
           sx={{
-            height: 400,
+            height: 426,
             position: 'relative'
           }}
         >
-          <Bar
-            data={data}
-            options={options}
-          />
+          <Bar data={data} options={options} />
         </Box>
       </CardContent>
       <Divider />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
-        }}
-      >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon />}
-          size="small"
-          variant="text"
-        >
-          Overview
-        </Button>
-      </Box>
     </Card>
   );
 };
 
-export default Sales;
+export default PaymentRatioBar;

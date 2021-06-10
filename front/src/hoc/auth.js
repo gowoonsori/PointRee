@@ -7,9 +7,8 @@ import { openAlert } from 'src/atoms/alert';
 /*  SpecificComponent : LandingPage component
     role : 인가를 위한 role (deafult = USER)
 */
-const Auth =
-  (SpecificComponent, role = ['ANONYMOUS']) =>
-  () => {
+const Auth = (SpecificComponent, role = ['ANONYMOUS']) => {
+  const Authentication = (props) => {
     const [infoSelector, setInfoSelector] = useRecoilState(userInfoSelector);
     const navigate = useNavigate();
     const [setAlert, setOpenAlert] = useRecoilState(openAlert);
@@ -24,6 +23,8 @@ const Auth =
           accumulationRate: info.accumulationRate,
           role: info.role
         });
+      } else if (role.indexOf('ANONYMOUS') !== -1) {
+        return null;
       } else if (info === '' || info === undefined || info === null) {
         setOpenAlert({ message: '로그인이 필요합니다.', severity: 'error' });
         navigate('/pointree/login', { replace: true });
@@ -41,5 +42,6 @@ const Auth =
     }, []);
     return <SpecificComponent />;
   };
-
+  return Authentication;
+};
 export default Auth;

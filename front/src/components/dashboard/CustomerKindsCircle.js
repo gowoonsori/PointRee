@@ -1,30 +1,16 @@
 import { Doughnut } from 'react-chartjs-2';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  Typography,
-  colors,
-  useTheme
-} from '@material-ui/core';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIcon from '@material-ui/icons/Phone';
-import TabletIcon from '@material-ui/icons/Tablet';
+import { Box, Card, CardContent, CardHeader, Divider, Typography, colors, useTheme } from '@material-ui/core';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonIcon from '@material-ui/icons/Person';
 
-const TrafficByDevice = (props) => {
+const PaymentRatioCircle = () => {
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: [
-          colors.indigo[500],
-          colors.red[600],
-          colors.orange[600]
-        ],
+        data: [65, 35],
+        backgroundColor: [colors.indigo[500], colors.pink[300]],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
@@ -57,28 +43,22 @@ const TrafficByDevice = (props) => {
 
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
+      title: '신규 고객',
+      value: 65,
+      icon: PersonAddIcon,
       color: colors.indigo[500]
     },
     {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: colors.red[600]
-    },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600]
+      title: '재방문 고객',
+      value: 35,
+      icon: PersonIcon,
+      color: colors.pink[300]
     }
   ];
 
   return (
-    <Card {...props}>
-      <CardHeader title="Traffic by Device" />
+    <Card>
+      <CardHeader title="고객 비율" />
       <Divider />
       <CardContent>
         <Box
@@ -87,10 +67,7 @@ const TrafficByDevice = (props) => {
             position: 'relative'
           }}
         >
-          <Doughnut
-            data={data}
-            options={options}
-          />
+          <Doughnut data={data} options={options} />
         </Box>
         <Box
           sx={{
@@ -99,12 +76,7 @@ const TrafficByDevice = (props) => {
             pt: 2
           }}
         >
-          {devices.map(({
-            color,
-            icon: Icon,
-            title,
-            value
-          }) => (
+          {devices.map(({ color, icon: Icon, title, value }) => (
             <Box
               key={title}
               sx={{
@@ -113,18 +85,11 @@ const TrafficByDevice = (props) => {
               }}
             >
               <Icon color="action" />
-              <Typography
-                color="textPrimary"
-                variant="body1"
-              >
+              <Typography color="textPrimary" variant="body1">
                 {title}
               </Typography>
-              <Typography
-                style={{ color }}
-                variant="h2"
-              >
-                {value}
-                %
+              <Typography style={{ color }} variant="h2">
+                {value}%
               </Typography>
             </Box>
           ))}
@@ -134,4 +99,4 @@ const TrafficByDevice = (props) => {
   );
 };
 
-export default TrafficByDevice;
+export default PaymentRatioCircle;

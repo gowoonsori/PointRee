@@ -17,7 +17,7 @@ const DashboardLayoutWrapper = experimentalStyled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   overflow: 'hidden',
-  paddingTop: 56
+  paddingTop: 64
 }));
 
 const DashboardLayoutContainer = experimentalStyled('div')({

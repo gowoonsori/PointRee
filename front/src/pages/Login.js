@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import { Box, Button, Container, Link, TextField, Typography } from '@material-ui/core';
 import axios from 'axios';
 import { openAlert } from 'src/atoms/alert';
+import Auth from 'src/hoc/auth';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -135,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth(Login);
