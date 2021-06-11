@@ -128,7 +128,7 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("한명 고객정보조회 실패(db에 없는 고객id)")
     void getCustomerFailTest1() throws Exception{
         //given
-        int customerId = 5;
+        int customerId = 1242;
         // when
         ResultActions result = mockMvc.perform(
                 get("/api/customers/"+customerId)
@@ -235,6 +235,7 @@ public class CustomerControllerTest extends BaseTest {
 
 
     @Test
+    @Order(2)
     @DisplayName("30개의 고객정보 10개씩 첫번째 페이지 조회성공")
     void getCutomerPagingSuccessTest() throws Exception{
         //given

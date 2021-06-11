@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,7 +23,11 @@ public class OrderService {
     }
 
     public  List<Order> getOrders(Customer customer){
-        List<Order> orders = customer.getOrders();
+        return customer.getOrders();
+    }
+
+    public List<Order> getOrdersByDate(List<LocalDateTime>date, Long userId){
+        List<Order> orders = orderRepository.findAllByDateAndUserId(userId, date.get(0), date.get(1));
         return orders;
     }
 
@@ -45,4 +50,5 @@ public class OrderService {
         customer.updateTotalPoint( -order.getSavePoint());
         orderRepository.delete(order);
     }
+
 }

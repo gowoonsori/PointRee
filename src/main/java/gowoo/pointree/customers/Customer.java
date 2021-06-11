@@ -1,6 +1,7 @@
 package gowoo.pointree.customers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gowoo.pointree.errors.BadRequestException;
 import gowoo.pointree.orders.Order;
 import gowoo.pointree.users.User;
@@ -38,6 +39,7 @@ public class Customer{
 
     @Builder.Default
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
 
     @CreationTimestamp

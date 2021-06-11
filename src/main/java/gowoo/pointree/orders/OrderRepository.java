@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
@@ -13,6 +14,15 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Transactional
     @Modifying
-    @Query("delete from ORDERS c where c.customer.id in :ids")
+    @Query("delete from ORDERS o where o.customer.id in :ids")
     void deleteAllByCustomerIdInQuery(@Param("ids") List<Long> ids);
+
+    @Query("select o from " +
+            "ORDERS o join fetch o.customer " +
+            "where o.customer.user.id = :userId " +
+            "and o.createdTime >= :preDate " +
+            "and o.createdTime <= :postDate")
+    List<Order> findAllByDateAndUserId(@Param("userId")Long userId,
+                                       @Param("preDate")LocalDateTime preDate,
+                                       @Param("postDate")LocalDateTime postDate);
 }
