@@ -123,7 +123,7 @@ const CustomerListResults = ({ customers, openModal }) => {
                 </TableCell>
                 <TableCell>전화번호</TableCell>
                 <TableCell>구매 횟수</TableCell>
-                <TableCell>Total Point</TableCell>
+                <TableCell>총 적립금액</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

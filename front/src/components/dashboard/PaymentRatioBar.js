@@ -1,23 +1,29 @@
 import { Bar } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, useTheme, colors } from '@material-ui/core';
+import { monthDates } from 'src/atoms/date';
+import { paymentBar } from 'src/atoms/dashboard';
+import { useRecoilValue } from 'recoil';
 
-const data = {
-  datasets: [
-    {
-      backgroundColor: colors.blue[700],
-      data: [18, 5, 19],
-      label: '카드'
-    },
-    {
-      backgroundColor: colors.deepOrange[300],
-      data: [11, 20, 12],
-      label: '현금'
-    }
-  ],
-  labels: ['1 Aug', '2 Aug', '3 Aug']
-};
 const PaymentRatioBar = () => {
   const theme = useTheme();
+  const monthAndDates = useRecoilValue(monthDates);
+  const paymentData = useRecoilValue(paymentBar);
+
+  const data = {
+    datasets: [
+      {
+        backgroundColor: colors.blue[700],
+        data: paymentData[0].length > 0 ? paymentData[0] : [0],
+        label: '카드'
+      },
+      {
+        backgroundColor: colors.deepOrange[300],
+        data: paymentData[1].length > 0 ? paymentData[1] : [0],
+        label: '현금'
+      }
+    ],
+    labels: monthAndDates
+  };
 
   const options = {
     animation: false,
@@ -76,7 +82,7 @@ const PaymentRatioBar = () => {
 
   return (
     <Card>
-      <CardHeader title="결제 비율" />
+      <CardHeader title="결제 비율" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <CardContent>
         <Box

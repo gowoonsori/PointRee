@@ -14,11 +14,6 @@ const loginItems = [
     title: '내 정보'
   },
   {
-    href: '/pointree/settings',
-    icon: Settings,
-    title: '비밀번호 수정'
-  },
-  {
     href: '/pointree/points',
     icon: DollarSign,
     title: '적립하기'

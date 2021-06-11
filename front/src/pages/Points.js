@@ -34,7 +34,7 @@ const Points = () => {
         setCustomer(res.data.response);
       }
     },
-    [setOpenAlert, openModal, setCustomer]
+    [setOpenAlert, openModal, setCustomer, phoneNumber]
   );
 
   return (

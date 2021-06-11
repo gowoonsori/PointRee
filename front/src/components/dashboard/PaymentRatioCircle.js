@@ -2,21 +2,24 @@ import { Doughnut } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, Typography, colors, useTheme } from '@material-ui/core';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import MoneyIcon from '@material-ui/icons/Money';
+import { paymentRatio } from 'src/atoms/dashboard';
+import { useRecoilValue } from 'recoil';
 
-const PaymentRatioCircle = (props) => {
+const PaymentRatioCircle = () => {
   const theme = useTheme();
+  const paymentRatioData = useRecoilValue(paymentRatio);
 
   const data = {
     datasets: [
       {
-        data: [65, 35],
+        data: [paymentRatioData.card, paymentRatioData.cash],
         backgroundColor: [colors.blue[700], colors.deepOrange[300]],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['카드', '현금']
   };
 
   const options = {
@@ -44,13 +47,13 @@ const PaymentRatioCircle = (props) => {
   const devices = [
     {
       title: '카드',
-      value: 65,
+      value: paymentRatioData.cardRatio,
       icon: CreditCardIcon,
       color: colors.blue[700]
     },
     {
       title: '현금',
-      value: 35,
+      value: paymentRatioData.cashRatio,
       icon: MoneyIcon,
       color: colors.deepOrange[300]
     }
@@ -58,7 +61,7 @@ const PaymentRatioCircle = (props) => {
 
   return (
     <Card>
-      <CardHeader title="결제 비율" />
+      <CardHeader title="결제 비율" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <CardContent>
         <Box

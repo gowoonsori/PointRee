@@ -13,11 +13,11 @@ const theme = createMuiTheme({
       main: '#07689f'
     },
     secondary: {
-      main: '#a2d5f2'
+      main: '#ff7e67'
     },
     pointColor: {
       contrastText: '#eeeeee',
-      main: '#ff7e67'
+      main: '#a2d5f2'
     },
     secondBase: {
       main: '#f3f5f72e'

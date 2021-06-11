@@ -33,7 +33,7 @@ const AddOrderModal = ({ closeModal, customer }) => {
         closeModal();
       }
     },
-    [setOpenAlert, closeModal]
+    [setOpenAlert, closeModal, price, accumulationRate, payment]
   );
 
   return (

@@ -8,7 +8,6 @@ import Login from 'src/pages/Login';
 import LogOut from 'src/pages/LogOut';
 import NotFound from 'src/pages/NotFound';
 import Register from 'src/pages/Register';
-import Settings from 'src/pages/Settings';
 import Introduce from 'src/pages/Introduce';
 
 const routes = [
@@ -31,7 +30,6 @@ const routes = [
       { path: 'points', element: <Points /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'customers', element: <Customers /> },
-      { path: 'settings', element: <Settings /> },
       { path: '*', element: <Navigate to="/404" /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> }

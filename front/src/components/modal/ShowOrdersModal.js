@@ -14,13 +14,13 @@ const ShowOrdersModal = ({ orders }) => (
     }}
   >
     <Table>
-      <TableHead sx={{ background: '#5920a95e' }}>
+      <TableHead sx={{ background: '#ff7e67' }}>
         <TableRow>
           <TableCell />
-          <TableCell>날짜</TableCell>
-          <TableCell>구매 금액</TableCell>
-          <TableCell>결제 방법</TableCell>
-          <TableCell>적립 포인트</TableCell>
+          <TableCell sx={{ fontWeight: 'bold', color: '#f3f3f3' }}>날짜</TableCell>
+          <TableCell sx={{ fontWeight: 'bold', color: '#f3f3f3' }}>구매 금액</TableCell>
+          <TableCell sx={{ fontWeight: 'bold', color: '#f3f3f3' }}>결제 방법</TableCell>
+          <TableCell sx={{ fontWeight: 'bold', color: '#f3f3f3' }}>적립 포인트</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>

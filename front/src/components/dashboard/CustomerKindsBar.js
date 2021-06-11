@@ -1,24 +1,29 @@
 import { Bar } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, useTheme, colors } from '@material-ui/core';
+import { monthDates } from 'src/atoms/date';
+import { customerKindsBar } from 'src/atoms/dashboard';
+import { useRecoilValue } from 'recoil';
 
-const data = {
-  datasets: [
-    {
-      backgroundColor: colors.indigo[500],
-      data: [18, 5, 19],
-      label: '신규 고객'
-    },
-    {
-      backgroundColor: colors.pink[300],
-      data: [11, 20, 12],
-      label: '재방문 고객'
-    }
-  ],
-  labels: ['1 Aug', '2 Aug', '3 Aug']
-};
 const CustomerKindsBar = () => {
   const theme = useTheme();
+  const monthAndDates = useRecoilValue(monthDates);
+  const customerKindsData = useRecoilValue(customerKindsBar);
 
+  const data = {
+    datasets: [
+      {
+        backgroundColor: colors.indigo[500],
+        data: customerKindsData[0].length > 0 ? customerKindsData[0] : [0],
+        label: '신규 고객'
+      },
+      {
+        backgroundColor: colors.pink[300],
+        data: customerKindsData[1].length > 0 ? customerKindsData[1] : [0],
+        label: '재방문 고객'
+      }
+    ],
+    labels: monthAndDates
+  };
   const options = {
     animation: false,
     cornerRadius: 20,
@@ -76,7 +81,7 @@ const CustomerKindsBar = () => {
 
   return (
     <Card>
-      <CardHeader title="고객 비율" />
+      <CardHeader title="고객 비율" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <CardContent>
         <Box

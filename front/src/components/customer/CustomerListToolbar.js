@@ -27,7 +27,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
     <Box>
       <Card sx={{ background: '#f3f5f72e' }}>
         <CardContent>
-          <Box sx={{ maxWidth: 1280 }} display="flex">
+          <Box display="flex">
             <TextField
               fullWidth
               InputProps={{

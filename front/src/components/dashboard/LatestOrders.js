@@ -15,35 +15,21 @@ import {
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { useNavigate } from 'react-router-dom';
-
-const orders = [
-  {
-    id: 1,
-    phoneNumber: '010-1111-1111',
-    date: '2021-05-21',
-    price: 24000,
-    paymentType: 'CASH',
-    savePoint: 600
-  },
-  {
-    id: 3,
-    phoneNumber: '010-2222-2222',
-    date: '2021-05-21',
-    price: 32000,
-    paymentType: 'CARD',
-    savePoint: 1200
-  }
-];
+import { latestOrders } from 'src/atoms/dashboard';
+import { useRecoilValue } from 'recoil';
+import { dateTimeToPreetyFormat } from 'src/hooks/dateFormatting';
 
 const LatestOrders = () => {
   const navigate = useNavigate();
+  const orders = useRecoilValue(latestOrders);
+
   const navigateCustomers = useCallback(() => {
     navigate('/pointree/customers', { replace: false });
   }, [navigate]);
 
   return (
     <Card>
-      <CardHeader title="최근 적립 내역" />
+      <CardHeader title="최근 적립 내역" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <PerfectScrollbar>
         <Box sx={{ minWidth: 800 }}>
@@ -51,22 +37,28 @@ const LatestOrders = () => {
             <TableHead>
               <TableRow>
                 <TableCell>고객 전화번호</TableCell>
-                <TableCell>Date</TableCell>
+                <TableCell>날짜</TableCell>
                 <TableCell>결제 금액</TableCell>
                 <TableCell>결제 방법</TableCell>
                 <TableCell>적립 금액</TableCell>
+                <TableCell>방문 횟수</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {orders.map((order) => (
                 <TableRow hover key={order.id}>
                   <TableCell>{order.phoneNumber}</TableCell>
-                  <TableCell>{order.date}</TableCell>
+                  <TableCell>{dateTimeToPreetyFormat(order.createdTime)}</TableCell>
                   <TableCell>{order.price}</TableCell>
                   <TableCell>
-                    <Chip color="primary" label={order.paymentType} size="small" />
+                    {order.paymentType === 'CASH' ? (
+                      <Chip color="primary" label="현금" size="medium" />
+                    ) : (
+                      <Chip color="secondary" label="카드" size="medium" />
+                    )}
                   </TableCell>
                   <TableCell>{order.savePoint}</TableCell>
+                  <TableCell>{order.purchaseCnt}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

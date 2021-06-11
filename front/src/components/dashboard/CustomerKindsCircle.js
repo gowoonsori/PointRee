@@ -2,21 +2,24 @@ import { Doughnut } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, Typography, colors, useTheme } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import PersonIcon from '@material-ui/icons/Person';
+import { customerKindsRatio } from 'src/atoms/dashboard';
+import { useRecoilValue } from 'recoil';
 
 const PaymentRatioCircle = () => {
   const theme = useTheme();
+  const customerKindsRatioData = useRecoilValue(customerKindsRatio);
 
   const data = {
     datasets: [
       {
-        data: [65, 35],
+        data: [customerKindsRatioData.newCustomer, customerKindsRatioData.oldCustomer],
         backgroundColor: [colors.indigo[500], colors.pink[300]],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['신규고객', '재방문고객']
   };
 
   const options = {
@@ -44,13 +47,13 @@ const PaymentRatioCircle = () => {
   const devices = [
     {
       title: '신규 고객',
-      value: 65,
+      value: customerKindsRatioData.newCustomerRatio,
       icon: PersonAddIcon,
       color: colors.indigo[500]
     },
     {
       title: '재방문 고객',
-      value: 35,
+      value: customerKindsRatioData.oldCustomerRatio,
       icon: PersonIcon,
       color: colors.pink[300]
     }
@@ -58,7 +61,7 @@ const PaymentRatioCircle = () => {
 
   return (
     <Card>
-      <CardHeader title="고객 비율" />
+      <CardHeader title="고객 비율" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <CardContent>
         <Box
