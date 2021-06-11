@@ -58,12 +58,13 @@ public class GeneralExceptionHandler {
             IllegalArgumentException.class,
             IllegalStateException.class,
             ConstraintViolationException.class,
-            MethodArgumentNotValidException.class
+            MethodArgumentNotValidException.class,
+            ArrayIndexOutOfBoundsException.class
     })
     public ResponseEntity<?> handleBadRequestException(Exception e) {
         log.info(e.getMessage());
         if (e instanceof MethodArgumentNotValidException || e instanceof ConstraintViolationException
-                || e instanceof InvalidFormatException) {
+                || e instanceof InvalidFormatException || e instanceof ArrayIndexOutOfBoundsException) {
             return newResponse("잘못된 값입니다.",HttpStatus.BAD_REQUEST);
         }else if(e instanceof HttpMessageNotReadableException){
             return newResponse(e.getMessage().split(", ")[1].split(";")[0], HttpStatus.BAD_REQUEST);
