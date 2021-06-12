@@ -104,9 +104,7 @@ export const paymentBar = selector({
 
     const cashArray = Array.from(cash.values());
     const cardArray = Array.from(card.values());
-    const result = [];
-    result.push(cashArray, cardArray);
-    return result;
+    return [cashArray, cardArray];
   }
 });
 
@@ -166,6 +164,29 @@ export const customerKindsBar = selector({
     const newCustomerArray = Array.from(newCustomer.values());
     const oldCustomerArray = Array.from(oldCustomer.values());
     return [newCustomerArray, oldCustomerArray];
+  }
+});
+
+export const salesVolumeLine = selector({
+  key: 'visitedCustomerLine',
+  get: ({ get }) => {
+    const data = get(dashboard);
+    if (data.length < 1) {
+      return [[0], [0]];
+    }
+
+    const date = get(monthDates);
+    const saleVolume = new Map();
+    for (let i = 0; i < date.length; i++) {
+      saleVolume.set(date[i], 0);
+    }
+
+    for (let i = 0; i < data.length; i++) {
+      const str = data[i].createdTime.substr(5, 2).concat('월 ').concat(data[i].createdTime.substr(8, 2)).concat('일');
+      saleVolume.set(str, saleVolume.get(str) + 1);
+    }
+
+    return Array.from(saleVolume.values());
   }
 });
 

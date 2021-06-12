@@ -24,11 +24,13 @@ const Points = () => {
 
   const onClickButtonEvent = useCallback(
     async (e) => {
-      const res = await axios.get(`http://localhost:8999/api/customers/phoneNumber/${phoneNumber}`).catch((error) => {
-        if (error.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
-        else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
-        return null;
-      });
+      const res = await axios
+        .get(`${process.env.REACT_APP_API_BASE_URL}/customers/phoneNumber/${phoneNumber}`)
+        .catch((error) => {
+          if (error.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
+          else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
+          return null;
+        });
       if (res?.data?.response) {
         openModal();
         setCustomer(res.data.response);

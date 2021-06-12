@@ -46,7 +46,7 @@ const PeriodNav = () => {
     setIsGet(false);
     const date = dateTimeToApiFormat(selectedDate);
     const res = await axios
-      .get(`http://localhost:8999/api/orders/date?preDate=${date[0]}&postDate=${date[1]}`)
+      .get(`${process.env.REACT_APP_API_BASE_URL}/orders/date?preDate=${date[0]}&postDate=${date[1]}`)
       .catch((error) => {
         if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
         else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });

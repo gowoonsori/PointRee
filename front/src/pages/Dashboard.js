@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet';
 import { Box, Container, Grid, CircularProgress } from '@material-ui/core';
 import TotalSalesAmount from 'src/components/dashboard/TotalSalesAmount';
 import LatestOrders from 'src/components/dashboard/LatestOrders';
-import CustomerKindsBar from 'src/components/dashboard/CustomerKindsBar';
+import SalesVolumeLine from 'src/components/dashboard/SalesVolumeLine';
 import CustomerKindsCircle from 'src/components/dashboard/CustomerKindsCircle';
 import TotalSalesVolume from 'src/components/dashboard/TotalSalesVolume';
 import TotalPoints from 'src/components/dashboard/TotalPoints';
@@ -54,7 +54,7 @@ const Dashboard = () => {
                 <CustomerKindsCircle sx={{ height: '100%' }} />
               </Grid>
               <Grid item lg={8} md={12} xl={9} xs={12}>
-                <CustomerKindsBar sx={{ height: '100%' }} />
+                <SalesVolumeLine sx={{ height: '100%' }} />
               </Grid>
 
               <Grid item lg={12} md={12} xl={9} xs={12}>

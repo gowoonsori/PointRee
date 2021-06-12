@@ -17,7 +17,7 @@ const AddOrderModal = ({ closeModal, customer }) => {
   const savePointButtonEvent = useCallback(
     async (e) => {
       const res = await axios
-        .post(`http://localhost:8999/api/customers/${customer.id}/orders`, {
+        .post(`${process.env.REACT_APP_API_BASE_URL}/customers/${customer.id}/orders`, {
           price: price,
           accumulationRate: accumulationRate,
           paymentType: payment

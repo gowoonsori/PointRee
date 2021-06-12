@@ -1,6 +1,6 @@
 {
-  "name": "react-material-dashboard",
-  "author": "DeviasIO",
+  "name": "pointRee",
+  "author": "gowoonsori",
   "licence": "MIT",
   "version": "1.0.0",
   "private": false,
@@ -8,7 +8,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync ./build s3://pointree-front --profile=pointReeS3"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,20 +27,18 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.1.5",
-    "@emotion/styled": "^11.1.5",
+    "@emotion/react": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
     "@material-ui/core": "^5.0.0-alpha.28",
     "@material-ui/icons": "^5.0.0-alpha.28",
     "@material-ui/styles": "^4.10.0",
     "@wojtekmaj/react-daterange-picker": "^3.2.0",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
-    "clsx": "^1.1.1",
     "formik": "^2.1.5",
     "history": "^5.0.0",
     "install": "^0.13.0",
     "lodash": "^4.17.19",
-    "moment": "^2.27.0",
     "npm": "^7.7.4",
     "nprogress": "^0.2.0",
     "prop-types": "^15.7.2",
@@ -53,7 +52,6 @@
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "^4.0.0",
     "recoil": "^0.2.0",
-    "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {

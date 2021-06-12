@@ -15,7 +15,7 @@ const Register = () => {
 
   const regist = async (values) => {
     const res = await axios
-      .post('http://localhost:8999/api/users/signup', {
+      .post(`${process.env.REACT_APP_API_BASE_URL}/users/signup`, {
         name: values.name,
         email: values.email,
         password: values.password,

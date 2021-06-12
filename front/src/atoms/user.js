@@ -16,7 +16,7 @@ export const userInfoSelector = selector({
     }
 
     axios.defaults.headers.common['Authorization'] = window.sessionStorage.getItem('userToken');
-    const res = await axios.get('http://localhost:8999/api/users/me').catch((error) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users/me`).catch((error) => {
       if (error.response) return error.response.data.error.message;
       return '서버로부터 응답이 없습니다.';
     });

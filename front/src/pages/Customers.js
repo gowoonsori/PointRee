@@ -61,7 +61,7 @@ const Customers = () => {
     }
     console.log(selectedCustomerIds);
     const res = await axios
-      .delete('http://localhost:8999/api/customers', { data: selectedCustomerIds })
+      .delete('${process.env.REACT_APP_API_BASE_URL}/customers', { data: selectedCustomerIds })
       .catch((error) => {
         if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
         else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
@@ -74,7 +74,7 @@ const Customers = () => {
   }, [selectedCustomerIds, setOpenAlert, setSelectedCustomerIds, setUpdateCustomerInfo]);
 
   const getCustomerList = useCallback(async () => {
-    const res = await axios.get('http://localhost:8999/api/customers/all').catch((error) => {
+    const res = await axios.get('${process.env.REACT_APP_API_BASE_URL}/customers/all').catch((error) => {
       if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
       else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
       return null;

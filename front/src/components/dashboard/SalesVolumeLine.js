@@ -1,30 +1,25 @@
-import { Bar } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, useTheme, colors } from '@material-ui/core';
 import { monthDates } from 'src/atoms/date';
-import { paymentBar } from 'src/atoms/dashboard';
+import { salesVolumeLine } from 'src/atoms/dashboard';
 import { useRecoilValue } from 'recoil';
 
-const PaymentRatioBar = () => {
+const SalesVolumeLine = () => {
   const theme = useTheme();
   const monthAndDates = useRecoilValue(monthDates);
-  const paymentData = useRecoilValue(paymentBar);
+  const salesVolumeData = useRecoilValue(salesVolumeLine);
 
   const data = {
     datasets: [
       {
-        backgroundColor: colors.blue[700],
-        data: [...paymentData[0]],
-        label: '카드'
-      },
-      {
-        backgroundColor: colors.deepOrange[300],
-        data: [...paymentData[1]],
-        label: '현금'
+        backgroundColor: colors.indigo[500],
+        data: [...salesVolumeData],
+        fill: false,
+        label: '판매량'
       }
     ],
     labels: monthAndDates
   };
-
   const options = {
     animation: false,
     cornerRadius: 20,
@@ -82,7 +77,7 @@ const PaymentRatioBar = () => {
 
   return (
     <Card>
-      <CardHeader title="결제 비율" sx={{ background: '#fcfcfc' }} />
+      <CardHeader title="판매량" sx={{ background: '#fcfcfc' }} />
       <Divider />
       <CardContent>
         <Box
@@ -91,7 +86,7 @@ const PaymentRatioBar = () => {
             position: 'relative'
           }}
         >
-          <Bar data={data} options={options} />
+          <Line data={data} options={options} />
         </Box>
       </CardContent>
       <Divider />
@@ -99,4 +94,4 @@ const PaymentRatioBar = () => {
   );
 };
 
-export default PaymentRatioBar;
+export default SalesVolumeLine;
