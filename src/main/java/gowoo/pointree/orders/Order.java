@@ -15,7 +15,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
-@Entity(name = "ORDERS")
+@Entity(name = "orders")
 @Getter @EqualsAndHashCode(of = "id")
 @NoArgsConstructor @DynamicUpdate
 public class Order {

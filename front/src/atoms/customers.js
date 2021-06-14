@@ -19,9 +19,15 @@ export const customers = atom({
   }
 });
 
-// 검색 결과
+// 검색 결과 한명
 export const searchCustomer = atom({
   key: 'searchCustomer',
+  default: {}
+});
+
+// 검색 결과 다수
+export const searchCustomers = atom({
+  key: 'searchCustomers',
   default: customers
 });
 

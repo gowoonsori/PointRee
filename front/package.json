@@ -1,5 +1,5 @@
 {
-  "name": "pointRee",
+  "name": "pointree",
   "author": "gowoonsori",
   "licence": "MIT",
   "version": "1.0.0",
@@ -9,7 +9,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync ./build s3://pointree-front --profile=pointReeS3"
+    "deploy": "aws s3 sync ./build s3://pointree-front --profile=pointReeS3",
+    "invalidate": "aws cloudfront create-invalidation --profile=pointReeS3 --distribution-id E324056R6WYLP6 --paths /*"
   },
   "eslintConfig": {
     "extends": "react-app"

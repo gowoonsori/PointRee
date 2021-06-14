@@ -20,7 +20,7 @@ public class UserControllerTest extends BaseTest {
     @Order(1)
     void loginSuccessTest() throws Exception {
         //given
-        String email = "test@gmail.com";
+        String email = "test@test.com";
         String passwd = "1234";
 
         //when
@@ -53,7 +53,7 @@ public class UserControllerTest extends BaseTest {
     @DisplayName("로그인 실패 테스트 (비밀번호가 올바르지 않은 경우)")
     void loginFailTest1() throws Exception {
         //given
-        String email = "test@gmail.com";
+        String email = "test@test.com";
         String passwd = "4321";
 
         //when
@@ -82,7 +82,7 @@ public class UserControllerTest extends BaseTest {
     @DisplayName("로그인 실패 테스트 (없는 이메일일 경우)")
     void loginFailTest2() throws Exception {
         //given
-        String email = "test12@gmail.com";
+        String email = "test12@test.com";
         String passwd = "4321";
 
         //when

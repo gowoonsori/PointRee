@@ -31,6 +31,10 @@ const GithubContainer = experimentalStyled('div')(({ theme }) => ({
 const Introduce = () => (
   <>
     <Helmet>
+      <meta
+        name="description"
+        content="별도의 앱 설치 없이 웹을 통해 간편하게 포인트적립서비스를 제공하는 pointRee의 main 페이지입니다."
+      />
       <title>Point Ree</title>
     </Helmet>
     <Box

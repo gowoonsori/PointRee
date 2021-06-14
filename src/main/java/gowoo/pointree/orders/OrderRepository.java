@@ -14,11 +14,11 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Transactional
     @Modifying
-    @Query("delete from ORDERS o where o.customer.id in :ids")
+    @Query("delete from orders o where o.customer.id in :ids")
     void deleteAllByCustomerIdInQuery(@Param("ids") List<Long> ids);
 
     @Query("select o from " +
-            "ORDERS o join fetch o.customer " +
+            "orders o join fetch o.customer " +
             "where o.customer.user.id = :userId " +
             "and o.createdTime >= :preDate " +
             "and o.createdTime <= :postDate")

@@ -37,6 +37,10 @@ const Login = () => {
   return (
     <>
       <Helmet>
+        <meta
+          name="description"
+          content="별도의 앱 설치 없이 웹을 통해 간편하게 포인트적립서비스를 제공하는 pointRee의 로그인 페이지입니다."
+        />
         <title>로그인 | Point Ree</title>
       </Helmet>
       <Box
@@ -70,7 +74,7 @@ const Login = () => {
                 });
                 setToken(`Bearer ${response.response.token}`);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.response.token}`;
-                navigate('/pointree/', { replace: true });
+                navigate('/pointree/points', { replace: true });
               }
             }}
           >
@@ -122,7 +126,7 @@ const Login = () => {
                 </Box>
                 <Typography color="textSecondary" variant="body1">
                   {'회원이 아니면, '}
-                  <Link component={RouterLink} to="/register" variant="h6">
+                  <Link component={RouterLink} to="pointree/register" variant="h6">
                     회원가입
                   </Link>
                   {' 을 해주세요.'}

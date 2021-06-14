@@ -19,6 +19,10 @@ const Dashboard = () => {
   return (
     <>
       <Helmet>
+        <meta
+          name="description"
+          content="별도의 앱 설치 없이 웹을 통해 간편하게 포인트적립서비스를 제공하는 pointRee의 통계를 볼 수 있는 대시보드 page입니다."
+        />
         <title>대시보드 | PointRee</title>
       </Helmet>
       <PeriodNav />

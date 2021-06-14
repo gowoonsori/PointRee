@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // Not require authentication login
                 .antMatchers("/api/users/login").permitAll()
-                .antMatchers("/api/users/signup").hasRole("ADMIN")
+                .antMatchers("/api/users/signup").permitAll()
                 // All endpoints require authentication
                 .anyRequest().authenticated()
                 .and()

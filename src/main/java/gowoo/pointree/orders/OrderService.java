@@ -33,7 +33,7 @@ public class OrderService {
 
     @Transactional
     public Order insert(Customer customer, Order request){
-        customer.updateTotalPoint(request.getSavePoint());
+        customer.addTotalPoint(request.getSavePoint());
         return orderRepository.save(request);
     }
 
@@ -47,7 +47,7 @@ public class OrderService {
     @Transactional
     public void delete(Customer customer,Long orderId){
         Order order = orderRepository.findById(orderId).orElseThrow(()->new NotFoundException("구매내역을 찾을 수 없습니다."));
-        customer.updateTotalPoint( -order.getSavePoint());
+        customer.deleteTotalPoint(order.getSavePoint());
         orderRepository.delete(order);
     }
 

@@ -46,7 +46,16 @@ public class Customer{
     @Column(updatable = false)
     private LocalDateTime createdTime;
 
+    public void deleteTotalPoint(int point){
+        this.totalPoint -= point;
+        this.purchaseCnt -= 1;
+    }
+
     public void updateTotalPoint(int point){
+        this.totalPoint += point;
+    }
+
+    public void addTotalPoint(int point){
         this.totalPoint += point;
         this.purchaseCnt += 1;
     }

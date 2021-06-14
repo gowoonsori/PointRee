@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Box, Button, FormControl, InputLabel, Input, Select, MenuItem } from '@material-ui/core';
+import { Box, Button, FormControl, InputLabel, Input, Select, MenuItem, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import useInput from 'src/hooks/useInput';
@@ -47,22 +47,20 @@ const AddOrderModal = ({ closeModal, customer }) => {
         py: 3
       }}
     >
-      <div>
-        <FormControl sx={{ width: '50%', my: 3, fontSize: '1.4em', fontWeight: 'bold' }}>
-          <p>{customer.phoneNumber}</p>
-        </FormControl>
-      </div>
+      <Typography sx={{ my: 2 }} variant="h2">
+        {customer?.phoneNumber}
+      </Typography>
       <div>
         <FormControl sx={{ width: '50%', my: 3 }}>
-          <InputLabel htmlFor="price-inpu-label">가격</InputLabel>
+          <InputLabel htmlFor="price-input-label">가격</InputLabel>
           <Input id="price-input-label" type="text" value={price} onChange={onChangePrice} required />
         </FormControl>
       </div>
       <div>
         <FormControl sx={{ width: '50%', my: 3 }}>
-          <InputLabel htmlFor="price-inpu-label">적립율(%)</InputLabel>
+          <InputLabel htmlFor="accumulate-input-label">적립율(%)</InputLabel>
           <Input
-            id="price-input-label"
+            id="accumulate-input-label"
             type="text"
             value={accumulationRate}
             onChange={onChangeAccumulationRate}

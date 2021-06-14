@@ -80,6 +80,17 @@ public class CustomerController {
         return success(Customer.Info.of(customerService.insert(newCustomer)));
     }
 
+    @PatchMapping("/{customerId}")
+    public ApiResult<Customer.Info> usePoints(@PathVariable Long customerId,
+                                              @RequestParam(value="point") Integer point,
+                                              @AuthenticationPrincipal JwtAuthentication authentication){
+        Customer customer = customerService.getCustomer(customerId, authentication.id);
+        if(customer.getTotalPoint() < point) throw new BadRequestException("적립된 포인트금액보다 많습니다.");
+
+        customer.updateTotalPoint(customer.getTotalPoint() - point);
+        return success(Customer.Info.of(customerService.insert(customer)));
+    }
+
     @DeleteMapping
     public ApiResult<String> deleteCustomer(@RequestBody List<Long> customerIds){
         customerService.delete(customerIds);

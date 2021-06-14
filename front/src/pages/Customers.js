@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Box, Container, Button, Modal } from '@material-ui/core';
 import CustomerListResults from 'src/components/customer/CustomerListResults';
 import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
-import { customers, searchCustomer, selectedCustomer, updateCustomer } from 'src/atoms/customers';
+import { customers, searchCustomers, selectedCustomer, updateCustomer } from 'src/atoms/customers';
 import { orders } from 'src/atoms/orders';
 import AddCustomerModal from 'src/components/modal/AddCustomerModal';
 import ShowOrdersModal from 'src/components/modal/ShowOrdersModal';
@@ -14,7 +14,7 @@ import { openAlert } from 'src/atoms/alert';
 
 const Customers = () => {
   const [customerList, setCustomerList] = useRecoilState(customers);
-  const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomer);
+  const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomers);
   const [selectedCustomerIds, setSelectedCustomerIds] = useRecoilState(selectedCustomer);
   const [updateCustomerInfo, setUpdateCustomerInfo] = useRecoilState(updateCustomer);
   const orderList = useRecoilValue(orders);
@@ -61,7 +61,7 @@ const Customers = () => {
     }
     console.log(selectedCustomerIds);
     const res = await axios
-      .delete('${process.env.REACT_APP_API_BASE_URL}/customers', { data: selectedCustomerIds })
+      .delete(`${process.env.REACT_APP_API_BASE_URL}/customers`, { data: selectedCustomerIds })
       .catch((error) => {
         if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
         else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
@@ -74,7 +74,7 @@ const Customers = () => {
   }, [selectedCustomerIds, setOpenAlert, setSelectedCustomerIds, setUpdateCustomerInfo]);
 
   const getCustomerList = useCallback(async () => {
-    const res = await axios.get('${process.env.REACT_APP_API_BASE_URL}/customers/all').catch((error) => {
+    const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/customers/all`).catch((error) => {
       if (error?.response) setOpenAlert({ message: error.response.data.error.message, severity: 'error' });
       else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
       return null;
@@ -98,6 +98,10 @@ const Customers = () => {
   return (
     <>
       <Helmet>
+        <meta
+          name="description"
+          content="별도의 앱 설치 없이 웹을 통해 간편하게 포인트적립서비스를 제공하는 pointRee의 고객정보 page입니다."
+        />
         <title>고객정보 | Point Ree</title>
       </Helmet>
       <Box
@@ -124,11 +128,7 @@ const Customers = () => {
                 추가하기
               </Button>
             </Box>
-            <CustomerListResults
-              customers={searchCustomerList}
-              openModal={openOrdersModal}
-              closeModal={closeOrdersModal}
-            />
+            <CustomerListResults customers={searchCustomerList} openModal={openOrdersModal} />
           </Box>
         </Container>
       </Box>

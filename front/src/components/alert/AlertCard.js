@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Alert, Snackbar } from '@material-ui/core';
+import { Alert, Snackbar, Typography } from '@material-ui/core';
 import { alert } from 'src/atoms/alert';
 import { useRecoilState } from 'recoil';
 
@@ -18,20 +18,18 @@ const AlertCard = () => {
     <Snackbar open={alertInfo.state} autoHideDuration={2000} onClose={closeAlert}>
       <Alert
         sx={{
-          position: 'fixed',
           bottom: 0,
-          left: '28%',
-          minWidth: '450px',
+          minWidth: '340px',
           width: '50%',
+          margin: '0 auto',
           marginBottom: '15px',
-          padding: '30px',
           fontSize: '1.2em',
           height: '100px'
         }}
         onClose={closeAlert}
         severity={alertInfo.severity}
       >
-        {alertInfo.message}
+        <Typography sx={{ pt: 3 }}>{alertInfo.message}</Typography>
       </Alert>
     </Snackbar>
   );

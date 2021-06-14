@@ -20,8 +20,8 @@ public class CustomerService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public Customer insert(Customer request){
-        return customerRepository.save(request);
+    public Customer insert(Customer customer){
+        return customerRepository.save(customer);
     }
 
     /*고객 한명 조회하는 기본 메서드

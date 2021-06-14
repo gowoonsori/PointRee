@@ -238,6 +238,7 @@ public class OrderByCustomerControllerTest extends BaseTest {
                         .header(jwtTokenConfig.getHeader(), token)
                         .content(objectMapper.writeValueAsString(order)));
 
+        //then
         result.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(OrderByCustomerController.class))

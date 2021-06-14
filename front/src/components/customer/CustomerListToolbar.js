@@ -43,7 +43,7 @@ const CustomerListToolbar = ({ phoneNumber, setPhoneNumber, onClickEvent, minPho
               }}
               placeholder="고객 전화번호 입력"
               variant="outlined"
-              sx={{ mx: 2, minWidth: '300px' }}
+              sx={{ mx: 2, minWidth: '180px' }}
               value={phoneNumber}
               onChange={onchangePhoneNumber}
             />

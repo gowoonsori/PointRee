@@ -97,11 +97,11 @@ const CustomerListResults = ({ customers, openModal }) => {
   );
 
   const showOrders = useCallback(
-    (e) => {
+    async (e) => {
       if (e.target.id === '') return;
       if (e.target.id === currentCustomerId) {
         openModal();
-      } else if (getOrders(e.target.id)) {
+      } else if (await getOrders(e.target.id)) {
         openModal();
       }
     },
