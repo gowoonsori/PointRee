@@ -1,3 +1,5 @@
+/* 전화번호 입력을 위한 함수로 숫자만 입력가능하도록 filtering하고 자동으로 `-` 추가해주는 함수 */
+
 const addHyphen = (e) => {
   const number = e.replace(/[^0-9]/g, '');
   let result;

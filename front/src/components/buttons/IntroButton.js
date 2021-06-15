@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-const IntroButton = ({ value, link }) => {
+const IntroButton = ({ value, link, ...rest }) => {
   const navigate = useNavigate();
   const onClickEvent = useCallback(() => {
     navigate(`/pointree/${link}`, { replace: true });

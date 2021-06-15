@@ -74,7 +74,7 @@ const Login = () => {
                 });
                 setToken(`Bearer ${response.response.token}`);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.response.token}`;
-                navigate('/pointree/points', { replace: true });
+                navigate('/pointree', { replace: true });
               }
             }}
           >

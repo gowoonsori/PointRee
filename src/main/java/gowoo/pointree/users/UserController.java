@@ -9,6 +9,7 @@ import gowoo.pointree.users.signup.SignUpRequest;
 import gowoo.pointree.utils.ApiUtils.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,12 +21,13 @@ import static gowoo.pointree.utils.ApiUtils.success;
 @RequestMapping(value = "/api/users", produces = "application/json; charset=UTF-8")
 public class UserController {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
     public ApiResult<User.Info> signUp(@Valid @RequestBody SignUpRequest request){
         User user = User.builder()
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .accumulationRate(request.getAccumulationRate())

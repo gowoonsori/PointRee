@@ -10,8 +10,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.IntStream;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -275,6 +274,73 @@ public class CustomerControllerTest extends BaseTest {
                 .andExpect(jsonPath("$.response.number").exists())
                 .andExpect(jsonPath("$.response.sort").exists())
         ;
+    }
+
+    @Test
+    @DisplayName("포인트 사용 성공")
+    void usePointSuccessTest() throws Exception{
+        //given
+        int customerId = 1;
+        int point = 3000;
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/api/customers/"+customerId+"?point="+point)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(CustomerController.class))
+                .andExpect(handler().methodName("usePoints"))
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.response.id",is(customerId)))
+                .andExpect(jsonPath("$.response.phoneNumber",is("010-1111-1111")))
+                .andExpect(jsonPath("$.response.purchaseCnt").exists())
+                .andExpect(jsonPath("$.response.totalPoint",is(700)))
+                .andExpect(jsonPath("$.response.createdTime").exists());
+    }
+
+    @Test
+    @DisplayName("포인트 사용 실패(없는 id)")
+    void usePointFailTest1() throws Exception{
+        //given
+        int customerId = 12;
+        int point = 3000;
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/api/customers/"+customerId+"?point="+point)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.success", is(false)))
+                .andExpect(jsonPath("$.error").exists())
+                .andExpect(jsonPath("$.error.message", is("해당 고객이 존재하지않습니다.")))
+                .andExpect(jsonPath("$.error.status", is(400)));
+    }
+
+    @Test
+    @DisplayName("포인트 사용 실패(적립 포인트보다 많은 사용요청)")
+    void usePointFailTest2() throws Exception{
+        //given
+        int customerId = 1;
+        int point = 10000;
+        // when
+        ResultActions result = mockMvc.perform(
+                patch("/api/customers/"+customerId+"?point="+point)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .header(jwtTokenConfig.getHeader(),genreatedToken()));
+        //then
+        result.andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.success", is(false)))
+                .andExpect(jsonPath("$.error").exists())
+                .andExpect(jsonPath("$.error.message", is("적립된 포인트금액보다 많습니다.")))
+                .andExpect(jsonPath("$.error.status", is(400)));
     }
 
     private Customer generateCustomer(int i){

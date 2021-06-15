@@ -1,11 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Box, Container, Button, Modal } from '@material-ui/core';
 import CustomerListResults from 'src/components/customer/CustomerListResults';
 import CustomerListToolbar from 'src/components/customer/CustomerListToolbar';
 import { customers, searchCustomers, selectedCustomer, updateCustomer } from 'src/atoms/customers';
-import { orders } from 'src/atoms/orders';
 import AddCustomerModal from 'src/components/modal/AddCustomerModal';
 import ShowOrdersModal from 'src/components/modal/ShowOrdersModal';
 import axios from 'axios';
@@ -17,7 +16,6 @@ const Customers = () => {
   const [searchCustomerList, setSearchCustomerList] = useRecoilState(searchCustomers);
   const [selectedCustomerIds, setSelectedCustomerIds] = useRecoilState(selectedCustomer);
   const [updateCustomerInfo, setUpdateCustomerInfo] = useRecoilState(updateCustomer);
-  const orderList = useRecoilValue(orders);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [addCustomerModal, setAddCustomerModal] = useState(false);
   const [ordersModal, setOrdersModal] = useState(false);
@@ -156,7 +154,7 @@ const Customers = () => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}
       >
         <div>
-          <ShowOrdersModal orders={orderList} closeModal={closeOrdersModal} />
+          <ShowOrdersModal closeModal={closeOrdersModal} />
         </div>
       </Modal>
     </>

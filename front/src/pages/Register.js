@@ -26,7 +26,10 @@ const Register = () => {
         else setOpenAlert({ message: '서버로부터 응답이 없습니다.', severity: 'error' });
         return null;
       });
-    if (res?.data.success) setOpenAlert({ message: '회원가입을 축하합니다.', severity: 'success' });
+    if (res?.data.success) {
+      setOpenAlert({ message: '회원가입을 축하합니다.', severity: 'success' });
+      return res.data;
+    }
   };
 
   return (

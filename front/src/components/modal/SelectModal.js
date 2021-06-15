@@ -1,13 +1,13 @@
-import PropTypes from 'prop-types';
 import { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Box, Button } from '@material-ui/core';
 
-const SelectModal = ({ setModalState }) => {
+const SelectModal = ({ setModal }) => {
   const onClickEvent = useCallback(
     (e) => {
-      setModalState(e.target.id);
+      setModal(e.target.id);
     },
-    [setModalState]
+    [setModal]
   );
   return (
     <Box
@@ -41,7 +41,7 @@ const SelectModal = ({ setModalState }) => {
 };
 
 SelectModal.propTypes = {
-  setModalState: PropTypes.func.isRequired
+  setModal: PropTypes.func.isRequired
 };
 
 export default SelectModal;

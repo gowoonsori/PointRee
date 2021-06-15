@@ -23,13 +23,13 @@ const AlertCard = () => {
           width: '50%',
           margin: '0 auto',
           marginBottom: '15px',
-          fontSize: '1.2em',
-          height: '100px'
+          py: 4,
+          fontSize: '1.2em'
         }}
         onClose={closeAlert}
         severity={alertInfo.severity}
       >
-        <Typography sx={{ pt: 3 }}>{alertInfo.message}</Typography>
+        {alertInfo.message}
       </Alert>
     </Snackbar>
   );

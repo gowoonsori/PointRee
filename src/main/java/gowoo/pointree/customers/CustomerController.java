@@ -76,7 +76,6 @@ public class CustomerController {
                 .totalPoint(customerInfo.getTotalPoint())
                 .user(user)
                 .build();
-
         return success(Customer.Info.of(customerService.insert(newCustomer)));
     }
 

@@ -40,7 +40,7 @@ public class OrderService {
     @Transactional
     public Order update(Customer customer,Order request){
         Order order = orderRepository.findById(request.getId()).orElseThrow(()->new NotFoundException("구매내역을 찾을 수 없습니다."));
-        customer.updateTotalPoint(request.getSavePoint() - order.getSavePoint());
+        customer.updateTotalPoint(customer.getTotalPoint() - order.getSavePoint() + request.getSavePoint());
         return orderRepository.save(request);
     }
 

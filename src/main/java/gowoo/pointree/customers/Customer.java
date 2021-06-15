@@ -52,7 +52,7 @@ public class Customer{
     }
 
     public void updateTotalPoint(int point){
-        this.totalPoint += point;
+        this.totalPoint = point;
     }
 
     public void addTotalPoint(int point){

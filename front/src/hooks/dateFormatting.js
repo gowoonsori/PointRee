@@ -1,3 +1,10 @@
+/* dateForamat을 원하는 형태로 바꿔주는 함수로 moment까지 사용할 필요를 못느껴 직접 제작 *
+ *
+ *  dateTimeToApiFormat : api와 통신을 위해 date-> dateTime format으로 바꿔주는 함수
+ *  dateTimeToPreetyFormat : YYYY-MM-ddThh:mm:ss의 형태의 format을 한글(년/월/일) 형태로 바꿔주는 함수
+ *
+ */
+
 export const dateTimeToApiFormat = (date) => {
   let preYear;
   let preMonth;

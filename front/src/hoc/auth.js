@@ -5,7 +5,7 @@ import { userInfoSelector } from 'src/atoms/user';
 import { openAlert } from 'src/atoms/alert';
 
 /*  SpecificComponent : LandingPage component
-    role : 인가를 위한 role (deafult = USER)
+    role : 인가를 위한 role (deafult = ANONYMOUS)
 */
 const Auth = (SpecificComponent, role = ['ANONYMOUS']) => {
   const Authentication = (props) => {

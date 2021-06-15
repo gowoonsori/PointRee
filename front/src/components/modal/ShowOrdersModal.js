@@ -5,11 +5,13 @@ import axios from 'axios';
 import { openAlert } from 'src/atoms/alert';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { currentDetailCustomer, updateCustomer } from 'src/atoms/customers';
+import { orders } from 'src/atoms/orders';
 
-const ShowOrdersModal = ({ orders, closeModal }) => {
+const ShowOrdersModal = ({ closeModal }) => {
   const [setAlert, setOpenAlert] = useRecoilState(openAlert);
   const currentCustomerId = useRecoilValue(currentDetailCustomer);
   const [updateCustomerInfo, setUpdateCustomerInfo] = useRecoilState(updateCustomer);
+  const [orderList, setOrderList] = useRecoilState(orders);
 
   const onClickEvent = useCallback(
     async (e) => {
@@ -21,13 +23,16 @@ const ShowOrdersModal = ({ orders, closeModal }) => {
 
           return null;
         });
-      if (res?.data) {
+      if (res?.data?.response) {
+        const refresh = orderList.filter((obj) => obj.id.toString() !== e.target.id.toString());
         setOpenAlert({ message: '구매내역이 삭제되었습니다.', severity: 'success' });
         setUpdateCustomerInfo(true);
+        setOrderList(refresh);
+
         closeModal();
       }
     },
-    [setOpenAlert, setUpdateCustomerInfo, closeModal]
+    [setOpenAlert, setUpdateCustomerInfo, closeModal, orderList, setOrderList]
   );
 
   return (
@@ -54,7 +59,7 @@ const ShowOrdersModal = ({ orders, closeModal }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {orders.map((order, index) => (
+          {orderList.map((order, index) => (
             <TableRow hover key={order.id}>
               <TableCell>{index}</TableCell>
               <TableCell>
@@ -84,7 +89,6 @@ const ShowOrdersModal = ({ orders, closeModal }) => {
 };
 
 ShowOrdersModal.propTypes = {
-  orders: PropTypes.array.isRequired,
   closeModal: PropTypes.func.isRequired
 };
 

@@ -1,4 +1,5 @@
-/* maxPoint금액보다 큰값을 입력 불가능하게 설정 */
+/* 숫자인지 확인하고 maxPoint금액보다 큰값을 입력 불가능하게 설정해주는 함수 */
+
 const validatePointMax = (e, maxPoint) => {
   const point = e.replace(/[^0-9]/g, '');
   if (point > maxPoint) return maxPoint;
