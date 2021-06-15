@@ -45,7 +45,7 @@
 <br>
 
 ## API docs
-[API Docs.md](https://github.com/gowoonsori/PointRee/APIDOCS.md)
+[API Docs.md](https://github.com/gowoonsori/PointRee/blob/master/APIDOCS.md)
 
 <br>
 
