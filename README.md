@@ -2,6 +2,8 @@
 
 🌼 엄마 꽃집의 고객 관리와 포인트 적립을 위한 웹서비스를 만들어보고자 합니다.
 
+<br>
+
 ## 사용할 스택
 
 - react
@@ -10,6 +12,42 @@
 - spring boot 2.4
 - mysql /JPA / Security
 
----
+<br>
 
-[프로젝트 기록기](https://gowoonsori.site)
+## 기능
+- 로그인
+- 회원가입 ( 구현은 했으나 실제 다른고객이 이용시 미흡한 기능과 개인정보보호 문제로 지원 )
+- 포인트 적립
+- 고객 추가
+- 고객정보 보기
+- 고객정보 삭제
+- 구매내역 보기
+- 구매내역 삭제
+- 포인트 사용하기 ( 아직 이 기능이 미흡 => 포인트 사용하고 후에 환불로 구매내역 삭제를 하게 되면 데이터 무결성문제가 발생 => 이는 포인트 적립 기간으로 해결하려고 하는데 포인트 기간 도입시 새로 db를 설계해야 해서 보류)
+- 대시보드 (기간 설정과 기간별 판매금액,판매량, 현금-카드 비율 등 통계 보기)
+
+### 보안하거나 추가할 점
+- password 형식,길이 제한(보안 때문에 중요!)
+- 포인트 기간과 사용 process(db 설계포함)
+- JPA/객체지향 더 공부하여 효율적인 process로 코드 리팩토링 
+- JS -> TS로 변환하면서 컴포넌트 분리와 사용빈도 적은 라이브러리등 최적화
+- google 사이트 속도 계산기 `양호` 받기
+- 컨테이너 환경으로 이전하기
+
+<br>
+
+## 배포 환경
+- **Front** : AWS S3 + AWS Cloudfront + AWS Certificate Manager     => www.pointree.site
+  
+- **Back** : Home server(셀러론 g3930 + ram 4gb + ubuntu 20.04 LTS) => api.pointree.site
+- **DNS** : Cloudflare
+
+<br>
+
+## API docs
+[API Docs.md](https://github.com/gowoonsori/PointRee/APIDOCS.md)
+
+<br>
+
+---
+[프로젝트 기록기](https://gowoonsori.site/etc/react-project)

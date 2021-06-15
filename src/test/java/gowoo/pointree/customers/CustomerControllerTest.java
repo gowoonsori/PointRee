@@ -305,7 +305,7 @@ public class CustomerControllerTest extends BaseTest {
     @DisplayName("포인트 사용 실패(없는 id)")
     void usePointFailTest1() throws Exception{
         //given
-        int customerId = 12;
+        int customerId = 222;
         int point = 3000;
         // when
         ResultActions result = mockMvc.perform(

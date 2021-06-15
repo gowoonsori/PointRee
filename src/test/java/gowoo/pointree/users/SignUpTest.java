@@ -50,7 +50,7 @@ public class SignUpTest extends BaseTest {
     @Test
     @DisplayName("회원가입 실패 테스트(email 존재)")
     void 회원가입실패_이메일존재() throws Exception {
-        String email = "test@gmail.com";
+        String email = "test@test.com";
         String name = "test";
         String phoneNumber = "010-1111-1111";
 

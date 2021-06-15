@@ -18,13 +18,13 @@ public class OrderControllerTest extends BaseTest {
     @DisplayName("구매내역 날짜로 조회 성공테스트")
     void getOrderByDateSuccessTest() throws Exception{
         String token = genreatedToken();
-        String date = "[\"2021-04-12 00:00:00\", \"2021-04-13 23:59:59\"]";
+        String preDate = "2021-04-12 00:00:00";
+        String postDate = "2021-04-13 23:59:59";
         //when
         ResultActions result = mockMvc.perform(
-                get("/api/orders/date")
+                get("/api/orders/date?preDate="+preDate+"&postDate="+postDate)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(date)
                         .header(jwtTokenConfig.getHeader(), token));
         //then
         result.andDo(print())

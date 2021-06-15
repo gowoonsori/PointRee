@@ -23,10 +23,10 @@ const SidebarContetnt = ({ userInfo, items }) => (
     >
       {userInfo.name ? (
         <Box>
-          <Typography color="textPrimary" sx={{ textAlign: 'center' }} variant="h2">
+          <Typography color="textPrimary" sx={{ textAlign: 'center', mb: 2 }} variant="h2">
             {userInfo.name}
           </Typography>
-          <Typography color="textSecondary" variant="body2">
+          <Typography color="textSecondary" sx={{ textAlign: 'center' }} variant="body2">
             {userInfo.phoneNumber}
           </Typography>
         </Box>

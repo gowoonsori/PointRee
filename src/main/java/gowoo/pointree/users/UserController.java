@@ -3,6 +3,7 @@ package gowoo.pointree.users;
 import gowoo.pointree.errors.UnauthorizedException;
 import gowoo.pointree.security.JwtAuthentication;
 import gowoo.pointree.security.JwtAuthenticationToken;
+import gowoo.pointree.security.Role;
 import gowoo.pointree.users.login.LoginRequest;
 import gowoo.pointree.users.login.LoginResult;
 import gowoo.pointree.users.signup.SignUpRequest;
@@ -31,6 +32,7 @@ public class UserController {
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .accumulationRate(request.getAccumulationRate())
+                .role(Role.USER)
                 .build();
         return success(User.Info.createFromUser(userService.signUp(user)));
     }

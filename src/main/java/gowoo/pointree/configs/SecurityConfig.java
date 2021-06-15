@@ -1,9 +1,6 @@
 package gowoo.pointree.configs;
 
-import gowoo.pointree.security.EntryPointUnauthorizedHandler;
-import gowoo.pointree.security.Jwt;
-import gowoo.pointree.security.JwtAccessDeniedHandler;
-import gowoo.pointree.security.JwtAuthenticationTokenFilter;
+import gowoo.pointree.security.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // Not require authentication login
                 .antMatchers("/api/users/login").permitAll()
-                .antMatchers("/api/users/signup").permitAll()
+                .antMatchers("/api/users/signup").hasRole(Role.ADMIN.name())
                 // All endpoints require authentication
                 .anyRequest().authenticated()
                 .and()
