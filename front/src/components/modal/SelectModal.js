@@ -12,7 +12,6 @@ const SelectModal = ({ setModal }) => {
   return (
     <Box
       sx={{
-        display: 'inline',
         background: '#E9EBED',
         border: '2px solid #000',
         boxShadow: 5,

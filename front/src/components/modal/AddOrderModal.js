@@ -7,7 +7,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { userInfo } from 'src/atoms/user';
 import { openAlert } from 'src/atoms/alert';
 
-const AddOrderModal = ({ closeModal, customer }) => {
+const AddOrderModal = ({ closeModal, customer, setPhoneNumber }) => {
   const info = useRecoilValue(userInfo);
   const [price, onChangePrice] = useInput('');
   const [accumulationRate, onChangeAccumulationRate] = useInput(info.accumulationRate);
@@ -30,6 +30,7 @@ const AddOrderModal = ({ closeModal, customer }) => {
         });
       if (res?.data?.response) {
         setOpenAlert({ message: '성공적으로 포인트적립이 되었습니다.', severity: 'success' });
+        setPhoneNumber('');
         closeModal();
       }
     },
@@ -88,7 +89,8 @@ const AddOrderModal = ({ closeModal, customer }) => {
 
 AddOrderModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  customer: PropTypes.object.isRequired
+  customer: PropTypes.object.isRequired,
+  setPhoneNumber: PropTypes.func.isRequired
 };
 
 export default AddOrderModal;

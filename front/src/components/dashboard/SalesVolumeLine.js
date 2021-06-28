@@ -12,7 +12,8 @@ const SalesVolumeLine = () => {
   const data = {
     datasets: [
       {
-        backgroundColor: colors.indigo[500],
+        backgroundColor: colors.blue[300],
+        borderColor: colors.blue[700],
         data: [...salesVolumeData],
         fill: false,
         label: '판매량'
@@ -21,47 +22,6 @@ const SalesVolumeLine = () => {
     labels: monthAndDates
   };
   const options = {
-    animation: false,
-    cornerRadius: 20,
-    layout: { padding: 0 },
-    legend: { display: true },
-    maintainAspectRatio: false,
-    responsive: true,
-    scales: {
-      xAxes: [
-        {
-          barThickness: 12,
-          maxBarThickness: 10,
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
-          ticks: {
-            fontColor: theme.palette.text.secondary
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false
-          }
-        }
-      ],
-      yAxes: [
-        {
-          ticks: {
-            fontColor: theme.palette.text.secondary,
-            beginAtZero: true,
-            min: 0
-          },
-          gridLines: {
-            borderDash: [2],
-            borderDashOffset: [2],
-            color: theme.palette.divider,
-            drawBorder: false,
-            zeroLineBorderDash: [2],
-            zeroLineBorderDashOffset: [2],
-            zeroLineColor: theme.palette.divider
-          }
-        }
-      ]
-    },
     tooltips: {
       backgroundColor: theme.palette.background.paper,
       bodyFontColor: theme.palette.text.secondary,

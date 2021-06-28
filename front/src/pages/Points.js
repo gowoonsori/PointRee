@@ -31,10 +31,6 @@ const Points = () => {
   }, [setIsModal, setModalState]);
 
   const onClickButtonEvent = useCallback(async () => {
-    if (customer?.phoneNumber === phoneNumber) {
-      openModal();
-      return;
-    }
     const res = await axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/customers/phoneNumber/${phoneNumber}`)
       .catch((error) => {
@@ -53,7 +49,7 @@ const Points = () => {
       case 'use':
         return <UsePointsModal closeModal={closeModal} />;
       case 'save':
-        return <AddOrderModal closeModal={closeModal} customer={customer} />;
+        return <AddOrderModal closeModal={closeModal} customer={customer} setPhoneNumber={setPhoneNumber} />;
       default:
         return <SelectModal setModal={setModalState} />;
     }
